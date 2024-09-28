@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>page name</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="img/chuleta icon.png" type="png">
+</head>
+
+<body>
+
+    <!-- VENTANAS MODALES ---------------------------------------------------------->
+    <!-- VENTANA MODAL INICIAR SESION ---------------------------------------------->
+    <dialog class="modal-iniciar-sesion">
+        <div class="iniciar-sesion">
+            <form method="dialog" class="modal-iniciar-sesion__close-button">
+                <button>X</button>
+            </form>
+            <img src="img/logo-blanco.png" alt="logo" class="iniciar-sesion__logo">
+            <h2 class="iniciar-sesion__titulo">Login</h2>
+            <form action="post">
+                <input type="text" class="input-form" placeholder="Usuario">
+                <input type="password" class="input-form" placeholder="Contraseña">
+                <input type="submit" value="Iniciar Sesion" class="input-button">
+            </form>
+            <p class="iniciar-sesion-alternativa">¿no tienes cuenta? <span class="OPEN-modal-crear-cuenta CLOSE-modal-iniciar-sesion">Crear Cuenta</span></p>
+        </div>
+    </dialog>
+
+    <!-- VENTANA MODAL Crear Cuenta ------------------------------------------------>
+    <dialog class="modal-crear-cuenta">
+        <div class="crear-cuenta">
+            <form method="dialog" class="modal-crear-cuenta__close-button">
+                <button>X</button>
+            </form>
+            <img src="img/logo-blanco.png" alt="logo" class="crear-cuenta__logo">
+            <h2 class="crear-cuenta__titulo">Crear Cuenta</h2>
+            <form action="post" class="modal-form">
+                <input type="text" class="input-form-crear-cuenta" placeholder="Nombre de Usuario">
+                <input type="email" class="input-form-crear-cuenta" placeholder="Correo electronico">
+                <input type="password" class="input-form-crear-cuenta" placeholder="Contraseña">
+                <input type="password" class="input-form-crear-cuenta" placeholder="Confirmar Contraseña">
+                <input type="submit" value="Crear Cuenta" class="input-button">
+            </form>
+            <p class="crear-cuenta-alternativa">¿ya tienes una cuenta? <span class="OPEN-modal-iniciar-sesion CLOSE-modal-crear-cuenta">Iniciar sesion</span></p>
+        </div>
+    </dialog>
+    <!-- VENTANA MODAL buscar Receta BR----------------------------------------------->
+    <dialog class="modal-buscar-receta">
+        <div class="buscar-receta">
+            <form method="dialog" class="modal-buscar-receta__close-button">
+                <button>X</button>
+            </form>
+
+            <div class="categoria-tipo-box">
+                <div class="animal-custom-select" id="BR-animal-custom-select">
+                    <div class="animal-select-selected" id="BR-animal-select-selected">Animal</div>
+                    <div class="animal-select-items" id="BR-animal-select-items">
+                        <div data-value="perro">Perro</div>
+                        <div data-value="gato">Gato</div>
+                        <div data-value="conejo">Conejo</div>
+                        <div data-value="tortuga">Tortuga</div>
+                        <div data-value="ave">Ave</div>
+                    </div>
+                </div>
+
+                <div class="tipo-custom-select" id="BR-tipo-custom-select">
+                    <div class="tipo-select-selected" id="BR-tipo-select-selected">Tipo</div>
+                    <div class="tipo-select-items" id="BR-tipo-select-items">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="buscar-por-ingrediente">
+                <input type="text" class="ingrediente-input" placeholder="Escribe un ingrediente..." />
+                <div class="ingrediente-select-items">
+                </div>
+                <div class="resultados"></div> <!-- Aquí se añadirán los divs creados -->
+                <div class="input-button--aling">
+                    <input type="submit" value="Buscar" class="input-button input-button--buscar-receta">
+                </div>
+                
+
+            </div>
+
+        </div>
+    </dialog>
+
+    <!-- header -------------------------------------------------------------------->
+    <header class="cabecera">
+        <nav class="nav">
+            <ul class="nav__list">
+                <li class="nav__list__item  item--logo">
+                    <a href="main.html">
+                        <img src="img/logo.png" alt="logo">
+                    </a>
+                </li>
+                
+
+                <li class="nav__list__item item--buscador OPEN-modal-buscar-receta">
+                    <img src="img/lupa.png" alt="buscar" class="item--buscador--img">
+                    <span>Buscar</span>
+                </li>
+                
+                <li class="nav__list__item nav__list__item--flex">
+                    <a class="item--crear-receta" href="crearReceta.html">
+                        <img src="img/crear-receta.png" alt="boton-crear-receta">
+                    </a>
+                    
+                    <div class="item--iniciar-sesion OPEN-modal-iniciar-sesion">Iniciar Sesion</div>
+                    <img src="img/imagen4k.avif" alt="" class="foto-perfil-header">
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- layout--------------------------------------------------------------------->
+    <div class="layout">
+        <main class="PFL-main">
+            <div class="PRF-encabezado">
+                <img src="img/profile-img.png" alt="foto-perfil" class="foto-perfil-usuario">
+                <h1 class="PRF-nombre-usuario">Nombre de Usuario</h1>
+            </div>
+            <h2 class="RCT-titulo">Recetas</h2>
+
+            <!--una receta -->
+            <div class="carta-receta">
+                <div class="receta-detalles">
+                    <a href="receta.html" class="receta-detalles__titulo">Título receta</a>
+                    <p class="receta-detalles__ingredientes">Ingred1 - Ingred2 - Ingred3 - Ingred4 - Ingred5 - Ingred6 - Ingred7 - Ingred8</p>
+                </div>
+                <div class="receta-rating">
+                    <span class="receta-rating__valor">999</span>
+                    <img src="img/estrella.png" class="receta-rating__estrella">
+                </div>
+            </div>
+            
+            <!--una receta -->
+            <div class="carta-receta">
+                <div class="receta-detalles">
+                    <a href="receta.html" class="receta-detalles__titulo">Título receta</a>
+                    <p class="receta-detalles__ingredientes">Ingred1 - Ingred2 - Ingred3 - Ingred4 - Ingred5 - Ingred6 - Ingred7 - Ingred8</p>
+                </div>
+                <div class="receta-rating">
+                    <span class="receta-rating__valor">999</span>
+                    <img src="img/estrella.png" class="receta-rating__estrella">
+                </div>
+            </div>
+
+            <!--una receta -->
+            <div class="carta-receta">
+                <div class="receta-detalles">
+                    <a href="receta.html" class="receta-detalles__titulo">Título receta</a>
+                    <p class="receta-detalles__ingredientes">Ingred1 - Ingred2 - Ingred3 - Ingred4 - Ingred5 - Ingred6 - Ingred7 - Ingred8</p>
+                </div>
+                <div class="receta-rating">
+                    <span class="receta-rating__valor">999</span>
+                    <img src="img/estrella.png" class="receta-rating__estrella">
+                </div>
+            </div>
+
+
+            <!--una receta -->
+            <div class="carta-receta">
+                <div class="receta-detalles">
+                    <a href="receta.html" class="receta-detalles__titulo">Título receta</a>
+                    <p class="receta-detalles__ingredientes">Ingred1 - Ingred2 - Ingred3 - Ingred4 - Ingred5 - Ingred6 - Ingred7 - Ingred8</p>
+                </div>
+                <div class="receta-rating">
+                    <span class="receta-rating__valor">999</span>
+                    <img src="img/estrella.png" class="receta-rating__estrella">
+                </div>
+            </div>
+
+
+            <!--una receta -->
+            <div class="carta-receta">
+                <div class="receta-detalles">
+                    <a href="receta.html" class="receta-detalles__titulo">Título receta</a>
+                    <p class="receta-detalles__ingredientes">Ingred1 - Ingred2 - Ingred3 - Ingred4 - Ingred5 - Ingred6 - Ingred7 - Ingred8</p>
+                </div>
+                <div class="receta-rating">
+                    <span class="receta-rating__valor">999</span>
+                    <img src="img/estrella.png" class="receta-rating__estrella">
+                </div>
+            </div>
+
+
+            <!--una receta -->
+            <div class="carta-receta">
+                <div class="receta-detalles">
+                    <a href="receta.html" class="receta-detalles__titulo">Título receta</a>
+                    <p class="receta-detalles__ingredientes">Ingred1 - Ingred2 - Ingred3 - Ingred4 - Ingred5 - Ingred6 - Ingred7 - Ingred8</p>
+                </div>
+                <div class="receta-rating">
+                    <span class="receta-rating__valor">999</span>
+                    <img src="img/estrella.png" class="receta-rating__estrella">
+                </div>
+            </div>
+
+            <!--una receta -->
+            <div class="carta-receta">
+                <div class="receta-detalles">
+                    <a href="receta.html" class="receta-detalles__titulo">Título receta</a>
+                    <p class="receta-detalles__ingredientes">Ingred1 - Ingred2 - Ingred3 - Ingred4 - Ingred5 - Ingred6 - Ingred7 - Ingred8</p>
+                </div>
+                <div class="receta-rating">
+                    <span class="receta-rating__valor">999</span>
+                    <img src="img/estrella.png" class="receta-rating__estrella">
+                </div>
+            </div>
+
+            <!--una receta -->
+            <div class="carta-receta">
+                <div class="receta-detalles">
+                    <a href="receta.html" class="receta-detalles__titulo">Título receta</a>
+                    <p class="receta-detalles__ingredientes">Ingred1 - Ingred2 - Ingred3 - Ingred4 - Ingred5 - Ingred6 - Ingred7 - Ingred8</p>
+                </div>
+                <div class="receta-rating">
+                    <span class="receta-rating__valor">999</span>
+                    <img src="img/estrella.png" class="receta-rating__estrella">
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!--Scripts   ------------------------------------------------------------------>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>page name</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="img/chuleta icon.png" type="png">
+</head>
+
+<body>
+
+    <!-- VENTANAS MODALES ---------------------------------------------------------->
+    <!-- VENTANA MODAL INICIAR SESION ---------------------------------------------->
+    <dialog class="modal-iniciar-sesion">
+        <div class="iniciar-sesion">
+            <form method="dialog" class="modal-iniciar-sesion__close-button">
+                <button>X</button>
+            </form>
+            <img src="img/logo-blanco.png" alt="logo" class="iniciar-sesion__logo">
+            <h2 class="iniciar-sesion__titulo">Login</h2>
+            <form action="post">
+                <input type="text" class="input-form" placeholder="Usuario">
+                <input type="password" class="input-form" placeholder="Contraseña">
+                <input type="submit" value="Iniciar Sesion" class="input-button">
+            </form>
+            <p class="iniciar-sesion-alternativa">¿no tienes cuenta? <span class="OPEN-modal-crear-cuenta CLOSE-modal-iniciar-sesion">Crear Cuenta</span></p>
+        </div>
+    </dialog>
+
+    <!-- VENTANA MODAL Crear Cuenta ------------------------------------------------>
+    <dialog class="modal-crear-cuenta">
+        <div class="crear-cuenta">
+            <form method="dialog" class="modal-crear-cuenta__close-button">
+                <button>X</button>
+            </form>
+            <img src="img/logo-blanco.png" alt="logo" class="crear-cuenta__logo">
+            <h2 class="crear-cuenta__titulo">Crear Cuenta</h2>
+            <form action="post" class="modal-form">
+                <input type="text" class="input-form-crear-cuenta" placeholder="Nombre de Usuario">
+                <input type="email" class="input-form-crear-cuenta" placeholder="Correo electronico">
+                <input type="password" class="input-form-crear-cuenta" placeholder="Contraseña">
+                <input type="password" class="input-form-crear-cuenta" placeholder="Confirmar Contraseña">
+                <input type="submit" value="Crear Cuenta" class="input-button">
+            </form>
+            <p class="crear-cuenta-alternativa">¿ya tienes una cuenta? <span class="OPEN-modal-iniciar-sesion CLOSE-modal-crear-cuenta">Iniciar sesion</span></p>
+        </div>
+    </dialog>
+    <!-- VENTANA MODAL buscar Receta BR----------------------------------------------->
+    <dialog class="modal-buscar-receta">
+        <div class="buscar-receta">
+            <form method="dialog" class="modal-buscar-receta__close-button">
+                <button>X</button>
+            </form>
+
+            <div class="categoria-tipo-box">
+                <div class="animal-custom-select" id="BR-animal-custom-select">
+                    <div class="animal-select-selected" id="BR-animal-select-selected">Animal</div>
+                    <div class="animal-select-items" id="BR-animal-select-items">
+                        <div data-value="perro">Perro</div>
+                        <div data-value="gato">Gato</div>
+                        <div data-value="conejo">Conejo</div>
+                        <div data-value="tortuga">Tortuga</div>
+                        <div data-value="ave">Ave</div>
+                    </div>
+                </div>
+
+                <div class="tipo-custom-select" id="BR-tipo-custom-select">
+                    <div class="tipo-select-selected" id="BR-tipo-select-selected">Tipo</div>
+                    <div class="tipo-select-items" id="BR-tipo-select-items">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="buscar-por-ingrediente">
+                <input type="text" class="ingrediente-input" placeholder="Escribe un ingrediente..." />
+                <div class="ingrediente-select-items">
+                </div>
+                <div class="resultados"></div> <!-- Aquí se añadirán los divs creados -->
+                <div class="input-button--aling">
+                    <input type="submit" value="Buscar" class="input-button input-button--buscar-receta">
+                </div>
+                
+
+            </div>
+
+        </div>
+    </dialog>
+
+    <!-- Ventana modal pautas de comunidad -->
+    <dialog class="modal-pautas-comunidad">
+        <div class="pautas-comunidad">
+            <form method="dialog" class="modal-pautas-comunidad__close-button">
+                <button>X</button>
+            </form>
+            <h2>Pautas de Comunidad</h2>
+            <p>
+                No se permitira publicar texto e imagenes 
+                fuera de los margenes de las recetas.
+                De caso contrario se eliminara el contenido
+                subido, de repetirse se borra la cuenta.
+            </p>
+            
+        </div>
+    </dialog>
+
+    <!-- header -------------------------------------------------------------------->
+    <header class="cabecera">
+        <nav class="nav">
+            <ul class="nav__list">
+                <li class="nav__list__item  item--logo">
+                    <a href="main.html">
+                        <img src="img/logo.png" alt="logo">
+                    </a>
+                </li>
+                
+
+                <li class="nav__list__item item--buscador OPEN-modal-buscar-receta">
+                    <img src="img/lupa.png" alt="buscar" class="item--buscador--img">
+                    <span>Buscar</span>
+                </li>
+                
+                <li class="nav__list__item nav__list__item--flex">
+                    <a class="item--crear-receta" href="crearReceta.html">
+                        <img src="img/crear-receta.png" alt="boton-crear-receta">
+                    </a>
+                    
+                    <div class="item--iniciar-sesion OPEN-modal-iniciar-sesion">Iniciar Sesion</div>
+                    <img src="img/imagen4k.avif" alt="" class="foto-perfil-header">
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- layout--------------------------------------------------------------------->
+
+    
+    <div class="layout">
+        <div class="anuncioIzquierdo"></div>
+        <main class="CR-main">
+            <div class="CR-encabezado">
+                <h2 class="CR-titulo">Tu Receta</h2>
+                <div class="boton-pautas-de-comunidad OPEN-modal-pautas-comunidad">
+                    <img src="img/pautas-icon.png" alt="icono-pautas-comunidad">
+                </div>
+            </div>
+            <form action="">
+                <input type="text" placeholder="Titulo" class="CR-titulo-receta">
+                <textarea class="CR-descripcion-receta" placeholder="Descripcion"></textarea>
+
+                <!-- CATEGORIA TIPO COMBO BOX-->
+                <div class="categoria-tipo-box">
+
+                    <div class="animal-custom-select" id="RC-animal-custom-select">
+                        <div class="animal-select-selected" id="RC-animal-select-selected">Animal</div>
+                        <div class="animal-select-items" id="RC-animal-select-items">
+                            <div data-value="perro">Perro</div>
+                            <div data-value="gato">Gato</div>
+                            <div data-value="conejo">Conejo</div>
+                            <div data-value="tortuga">Tortuga</div>
+                            <div data-value="ave">Ave</div>
+                        </div>
+                    </div>
+
+                    <div class="tipo-custom-select" id="RC-tipo-custom-select">
+                        <div class="tipo-select-selected" id="RC-tipo-select-selected">Tipo</div>
+                        <div class="tipo-select-items" id="RC-tipo-select-items">
+                        </div>
+                    </div>
+
+                    <label class="custom-label" for="imagenInput">
+                        <img src="img/foto-icon.png">Foto
+                    </label>
+                    <input type="file" accept="image/*" id="imagenInput" class="custom-file-input">
+                    <img id="CRimagenPreview" alt="Vista previa">
+        
+                </div>
+            
+                <!-- ingrediente-->
+                <label class="CR-error-capa-8">hola</label>
+                <div class="CR-ingrediente">
+                    <!--Con este input se escribe el componente-->
+                    <div>
+                        <input type="text" class="CR-ingrediente-input" placeholder="Escribe un ingrediente..." />
+                        <div class="CR-ingrediente-select-items">
+                        </div>
+                    </div>
+                    <!-- con este input se escribe la cantidad-->
+                    <input type="text" id="CR-cantidad" placeholder="Cant" class="CR-cantidad">
+                    <!-- combo box con la unidad de medida-->
+                    <div class="BR-unidad-custom-select" id="BR-unidad-custom-select">
+                        <div class="BR-unidad-select-selected">Medida</div>
+                        <div class="BR-unidad-select-items" >
+                            <div data-value="kg">kg</div>
+                            <div data-value="g">g</div>
+                            <div data-value="l">l</div>
+                            <div data-value="ml">ml</div>
+                            <div data-value="taza">taza</div>
+                            <div data-value="cucharada">cucharada</div>
+                            <div data-value="unidad">unidad</div>
+                            <div data-value="pizca">pizca</div>
+                        </div>
+                    </div>
+
+                    <!-- boton para crear el div con el ingrediente y la cantidad-->
+                    <div class="CR-agregar-ingrediente">
+                        <img src="img/agregar-ingrediente.png" alt="agregar ingrediente">
+                    </div>
+                </div>
+                <div class="CR-resultados"></div> <!-- Aquí se añadirán los divs creados -->
+                <div class="CR-boton-crear-receta--aling">
+                    <div class="CR-boton-crear-receta">Crear Receta</div>
+                </div>
+            </form>
+        </main>
+        <div class="anuncioDerecho"></div>
+    </div>
+
+    <!--Scripts   ------------------------------------------------------------------>
+    <script src="script.js"></script> <!--no manipular el orden de los scripts  (se rompe todo)-->
+    <script src="crearRecetaScript.js"></script>  <!--no manipular el orden de los scripts  (se rompe todo)-->
+</body>
+</html>
