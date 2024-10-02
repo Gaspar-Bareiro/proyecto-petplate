@@ -19,22 +19,22 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
-    private int user_id;
+    private int userId;
 
     @Column(name = "usuario", unique = true, nullable = false, length = 20)
-    private String user_name;
+    private String userName;
 
     @Column(name = "email", unique = true, nullable = false, length = 254)
-    private String user_email;
+    private String userEmail;
 
     @Column(name = "contrasena", nullable = false)
-    private String user_password;
+    private String userPassword;
 
     @Column(name = "img_perfil")  // Almacena la URL o ruta de la imagen
-    private String user_img;
+    private String userImg;
 
     @ManyToOne
     @JoinColumn(name = "fk_rol", nullable = false)
-    private Rol user_rol;
+    private Rol userRol;
 
 }

@@ -19,11 +19,10 @@ public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Mapeo de AUTO_INCREMENT
     @Column(name = "id_rol")
-    private int rol_id;
+    private int rolId;
 
     @Column(name = "nombre_rol", nullable = false)
     @Enumerated(EnumType.STRING)  // Si `nombre_rol` es de tipo ENUM en la BD
-    private EnumRolName rol_name;
-    
+    private EnumRolName rolName;
 }
 
