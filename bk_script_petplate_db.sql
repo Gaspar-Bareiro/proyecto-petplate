@@ -14,10 +14,10 @@ CREATE TABLE roles (
 DROP TABLE IF EXISTS usuarios;
 CREATE TABLE usuarios (
   id_usuario int AUTO_INCREMENT,
-  usuario varchar(20) UNIQUE NOT NULL,
+  usuario varchar(30) UNIQUE NOT NULL,
   email varchar(254) UNIQUE NOT NULL,
-  contrasena varchar(255) NOT NULL,
-  img_perfil LONGBLOB,
+  contrasena varchar(200) NOT NULL,
+  img_perfil VARCHAR(255),
   fk_rol int NOT NULL,
   FOREIGN KEY (fk_rol) REFERENCES roles (id_rol),
   PRIMARY KEY (id_usuario)
@@ -56,9 +56,9 @@ CREATE TABLE categorias (
 DROP TABLE IF EXISTS recetas;
 CREATE TABLE recetas (
   id_receta int AUTO_INCREMENT,
-  titulo varchar(254) NOT NULL,
+  titulo varchar(200) NOT NULL,
   descripcion text NOT NULL,
-  img_perfil LONGBLOB,
+  img_receta  VARCHAR(255),
   fecha_publicacion timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
   contador_de_recomendaciones int NOT NULL DEFAULT 0,
   fk_usuario int NOT NULL,
@@ -94,11 +94,12 @@ VALUES
 ('Auditor'),
 ('Usuario');
 
+-- insertar las categorias y subcategoria (animal y tipo)
 INSERT INTO categorias (nombre_categoria, subcategoria)
 VALUES
-('Perro'),('Perro','Pequeño'),('Perro','Mediano'),('Perro','Grande'),
-('Gato'),('Gato','Pequeño'),('Gato','Mediano'),('Gato','Grande'),
-('Tortuga'),('Tortuga','Terrestre'),('Tortuga','Marina'),('Ave'),('Ave','Periquito'),('Ave','Canario'),('Ave','Agapornis'),('Ave','Cacatúa'),('Ave','Ninfa'),
+('Perro', null),('Perro','Pequeño'),('Perro','Mediano'),('Perro','Grande'),
+('Gato', null),('Gato','Pequeño'),('Gato','Mediano'),('Gato','Grande'),
+('Conejo', null),('Tortuga', null),('Tortuga','Terrestre'),('Tortuga','Marina'),('Ave', null),('Ave','Periquito'),('Ave','Canario'),('Ave','Agapornis'),('Ave','Cacatúa'),('Ave','Ninfa'),
 ('Ave','Loro Gris Africano'),('Ave','Diamante Mandarín'),('Ave','Cotorra'),('Ave','Pionus'),('Ave','Guacamayo');
 
 -- asignar el rol 'Usuario' a los usuarios que se registran en la pagina automaticamente

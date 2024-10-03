@@ -1,6 +1,7 @@
 package com.proyecto_petplate.petplate.Repositories;
 
-import com.proyecto_petplate.petplate.Entities.User;  
+import com.proyecto_petplate.petplate.Entities.User;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,8 +10,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     // JpaRepository proporciona todas las operaciones CRUD básicas
 
     // Método para verificar si ya existe un usuario con un nombre específico
-    boolean existsByUserName(String userName);
+    public boolean existsByUserName(String userName);
 
     // Método para verificar si ya existe un usuario con un email específico
-    boolean existsByUserEmail(String userEmail);
+    public boolean existsByUserEmail(String userEmail);
+
+    public User getUserByUserName(String userName);
 }
