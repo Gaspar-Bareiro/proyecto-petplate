@@ -51,11 +51,11 @@ public class UserService {
         //verificaciones de userName --------------------------------------------------------------------------------------------
         //verifica que el nombre no contenga espacios
         if (name.contains(" ")) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Nombre no puede contener espacios"); //409
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("El Nombre no puede contener espacios"); //422
         }
         //verifica que el nombre no tenga mas de 30 caracteres
-        if (name.length() > 30) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Nombre no puede contener mas de 30 caracteres"); //409
+        if (name.length() > 30 || name.length() < 4) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("El Nombre debe contener entre 4 y 30 caracteres"); //422
         }
 
         //una vez verificados los casos menos exigentes se verifican los casos que requieren consultas a la base de datos
@@ -68,12 +68,12 @@ public class UserService {
 
         //verifica que el Email no sea muy largo
         if (email.length() > 254) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Email no puede contener mas de 254 caracteres"); //409
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("El Email no puede contener mas de 254 caracteres"); //422
         }
 
         //verifica que el email no conga espacios
         if (email.contains(" ")) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Email no puede contener espacios"); //409
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("El Email no puede contener espacios"); //422
         }
 
         //esta clase sirve para verificar si es un Email valido
@@ -81,7 +81,7 @@ public class UserService {
 
         //verifica que sea un email valido
         if (!validator.isValid(email)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Email no cumple el formato"); //409
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("El Email no cumple el formato"); //422
         }
 
         //verifica si el email ya esta en uso
@@ -92,11 +92,11 @@ public class UserService {
         //agrege verificaciones para que la password tenga minimo 8 caracteres y no contenga espacios
         //verifica que la password tenga entre 8 y 20 caracteres
         if (password.length() < 8 || password.length() > 20) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("La contraseña debe tener de 8 a 20 caracteres"); //409
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("La contraseña debe tener de 8 a 20 caracteres"); //409
         }
         //verifica que la pasword no contenga espacios
         if (password.contains(" ")) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("La contraseña no puede contener espacios"); //409
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("La contraseña no puede contener espacios"); //409
         }
 
 
@@ -123,8 +123,13 @@ public class UserService {
 
         //error de capa 8 , no tiene usuario y se puso a jugar con el formulario por lo cual no deberia
         //hacer ninguna consulta a la base de datos
-        if (name.length() > 30 || name.contains(" ")) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Usuario no exite."); //409
+        if (name.length() > 30 || name.length() < 4 || name.contains(" ")) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("El Usuario no exite."); //422
+        }
+
+        //verifica que el usuari tampoco se puso a jugar con el campo de contraseña antes de hacer consultas a la db
+        if (password.length() > 20 || password.length() < 8 || password.contains(" ")) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Contraseña incorrecta."); //422
         }
 
         //verifica que exista un usuario con ese nombre utilizando la base de datos
@@ -135,7 +140,7 @@ public class UserService {
         //verifica si la password es correcta utilizando la base de datos
         User userDB = userRepo.getUserByUserName(name);
         if (!validarContraseña(password, userDB.getUserPassword())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Contraseña incorrecta."); //409
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta."); //401
         }
 
         //paso las comprobaciones 

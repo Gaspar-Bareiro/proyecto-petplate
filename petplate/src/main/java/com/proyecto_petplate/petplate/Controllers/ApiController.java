@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController // es un controlador de api
-@RequestMapping("/auth") // ruta inicial
+@RequestMapping("/apiv1") // ruta inicial
 @RequiredArgsConstructor
-public class UserController {
+public class ApiController {
 
     //inyeccion de dependencias (@autowired)
     @Autowired
     private UserService userService;
     
     //servicio Register
-    @PostMapping("/register")
+    @PostMapping("/auth/register")
     public ResponseEntity<?> register(@RequestBody UserRequestRegisterDTO usuario) {
         return userService.crearUsuario(usuario);
     }
 
     //login
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody UserRequestLoginDTO usuario){
         return userService.iniciarSesion(usuario);
     }
