@@ -64,6 +64,7 @@ public class JwtService {
     // Método para validar el token comparando el nombre de usuario con los detalles del usuario
     public boolean isTokenValid(String token) {
         try {
+            //si el token no esta vencido y la sesion existe en la db entonces es valido
             return !isTokenExpired(token) && sessionRepo.existsBySesionToken(token); // Validar el token
         } catch (Exception e) {
             // Manejo de excepciones si el token no es válido

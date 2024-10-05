@@ -58,7 +58,7 @@ CREATE TABLE recetas (
   id_receta int AUTO_INCREMENT,
   titulo varchar(200) NOT NULL,
   descripcion text NOT NULL,
-  img_receta  VARCHAR(255),
+  img_receta VARCHAR(255),
   fecha_publicacion timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
   contador_de_recomendaciones int NOT NULL DEFAULT 0,
   fk_usuario int NOT NULL,
@@ -71,20 +71,25 @@ CREATE TABLE recetas (
 -- tabla que relaciona recetas e ingredientes
 DROP TABLE IF EXISTS recetas_ingredientes;
 CREATE TABLE recetas_ingredientes (
+  id_receta_ingrediente int AUTO_INCREMENT,
   cantidad double NOT NULL,
+  unidad_medida varchar(15) NOT NULL,
   fk_receta int NOT NULL,
   fk_ingrediente int NOT NULL,
   FOREIGN KEY (fk_receta) REFERENCES recetas (id_receta),
-  FOREIGN KEY (fk_ingrediente) REFERENCES ingredientes (id_ingrediente)
+  FOREIGN KEY (fk_ingrediente) REFERENCES ingredientes (id_ingrediente),
+  PRIMARY KEY (id_receta_ingrediente)
 );
 
 -- tabla para registrar recomendaciones de usuarios en recetas
 DROP TABLE IF EXISTS usuarios_recomendaciones;
 CREATE TABLE usuarios_recomendaciones (
+  id_usuario_like int AUTO_INCREMENT,
   fk_usuario int NOT NULL,
   fk_receta int NOT NULL,
   FOREIGN KEY (fk_usuario) REFERENCES usuarios (id_usuario),
-  FOREIGN KEY (fk_receta) REFERENCES recetas (id_receta)
+  FOREIGN KEY (fk_receta) REFERENCES recetas (id_receta),
+  PRIMARY KEY (id_usuario_like)
 );
 
 -- insertar los 3 roles 
