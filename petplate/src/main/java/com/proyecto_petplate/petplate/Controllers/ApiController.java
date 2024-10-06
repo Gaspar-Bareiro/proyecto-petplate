@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.proyecto_petplate.petplate.DTO.RecipeRequestCreateDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestLoginDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestRegisterDTO;
-import com.proyecto_petplate.petplate.DTO.ingredientDTO;
+import com.proyecto_petplate.petplate.DTO.IngredientDTO;
 import com.proyecto_petplate.petplate.services.RecipeService;
 import com.proyecto_petplate.petplate.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -51,19 +51,12 @@ public class ApiController {
         @RequestPart(value = "img", required = false) MultipartFile img,
         @RequestPart(value = "categoryName", required = false) String categoryName,
         @RequestPart(value = "subcategoryName", required = false) String subcategoryName,
-        @RequestPart(value = "ingredientes", required = false) ingredientDTO[] ingredientes) {
+        @RequestPart(value = "ingredientes", required = false) IngredientDTO[] ingredientes) {
+    
     
     // Manejar valores nulos si es necesario
-    if (ingredientes == null || ingredientes.length == 0) {
-        System.out.println("No se han enviado ingredientes.");
-        ingredientes = new ingredientDTO[0];
-    } else {
-        System.out.println("Número de ingredientes: " + ingredientes.length);
-        for (ingredientDTO ingrediente : ingredientes) {
-            System.out.println("Nombre: " + ingrediente.getName());
-            System.out.println("Cantidad: " + ingrediente.getQuantity());
-            System.out.println("Unidad: " + ingrediente.getUnitOfMeasurement());
-        }
+    if (ingredientes == null) {
+        ingredientes = new IngredientDTO[0];
     }
 
     // Crea un DTO con los datos recibidos

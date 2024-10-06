@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.proyecto_petplate.petplate.DTO.RecipeRequestCreateDTO;
-import com.proyecto_petplate.petplate.DTO.ingredientDTO;
+import com.proyecto_petplate.petplate.DTO.IngredientDTO;
 import com.proyecto_petplate.petplate.Entities.EnumUnidadMedida;
 import com.proyecto_petplate.petplate.Entities.Recipe;
 import com.proyecto_petplate.petplate.Entities.RecipeIngredientRelationship;
+import com.proyecto_petplate.petplate.Entities.User;
 import com.proyecto_petplate.petplate.Repositories.CategoryRepository;
 import com.proyecto_petplate.petplate.Repositories.RecipeIngredientRelationshipRepository;
 import com.proyecto_petplate.petplate.Repositories.RecipeRepository;
@@ -80,7 +81,7 @@ public class RecipeService {
         //obtiene una array de todos los nombres de ingredientes para facilitar la verificacion
         String[] ingredientesDBArray = ingredientService.obtenerNombresIngredientes(); // Convertir a List para búsqueda
         // Verificar todos los ingredientes
-        for (ingredientDTO ingredientesReceta : receta.getIngredientes()) {
+        for (IngredientDTO ingredientesReceta : receta.getIngredientes()) {
             // Comprobar si el ingredienteReceta existe en ingredientesDBArray
             if (!java.util.Arrays.asList(ingredientesDBArray).contains(ingredientesReceta.getName())) {
                 // En caso de que un elemento no esté en la base de datos, suelta un error
@@ -100,38 +101,48 @@ public class RecipeService {
                         .body("Unidad de medida del ingrediente " + ingredientesReceta.getName() + " no es válida"); // 422
             }
         }
+
+        User userReceta = userRepo.getUserByUserName(jwtService.getUsernameFromToken(receta.getToken()));
+        if (recipeRepo.existsByTitleAndUser(receta.getTitle(), userReceta)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("Es usuario ya tiene esta receta creada"); // 409
+        }
+        
         //validaciones de la imagen ------------------------------------------------------------------------
 
-        MultipartFile img =  receta.getImg();
-        String imgOriginalName = img.getOriginalFilename();
+        String ubicacionImg = null;
 
-        long imgSize = img.getSize();
-        long maxImgSize = 5 * 1024 * 1024;
+        if (!receta.getImg().isEmpty()) {
+            MultipartFile img =  receta.getImg();
+            String imgOriginalName = img.getOriginalFilename();
 
-        //valida que la imagen no tenga mas de 5MB
-        if (imgSize > maxImgSize) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("el tamanio maximo del archivo debe ser de 5MB"); //422
-        }
-        //valida que tenga una extencion valida
-        if (imgOriginalName != null) {
-            if (!imgOriginalName.endsWith(".jpg") &&
-            !imgOriginalName.endsWith(".jpeg") &&
-            !imgOriginalName.endsWith(".png")) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("el archivo tiene que tener la extencion .jpg .jpeg o .png"); //422
+            long imgSize = img.getSize();
+            long maxImgSize = 5 * 1024 * 1024;
+
+            //valida que la imagen no tenga mas de 5MB
+            if (imgSize > maxImgSize) {
+                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("el tamanio maximo del archivo debe ser de 5MB"); //422
             }
-        }else{
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("no se pudo obtener el nombre del archivo"); //422
+            //valida que tenga una extencion valida
+            if (imgOriginalName != null) {
+                if (!imgOriginalName.endsWith(".jpg") &&
+                !imgOriginalName.endsWith(".jpeg") &&
+                !imgOriginalName.endsWith(".png")) {
+                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("el archivo tiene que tener la extencion .jpg .jpeg o .png"); //422
+                }
+            }else{
+                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("no se pudo obtener el nombre del archivo"); //422
+            }
+            ubicacionImg = uploadFilesService.subirImgReceta(img);
+
         }
 
         // Si todas las validaciones pasan, retorna una respuesta exitosa
-
-        String ubicacionImg = uploadFilesService.subirImgReceta(img);
-
         Recipe nuevaReceta = Recipe.builder()
             .recipeTitle(receta.getTitle())
             .recipeDescription(receta.getDescription())
             .recipeCreatedDate(new Date())
-            .recipeUser(userRepo.getUserByUserName(jwtService.getUsernameFromToken(receta.getToken())))
+            .recipeUser(userReceta)
             .recipeCategory(categoryRepo.findByCategoryNameAndSubcategoryName(receta.getCategoryName(), receta.getSubcategoryName()))
             .recipeImg(ubicacionImg)
             .build();
@@ -139,7 +150,7 @@ public class RecipeService {
         recipeRepo.save(nuevaReceta);
         java.util.List<RecipeIngredientRelationship> listaRelaciones = new java.util.ArrayList<>();
 
-        for (ingredientDTO ingrediente : receta.getIngredientes()) {
+        for (IngredientDTO ingrediente : receta.getIngredientes()) {
             RecipeIngredientRelationship newRelation = RecipeIngredientRelationship.builder()
                 .quantity(ingrediente.getQuantity())
                 .unitOfMeasurement(ingrediente.getUnitOfMeasurement())

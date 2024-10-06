@@ -3,11 +3,13 @@ package com.proyecto_petplate.petplate.DTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class RecipeRequestCreateDTO {
     private String token;
@@ -16,6 +18,6 @@ public class RecipeRequestCreateDTO {
     private MultipartFile img;
     private String categoryName;
     private String subcategoryName;
-    private ingredientDTO[] ingredientes;
+    private IngredientDTO[] ingredientes;
 }
 
