@@ -45,4 +45,23 @@ public class UploadFilesService {
         return "";
         
     }
+
+    public void deleteImgReceta(String oldName){
+        // Definir la ruta del archivo que se desea eliminar
+        if (oldName != null && !oldName.trim().isEmpty()) {
+            
+            Path path = Paths.get("src/main/resources/recipe-pictures/" + oldName);
+            try {
+                // Verificar si el archivo existe
+                if (Files.exists(path)) {
+                    // Eliminar el archivo
+                    Files.delete(path);
+                }
+            } catch (Exception e) {
+                System.out.println("Error al eliminar la imagen: " + e.getMessage());
+            }
+        }
+        
+    }
+
 }
