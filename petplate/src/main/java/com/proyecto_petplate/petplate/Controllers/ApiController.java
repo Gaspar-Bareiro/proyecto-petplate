@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.proyecto_petplate.petplate.DTO.RecipeRequestCreateDTO;
+import com.proyecto_petplate.petplate.DTO.RecipeRequestDeleteDTO;
 import com.proyecto_petplate.petplate.DTO.RecipeRequestModifyDTO;
 import com.proyecto_petplate.petplate.DTO.RecipeRequestSearchDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestLoginDTO;
@@ -127,4 +128,10 @@ public class ApiController {
     public ResponseEntity<?> obtenerArrayIngredientes() {
         return ResponseEntity.ok(ingredientService.obtenerNombresIngredientes());
     }
+
+    @PostMapping("/recipe/delete/{recipeId}")
+    public ResponseEntity<?> borrrarReceta(@PathVariable int recipeId,@RequestBody RecipeRequestDeleteDTO token){
+        return recipeService.borrarReceta(recipeId , token.getToken());
+    }
+
 }

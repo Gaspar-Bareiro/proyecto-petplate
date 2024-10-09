@@ -29,4 +29,8 @@ public interface RecipeIngredientRelationshipRepository  extends JpaRepository<R
     java.util.Optional<java.util.List<Recipe>> findRecipesByAllIngredients(
             @Param("ingredientes") java.util.List<Ingredient> ingredientes,
             @Param("size") long size);
+
+    // Método para obtener la relación receta-ingredientes por el ID de la receta
+    @Query("SELECT r FROM recetas_ingredientes r WHERE r.recipe.id = :recipeId")
+    java.util.Optional<java.util.List<RecipeIngredientRelationship>> findRecipeIngredientRelationshipsByRecipeId(@Param("recipeId") int recipeId);
 }

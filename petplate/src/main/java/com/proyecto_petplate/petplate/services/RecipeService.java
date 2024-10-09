@@ -1,6 +1,7 @@
 package com.proyecto_petplate.petplate.services;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,12 +15,17 @@ import com.proyecto_petplate.petplate.DTO.RecipeRequestModifyDTO;
 import com.proyecto_petplate.petplate.DTO.RecipeRequestSearchDTO;
 import com.proyecto_petplate.petplate.DTO.RecipeResponseSearchDTO;
 import com.proyecto_petplate.petplate.DTO.IngredientDTO;
+import com.proyecto_petplate.petplate.Entities.EnumRolName;
 import com.proyecto_petplate.petplate.Entities.EnumUnidadMedida;
 import com.proyecto_petplate.petplate.Entities.Ingredient;
 import com.proyecto_petplate.petplate.Entities.Recipe;
+import com.proyecto_petplate.petplate.Entities.RecipeDeleted;
 import com.proyecto_petplate.petplate.Entities.RecipeIngredientRelationship;
+import com.proyecto_petplate.petplate.Entities.RecipeIngredientRelationshipDeleted;
 import com.proyecto_petplate.petplate.Entities.User;
 import com.proyecto_petplate.petplate.Repositories.CategoryRepository;
+import com.proyecto_petplate.petplate.Repositories.RecipeDeletedRepository;
+import com.proyecto_petplate.petplate.Repositories.RecipeIngredientRelationshipDeletedRepository;
 import com.proyecto_petplate.petplate.Repositories.RecipeIngredientRelationshipRepository;
 import com.proyecto_petplate.petplate.Repositories.RecipeRepository;
 import com.proyecto_petplate.petplate.Repositories.UserRepository;
@@ -38,6 +44,7 @@ public class RecipeService {
     @Autowired
     private IngredientService ingredientService;
 
+
     @Autowired
     private UploadFilesService uploadFilesService;
 
@@ -48,7 +55,13 @@ public class RecipeService {
     private RecipeRepository recipeRepo;
 
     @Autowired
-    private  RecipeIngredientRelationshipRepository recipeIngredientRelationshipRepo;
+    private RecipeIngredientRelationshipRepository recipeIngredientRelationshipRepo;
+
+    @Autowired
+    private RecipeIngredientRelationshipDeletedRepository recipeIngredientRelationshipDeletedRepo;
+
+    @Autowired
+    private RecipeDeletedRepository recipeDeletedRepo;
 
     //metodo para crear una receta
     public ResponseEntity<?> crearReceta(RecipeRequestCreateDTO receta){
@@ -466,6 +479,59 @@ public class RecipeService {
             return ResponseEntity.ok(response);
         }
     }
+
+    public ResponseEntity<?> borrarReceta(int recipeId, String token) {
+        
+        if (!jwtService.isTokenValid(token)) {
+            System.out.println(token);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token de sesion invalido"); //401
+        }
+
+        User userToken = userRepo.getUserByUserName(jwtService.getUsernameFromToken(token));
+
+        if (!userToken.getUserRol().getRolName().equals(EnumRolName.Auditor)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("El usuario tiene el rol " + userToken.getUserRol().getRolName() + " no el de Auditor"); //401
+        }
+
+        if (!recipeRepo.existsById(recipeId)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("La receta no existe"); //409
+        }
+
+        try {
+            // obtiene la receta
+            Recipe receta = recipeRepo.findById(recipeId).get();
+            
+            // obtiene los ingredientes de la receta
+            java.util.List<RecipeIngredientRelationship> relacion = recipeIngredientRelationshipRepo
+                .findRecipeIngredientRelationshipsByRecipeId(receta.getRecipeId()).get();
+            
+            // guarda la receta en la tabla de recetas borradas
+            recipeDeletedRepo.save(new RecipeDeleted(receta));
+            
+            // guarda las relaciones en las tablas de recetas borradas
+            java.util.List<RecipeIngredientRelationshipDeleted> relacionDeleted = relacion.stream()
+                .map(RecipeIngredientRelationshipDeleted::new)  // el constructor que recibe RecipeIngredientRelationship
+                .collect(Collectors.toList());  // Convertimos el stream a una lista
+            recipeIngredientRelationshipDeletedRepo.saveAll(relacionDeleted);
+            
+            // borra los ingredientes de la receta
+            recipeIngredientRelationshipRepo.deleteAll(relacion);
+            
+            // borra la receta
+            recipeRepo.delete(receta);
+            
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("No se pudo eliminar la receta " + e.getMessage()); //409
+        }
+        
+
+        return ResponseEntity.status(HttpStatus.OK).body("OK"); //200;
+
+    }
+
+    
+
+
 
     public java.util.Optional<java.util.List<Recipe>> intersectRecipes(java.util.Optional<java.util.List<Recipe>> recipes1, java.util.Optional<java.util.List<Recipe>> recipes2) {
     // Verifica si ambos Optional contienen valores
