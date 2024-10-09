@@ -11,8 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.proyecto_petplate.petplate.DTO.RecipeRequestCreateDTO;
 import com.proyecto_petplate.petplate.DTO.RecipeRequestModifyDTO;
+import com.proyecto_petplate.petplate.DTO.RecipeRequestSearchDTO;
+import com.proyecto_petplate.petplate.DTO.RecipeResponseSearchDTO;
 import com.proyecto_petplate.petplate.DTO.IngredientDTO;
 import com.proyecto_petplate.petplate.Entities.EnumUnidadMedida;
+import com.proyecto_petplate.petplate.Entities.Ingredient;
 import com.proyecto_petplate.petplate.Entities.Recipe;
 import com.proyecto_petplate.petplate.Entities.RecipeIngredientRelationship;
 import com.proyecto_petplate.petplate.Entities.User;
@@ -356,4 +359,133 @@ public class RecipeService {
         return ResponseEntity.ok("Receta modificada exitosamente.");
 
     }
+
+    //metodo para buscar receta
+    public ResponseEntity<?> buscarReceta(RecipeRequestSearchDTO busqueda) {
+
+
+        boolean categoryIsValid = !(busqueda.getCategoryName() == null || busqueda.getCategoryName().isEmpty());
+        
+        boolean subcategoryIsValid = !(busqueda.getSubcategoryName() == null || busqueda.getSubcategoryName().isEmpty());
+
+        boolean ingredientesIsValid = !(busqueda.getIngredientes() == null || busqueda.getIngredientes().length == 0);
+
+        //si no se seleciono ningun parametro para la busqueda
+        if (!categoryIsValid && !subcategoryIsValid && !ingredientesIsValid) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("no se selecciono ningun parametro para la busqueda"); //422
+        }
+
+        //verifica si se busco por subcategoria sin haber especificado la categoria
+        if (subcategoryIsValid && !categoryIsValid) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Se seleciono una subcategoria pero no una categoria"); //422
+        }
+
+        //si se busca por categoria
+        if (categoryIsValid) {
+            // verifica que si la combinacion de categoria / subcategoria existe en la db
+            if (subcategoryIsValid) {
+                if (!categoryRepo.existsByCategoryNameAndSubcategoryName(busqueda.getCategoryName(),busqueda.getSubcategoryName())) {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("la categoria no existe"); //422
+                }
+            }else{
+                if (!categoryRepo.existsByCategoryNameAndSubcategoryName(busqueda.getCategoryName(),null)) {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("la categoria no existe"); //422
+                }
+            }
+            
+        }
+
+        
+        // Si hay ingredientes, verifica que estos sean válidos
+        if (ingredientesIsValid) {
+            // Obtiene una lista de todos los nombres de ingredientes para facilitar la verificación
+            String[] ingredientesDBArray = ingredientService.obtenerNombresIngredientes();
+            
+            // Convertir el array a un Set para búsquedas rápidas
+            java.util.Set<String> ingredientesDBSet = new java.util.HashSet<>(java.util.Arrays.asList(ingredientesDBArray));
+            
+            // Verificar todos los ingredientes
+            for (String ingredienteBusqueda : busqueda.getIngredientes()) {
+                // Comprobar si el ingredienteReceta existe en ingredientesDBSet
+                if (!ingredientesDBSet.contains(ingredienteBusqueda)) {
+                    // En caso de que un elemento no esté en la base de datos, suelta un error
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("el ingrediente "+ ingredienteBusqueda +" no existe"); //422
+                }
+            }
+        }
+
+
+        // Lista de recetas resultante
+        java.util.Optional<java.util.List<Recipe>> recetas = java.util.Optional.of(new java.util.ArrayList<>());
+        
+        java.util.List<Ingredient> ingredientesList;
+        
+
+        // Estructura anidada para verificar el caso y obtener las recetas correspondientes
+        if (!ingredientesIsValid && categoryIsValid && !subcategoryIsValid) {// Solo categoría
+            recetas = recipeRepo.findByCategoryName(busqueda.getCategoryName()); //obtiene las recetas matcheadas
+        } else if (categoryIsValid && subcategoryIsValid && !ingredientesIsValid) { // categoria y subcategoria
+            recetas = recipeRepo.findByCategoryAndSubCategory(busqueda.getCategoryName(), busqueda.getSubcategoryName());//obtiene las recetas matcheadas
+        } else if (!categoryIsValid && !subcategoryIsValid && ingredientesIsValid) {//solo ingredientes
+            ingredientesList = ingredientService.obtenerListaIngredientesPorNombres(busqueda.getIngredientes()); //como se obtiene la lista de ingredientes
+            recetas = recipeIngredientRelationshipRepo.findRecipesByAllIngredients(ingredientesList,ingredientesList.size()); //obtiene las recetas matcheadas
+        } else if (categoryIsValid && !subcategoryIsValid && ingredientesIsValid) {//categoria e ingredientes
+            ingredientesList = ingredientService.obtenerListaIngredientesPorNombres(busqueda.getIngredientes()); //como se obtiene la lista de ingredientes
+            recetas = intersectRecipes( //obtiene la interseccion entre 2 conjuntos de recetas con la clase java.util.Optional<java.util.List<Recipe>>
+                recipeRepo.findByCategoryName(busqueda.getCategoryName()), //obtiene las recetas por categoria 
+                recipeIngredientRelationshipRepo.findRecipesByAllIngredients(ingredientesList,ingredientesList.size()));//obtien las recetas por ingredientes
+        } else if (categoryIsValid && subcategoryIsValid && ingredientesIsValid) { // categoria, subcategoria e ingredientes
+            ingredientesList = ingredientService.obtenerListaIngredientesPorNombres(busqueda.getIngredientes()); //como se obtiene la lista de ingredientes
+            recetas = intersectRecipes( //obtiene la interseccion entre 2 conjuntos de recetas con la clase java.util.Optional<java.util.List<Recipe>>
+                recipeRepo.findByCategoryAndSubCategory(busqueda.getCategoryName(), busqueda.getSubcategoryName()), //obtiene las recetas por categoria y sub categoria
+                recipeIngredientRelationshipRepo.findRecipesByAllIngredients(ingredientesList,ingredientesList.size()));//obtien las recetas por ingredientes
+        }
+
+        if (recetas.isEmpty() || recetas.get().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body("No hay receta que cumpla los requisitos de busqueda"); // 409
+        }else{
+            
+            // Obtener la lista de recetas existente
+            java.util.List<Recipe> recetasExistentes = recetas.get();
+
+            // Convertir la lista de Recipe a RecipeResponseSearchDTO
+            java.util.List<RecipeResponseSearchDTO> response = recetasExistentes.stream()
+                .map(receta -> 
+                    RecipeResponseSearchDTO.builder()
+                        .recipeId(receta.getRecipeId())   // Mapea el ID de la receta
+                        .title(receta.getRecipeTitle())   // Mapea el título de la receta
+                        .Score(receta.getRecipeScore())   // Mapea el puntaje de la receta
+                         // Mapea los ingredientes de la receta a un array de String
+                        .ingredientes(ingredientService.obtenerNombresDeIngredientes(recipeIngredientRelationshipRepo.findIngredientsByRecipeId(receta.getRecipeId())))
+                        .build() // Cierra el builder aquí
+                ) // Termina el mapeo aquí
+                .collect(java.util.stream.Collectors.toList()); // Recolecta la lista aquí
+
+            // Devolver la respuesta con la lista de RecipeResponseSearchDTO
+            return ResponseEntity.ok(response);
+        }
+    }
+
+    public java.util.Optional<java.util.List<Recipe>> intersectRecipes(java.util.Optional<java.util.List<Recipe>> recipes1, java.util.Optional<java.util.List<Recipe>> recipes2) {
+    // Verifica si ambos Optional contienen valores
+    if (recipes1.isPresent() && recipes2.isPresent()) {
+        // Obtiene las listas de recetas
+        java.util.List<Recipe> list1 = recipes1.get();
+        java.util.List<Recipe> list2 = recipes2.get();
+        
+        // Realiza la intersección de ambas listas
+        java.util.List<Recipe> intersection = list1.stream()
+            .filter(list2::contains) // Filtra las recetas que están en list2
+            .collect(java.util.stream.Collectors.toList()); // Recolecta el resultado en una nueva lista
+        
+        // Retorna el resultado como un Optional
+        return java.util.Optional.of(intersection);
+    }
+    
+    // Si alguno de los Optional está vacío, devuelve un Optional vacío
+    return java.util.Optional.empty();
+}
+    
+
 }

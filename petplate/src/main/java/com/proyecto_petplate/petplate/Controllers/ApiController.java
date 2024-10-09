@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.proyecto_petplate.petplate.DTO.RecipeRequestCreateDTO;
 import com.proyecto_petplate.petplate.DTO.RecipeRequestModifyDTO;
+import com.proyecto_petplate.petplate.DTO.RecipeRequestSearchDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestLoginDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestRegisterDTO;
 import com.proyecto_petplate.petplate.DTO.IngredientDTO;
@@ -46,6 +47,7 @@ public class ApiController {
         return userService.iniciarSesion(usuario);
     }
 
+    //crear receta
     @PostMapping(value = "/recipe/create", consumes = "multipart/form-data")
     public ResponseEntity<?> crearReceta(
         @RequestPart(value = "token", required = false) String token,
@@ -77,9 +79,9 @@ public class ApiController {
     return recipeService.crearReceta(receta);
     }
 
-
+    //modificar receta
     @PutMapping(value = "/recipe/modify/{recipeId}", consumes = "multipart/form-data")
-        public ResponseEntity<?> modificarReceta(
+    public ResponseEntity<?> modificarReceta(
         @PathVariable int recipeId,  // Se obtiene desde el path
         @RequestPart(value = "token", required = false) String token,
         @RequestPart(value = "title", required = false) String title,
@@ -110,5 +112,14 @@ public class ApiController {
         return recipeService.modificarReceta(receta);
     }
 
+    //buscar receta
+    @PostMapping("/recipe/search")
+    public ResponseEntity<?> buscarReceta(@RequestBody RecipeRequestSearchDTO busqueda) {
+        
+
+
+
+    return recipeService.buscarReceta(busqueda);
+    }
     
 }
