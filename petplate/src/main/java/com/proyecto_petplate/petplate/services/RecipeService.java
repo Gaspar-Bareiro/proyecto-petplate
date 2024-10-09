@@ -385,11 +385,11 @@ public class RecipeService {
             // verifica que si la combinacion de categoria / subcategoria existe en la db
             if (subcategoryIsValid) {
                 if (!categoryRepo.existsByCategoryNameAndSubcategoryName(busqueda.getCategoryName(),busqueda.getSubcategoryName())) {
-                    return ResponseEntity.status(HttpStatus.CONFLICT).body("la categoria no existe"); //422
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("la categoria no existe"); //409
                 }
             }else{
                 if (!categoryRepo.existsByCategoryNameAndSubcategoryName(busqueda.getCategoryName(),null)) {
-                    return ResponseEntity.status(HttpStatus.CONFLICT).body("la categoria no existe"); //422
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("la categoria no existe"); //409
                 }
             }
             
@@ -409,7 +409,7 @@ public class RecipeService {
                 // Comprobar si el ingredienteReceta existe en ingredientesDBSet
                 if (!ingredientesDBSet.contains(ingredienteBusqueda)) {
                     // En caso de que un elemento no esté en la base de datos, suelta un error
-                    return ResponseEntity.status(HttpStatus.CONFLICT).body("el ingrediente "+ ingredienteBusqueda +" no existe"); //422
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("el ingrediente "+ ingredienteBusqueda +" no existe"); //409
                 }
             }
         }
@@ -486,6 +486,7 @@ public class RecipeService {
     // Si alguno de los Optional está vacío, devuelve un Optional vacío
     return java.util.Optional.empty();
 }
+
     
 
 }

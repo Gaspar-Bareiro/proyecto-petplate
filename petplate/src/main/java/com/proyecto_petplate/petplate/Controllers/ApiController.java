@@ -11,6 +11,7 @@ import com.proyecto_petplate.petplate.DTO.RecipeRequestSearchDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestLoginDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestRegisterDTO;
 import com.proyecto_petplate.petplate.DTO.IngredientDTO;
+import com.proyecto_petplate.petplate.services.IngredientService;
 import com.proyecto_petplate.petplate.services.RecipeService;
 import com.proyecto_petplate.petplate.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,9 @@ public class ApiController {
 
     @Autowired
     private RecipeService recipeService;
+
+    @Autowired
+    private IngredientService ingredientService;
     
     //servicio Register
     @PostMapping("/auth/register")
@@ -115,11 +119,12 @@ public class ApiController {
     //buscar receta
     @PostMapping("/recipe/search")
     public ResponseEntity<?> buscarReceta(@RequestBody RecipeRequestSearchDTO busqueda) {
-        
-
-
-
     return recipeService.buscarReceta(busqueda);
     }
     
+
+    @PostMapping("/ingredients/get")
+    public ResponseEntity<?> obtenerArrayIngredientes() {
+        return ResponseEntity.ok(ingredientService.obtenerNombresIngredientes());
+    }
 }
