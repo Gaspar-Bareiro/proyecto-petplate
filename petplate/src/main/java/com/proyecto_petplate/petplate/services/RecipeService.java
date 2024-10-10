@@ -579,7 +579,7 @@ public class RecipeService {
         User user = userRepo.getUserByUserName(jwtService.getUsernameFromToken(token));
         Recipe receta = recipeRepo.findById(recipeId).get();
 
-        // se usa el usuario y la receta para verificar si ese usuario ya recomendo la receta
+        // se usa el usuario y la receta para verificar si ese usuario no recomendo la receta
         if (recommendationRepo.existsByRecommendationUserAndRecommendationRecipe(user, receta)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("el usuario ya reecomendo la receta"); //409
         }
@@ -595,6 +595,34 @@ public class RecipeService {
         return ResponseEntity.status(HttpStatus.OK).body("OK"); //200;
     }
 
-    
+    //metodo para sacar la recomendacion a una receta
+    @Transactional
+    public ResponseEntity<?> removeRecommendation(int recipeId, String token) {
+        //comprueba si la sesion es valida por ende tambien comprueba que el usuario es valido
+        if (!jwtService.isTokenValid(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token de sesion invalido"); //401
+        }
+
+        //comprueba si existe la receta
+        if (!recipeRepo.existsById(recipeId)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("no existe una receta con esa id"); //409
+        }
+
+        // se obtiene ek usuario y la receta
+        User user = userRepo.getUserByUserName(jwtService.getUsernameFromToken(token));
+        Recipe receta = recipeRepo.findById(recipeId).get();
+
+        // se usa el usuario y la receta para verificar si ese usuario ya recomendo la receta
+        if (!recommendationRepo.existsByRecommendationUserAndRecommendationRecipe(user, receta)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("el usuario no reecomendo la receta"); //409
+        }
+
+        
+
+        //agrega la recomendacion y el triger aumenta el contador de recomendaciones de la receta
+        recommendationRepo.deleteByRecommendationUserAndRecommendationRecipe(user, receta);
+
+        return ResponseEntity.status(HttpStatus.OK).body("OK"); //200;
+    } 
 
 }

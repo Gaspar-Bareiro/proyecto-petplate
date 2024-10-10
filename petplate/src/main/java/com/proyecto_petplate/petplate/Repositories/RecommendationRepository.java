@@ -15,4 +15,7 @@ public interface RecommendationRepository extends JpaRepository<Recommendation, 
 
     // Método personalizado para eliminar todas las recomendaciones asociadas a una receta
     void deleteByRecommendationRecipe(Recipe recommendationRecipe);
+
+    // Método personalizado para eliminar una recomendación por usuario y receta
+    void deleteByRecommendationUserAndRecommendationRecipe(User recommendationUser, Recipe recommendationRecipe);
 }
