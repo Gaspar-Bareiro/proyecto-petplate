@@ -22,13 +22,17 @@ import com.proyecto_petplate.petplate.Entities.Recipe;
 import com.proyecto_petplate.petplate.Entities.RecipeDeleted;
 import com.proyecto_petplate.petplate.Entities.RecipeIngredientRelationship;
 import com.proyecto_petplate.petplate.Entities.RecipeIngredientRelationshipDeleted;
+import com.proyecto_petplate.petplate.Entities.Recommendation;
 import com.proyecto_petplate.petplate.Entities.User;
 import com.proyecto_petplate.petplate.Repositories.CategoryRepository;
 import com.proyecto_petplate.petplate.Repositories.RecipeDeletedRepository;
 import com.proyecto_petplate.petplate.Repositories.RecipeIngredientRelationshipDeletedRepository;
 import com.proyecto_petplate.petplate.Repositories.RecipeIngredientRelationshipRepository;
 import com.proyecto_petplate.petplate.Repositories.RecipeRepository;
+import com.proyecto_petplate.petplate.Repositories.RecommendationRepository;
 import com.proyecto_petplate.petplate.Repositories.UserRepository;
+
+import jakarta.transaction.Transactional;
 
 
 
@@ -62,6 +66,9 @@ public class RecipeService {
 
     @Autowired
     private RecipeDeletedRepository recipeDeletedRepo;
+
+    @Autowired
+    private RecommendationRepository recommendationRepo;
 
     //metodo para crear una receta
     public ResponseEntity<?> crearReceta(RecipeRequestCreateDTO receta){
@@ -480,10 +487,11 @@ public class RecipeService {
         }
     }
 
+    //metodo para borrar una receta
+    @Transactional
     public ResponseEntity<?> borrarReceta(int recipeId, String token) {
         
         if (!jwtService.isTokenValid(token)) {
-            System.out.println(token);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token de sesion invalido"); //401
         }
 
@@ -513,6 +521,9 @@ public class RecipeService {
                 .map(RecipeIngredientRelationshipDeleted::new)  // el constructor que recibe RecipeIngredientRelationship
                 .collect(Collectors.toList());  // Convertimos el stream a una lista
             recipeIngredientRelationshipDeletedRepo.saveAll(relacionDeleted);
+
+            //borra las recomendaciones de la receta
+            recommendationRepo.deleteByRecommendationRecipe(receta);
             
             // borra los ingredientes de la receta
             recipeIngredientRelationshipRepo.deleteAll(relacion);
@@ -529,10 +540,7 @@ public class RecipeService {
 
     }
 
-    
-
-
-
+    //metodo para obtener la interseccion entre 2 conjuntos de recetas optional
     public java.util.Optional<java.util.List<Recipe>> intersectRecipes(java.util.Optional<java.util.List<Recipe>> recipes1, java.util.Optional<java.util.List<Recipe>> recipes2) {
     // Verifica si ambos Optional contienen valores
     if (recipes1.isPresent() && recipes2.isPresent()) {
@@ -552,6 +560,40 @@ public class RecipeService {
     // Si alguno de los Optional está vacío, devuelve un Optional vacío
     return java.util.Optional.empty();
 }
+
+    //metodo para recomendar una receta
+    public ResponseEntity<?> setRecommendation(int recipeId, String token) {
+        
+
+        //comprueba si la sesion es valida por ende tambien comprueba que el usuario es valido
+        if (!jwtService.isTokenValid(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token de sesion invalido"); //401
+        }
+
+        //comprueba si existe la receta
+        if (!recipeRepo.existsById(recipeId)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("no existe una receta con esa id"); //409
+        }
+
+        // se obtiene ek usuario y la receta
+        User user = userRepo.getUserByUserName(jwtService.getUsernameFromToken(token));
+        Recipe receta = recipeRepo.findById(recipeId).get();
+
+        // se usa el usuario y la receta para verificar si ese usuario ya recomendo la receta
+        if (recommendationRepo.existsByRecommendationUserAndRecommendationRecipe(user, receta)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("el usuario ya reecomendo la receta"); //409
+        }
+
+        Recommendation recomendacion = Recommendation.builder()
+            .recommendationUser(user)
+            .recommendationRecipe(receta)
+            .build();
+
+        //agrega la recomendacion y el triger aumenta el contador de recomendaciones de la receta
+        recommendationRepo.save(recomendacion);
+
+        return ResponseEntity.status(HttpStatus.OK).body("OK"); //200;
+    }
 
     
 

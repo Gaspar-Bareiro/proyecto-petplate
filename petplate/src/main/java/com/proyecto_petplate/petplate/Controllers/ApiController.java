@@ -12,6 +12,7 @@ import com.proyecto_petplate.petplate.DTO.RecipeRequestSearchDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestLoginDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestRegisterDTO;
 import com.proyecto_petplate.petplate.DTO.IngredientDTO;
+import com.proyecto_petplate.petplate.DTO.RecipeRequestAddRecommendationDTO;
 import com.proyecto_petplate.petplate.services.IngredientService;
 import com.proyecto_petplate.petplate.services.RecipeService;
 import com.proyecto_petplate.petplate.services.UserService;
@@ -123,15 +124,22 @@ public class ApiController {
     return recipeService.buscarReceta(busqueda);
     }
     
-
+    //obtener array de ingredientes
     @PostMapping("/ingredients/get")
     public ResponseEntity<?> obtenerArrayIngredientes() {
         return ResponseEntity.ok(ingredientService.obtenerNombresIngredientes());
     }
 
+    //borra una receta
     @PostMapping("/recipe/delete/{recipeId}")
-    public ResponseEntity<?> borrrarReceta(@PathVariable int recipeId,@RequestBody RecipeRequestDeleteDTO token){
+    public ResponseEntity<?> borrarReceta(@PathVariable int recipeId,@RequestBody RecipeRequestDeleteDTO token){
         return recipeService.borrarReceta(recipeId , token.getToken());
+    }
+
+    //recomienda una receta
+    @PostMapping("/recipe/setRecommendation/{recipeId}")
+    public ResponseEntity<?> recomendarReceta(@PathVariable int recipeId,@RequestBody RecipeRequestAddRecommendationDTO token){
+        return recipeService.setRecommendation(recipeId, token.getToken());
     }
 
 }
