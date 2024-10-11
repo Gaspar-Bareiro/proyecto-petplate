@@ -68,22 +68,6 @@ CREATE TABLE recetas (
   PRIMARY KEY (id_receta)
 );
 
--- tabla de recetas borradas
-DROP TABLE IF EXISTS recetas_borradas;
-CREATE TABLE recetas_borradas (
-  id_receta int AUTO_INCREMENT,
-  titulo varchar(200) NOT NULL,
-  descripcion text NOT NULL,
-  img_receta VARCHAR(255),
-  fecha_publicacion timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  contador_de_recomendaciones int NOT NULL DEFAULT 0,
-  fk_usuario int NOT NULL,
-  fk_categoria int NOT NULL,
-  FOREIGN KEY (fk_usuario) REFERENCES usuarios (id_usuario),
-  FOREIGN KEY (fk_categoria) REFERENCES categorias (id_categoria),
-  PRIMARY KEY (id_receta)
-);
-
 -- tabla que relaciona recetas e ingredientes
 DROP TABLE IF EXISTS recetas_ingredientes;
 CREATE TABLE recetas_ingredientes (
@@ -97,16 +81,32 @@ CREATE TABLE recetas_ingredientes (
   PRIMARY KEY (id_receta_ingrediente)
 );
 
+-- tabla de recetas borradas
+DROP TABLE IF EXISTS recetas_borradas;
+CREATE TABLE recetas_borradas (
+  id_receta int,
+  titulo varchar(200) NOT NULL,
+  descripcion text NOT NULL,
+  img_receta VARCHAR(255),
+  fecha_publicacion timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  contador_de_recomendaciones int NOT NULL DEFAULT 0,
+  fk_usuario int NOT NULL,
+  fk_categoria int NOT NULL,
+  FOREIGN KEY (fk_usuario) REFERENCES usuarios (id_usuario),
+  FOREIGN KEY (fk_categoria) REFERENCES categorias (id_categoria),
+  PRIMARY KEY (id_receta)
+);
 
--- tabla que relaciona recetas borradas e ingredborradas
+
+-- tabla que relaciona recetas borradas e ingredientes
 DROP TABLE IF EXISTS recetas_borradas_ingredientes;
 CREATE TABLE recetas_borradas_ingredientes (
-  id_receta_ingrediente int AUTO_INCREMENT,
+  id_receta_ingrediente int,
   cantidad double NOT NULL,
   unidad_medida varchar(15) NOT NULL,
   fk_receta int NOT NULL,
   fk_ingrediente int NOT NULL,
-  FOREIGN KEY (fk_receta) REFERENCES recetas (id_receta),
+  FOREIGN KEY (fk_receta) REFERENCES recetas_borradas (id_receta),
   FOREIGN KEY (fk_ingrediente) REFERENCES ingredientes (id_ingrediente),
   PRIMARY KEY (id_receta_ingrediente)
 );
@@ -121,6 +121,7 @@ CREATE TABLE usuarios_recomendaciones (
   FOREIGN KEY (fk_receta) REFERENCES recetas (id_receta),
   PRIMARY KEY (id_usuario_like)
 );
+
 
 -- insertar los 3 roles 
 INSERT INTO roles (nombre_rol) 
@@ -206,7 +207,6 @@ INSERT INTO ingredientes (nombre_ingrediente) VALUES
 ('Semillas de lino'),
 ('Semillas de calabaza'),
 ('Semillas de girasol'),
-('Mantequilla de maní (sin sal y sin azúcar)'),
 ('Hígado de pollo'),
 ('Hígado de res'),
 ('Músculo de pollo'),
@@ -247,7 +247,7 @@ INSERT INTO ingredientes (nombre_ingrediente) VALUES
 ('Mijo'),
 ('Habas'),
 ('Miel'),
-('Crema de cacahuate (sin azúcar)'),
+('Crema de cacahuate'),
 ('Caldo de hueso de pollo'),
 ('Caldo de hueso de res'),
 ('Carne de pato'),
@@ -264,32 +264,28 @@ INSERT INTO ingredientes (nombre_ingrediente) VALUES
 ('Palmitos'),
 ('Mandarina'),
 ('Toronja'),
-('Uvas (sin semilla)'),
 ('Dátil sin hueso'),
 ('Jengibre'),
 ('Sésamo'),
 ('Amaranto'),
 ('Maíz cocido'),
-('Papas (cocidas y peladas)'),
+('Papas'),
 ('Polenta'),
 ('Trigo sarraceno'),
 ('Yuca cocida'),
 ('Achiote'),
-('Ajo (en pequeñas cantidades)'),
+('Ajo'),
 ('Tomillo fresco'),
 ('Cilantro fresco'),
 ('Orégano fresco'),
-('Sábila (en pequeñas cantidades)'),
 ('Hinojo'),
 ('Diente de león'),
 ('Col morada'),
 ('Cilantro molido'),
-('Canela (en pequeñas cantidades)'),
 ('Arroz blanco (cocido)'),
 ('Tapioca'),
 ('Trucha'),
 ('Carne de cabra'),
-('Chucrut (sin sal)'),
 ('Frutos secos sin sal'),
 ('Pimientos dulces'),
 ('Berros'),
@@ -303,11 +299,10 @@ INSERT INTO ingredientes (nombre_ingrediente) VALUES
 ('Pollo asado'),
 ('Carne magra de cerdo'),
 ('Piñones'),
-('Pipas de girasol sin sal'),
+('Pipas de girasol'),
 ('Frutos rojos'),
 ('Lecitina de soja'),
 ('Manteca de coco'),
-('Té de manzanilla (sin azúcar)'),
 ('Yogur sin lactosa'),
 ('Queso sin sal'),
 ('Chirimoya'),
@@ -331,7 +326,6 @@ INSERT INTO ingredientes (nombre_ingrediente) VALUES
 ('Alfalfa'),
 ('Brotes de trigo'),
 ('Borraja'),
-('Col fermentada (sin sal)'),
 ('Eneldo fresco'),
 ('Tomate deshidratado'),
 ('Levadura nutricional'),
@@ -347,7 +341,6 @@ INSERT INTO ingredientes (nombre_ingrediente) VALUES
 ('Harina de garbanzo'),
 ('Harina de arroz integral'),
 ('Harina de coco'),
-('Puré de manzana sin azúcar'),
 ('Sésamo tostado'),
 ('Chayote cocido'),
 ('Frambuesas frescas'),
@@ -391,7 +384,7 @@ INSERT INTO ingredientes (nombre_ingrediente) VALUES
 ('Cuscús de garbanzo'),
 ('Pasta de quinoa'),
 ('Avena sin gluten'),
-('Leche de coco sin azúcar');
+('Leche de coco');
 
 -- incrementar el contador de recomendaciones cuando se da like a una receta
 DELIMITER $$
