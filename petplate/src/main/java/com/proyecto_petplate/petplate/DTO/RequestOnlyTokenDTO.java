@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RecipeRequestRecommendationDTO {
+public class RequestOnlyTokenDTO {
     private String token;
 }

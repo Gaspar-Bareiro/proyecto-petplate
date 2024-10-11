@@ -164,4 +164,36 @@ public class UserService {
         return ResponseEntity.ok(response);
 
     }
+
+    public ResponseEntity<?> obtenerTodosLosAuditores(String token) {
+
+        //verifica si el token es valido
+        if (!jwtService.isTokenValid(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token de sesion invalido"); //401
+        }
+
+        //obtiene el usuario del token
+        User userToken = userRepo.getUserByUserName(jwtService.getUsernameFromToken(token));
+
+        //verifica que tenga los permisos nesesarios 
+        if (!userToken.getUserRol().getRolName().equals(EnumRolName.Administrador)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("El usuario tiene el rol " + userToken.getUserRol().getRolName() + " no el de Administrador"); //401
+        }
+
+        //obtiene los auditores de la base de datos
+        java.util.Optional<java.util.List<User>> usuariosOptional = userRepo.findByUserRol_RolName(EnumRolName.Auditor);
+        //verifica si hay usuarios con el rol auditor
+        if (!usuariosOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("No exiten usuarios con el rol de Auditor."); //409
+        }
+
+        java.util.List<User> usuarios = usuariosOptional.get();
+
+        String[] response = usuarios.stream()// Inicia array de usuarios
+            .map(User::getUserName)   // Extrae el userName de cada usuario
+            .toArray(String[]::new);  // Convierte el stream en un arreglo de Strings
+
+
+        return ResponseEntity.ok(response);
+    }
 }

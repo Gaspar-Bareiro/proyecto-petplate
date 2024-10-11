@@ -1,5 +1,6 @@
 package com.proyecto_petplate.petplate.Repositories;
 
+import com.proyecto_petplate.petplate.Entities.EnumRolName;
 import com.proyecto_petplate.petplate.Entities.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     public User getUserByUserName(String userName);
 
+    // Query method para encontrar todos los con un rol
+    java.util.Optional<java.util.List<User>> findByUserRol_RolName(EnumRolName rolName);
 }
