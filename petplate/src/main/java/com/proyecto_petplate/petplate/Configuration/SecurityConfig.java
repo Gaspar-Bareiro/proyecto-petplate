@@ -17,7 +17,6 @@ public class SecurityConfig {
         http
         .csrf(csrf -> csrf.disable())  // Deshabilitar CSRF con lambda
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/back_office/**").authenticated()  // Requiere autenticación para rutas que comiencen con /back_ofice
             .anyRequest().permitAll()  // Permitir acceso a cualquier otra ruta sin autenticación
         )
         .httpBasic(withDefaults());  // Habilitar la autenticación HTTP básica con configuración predeterminada

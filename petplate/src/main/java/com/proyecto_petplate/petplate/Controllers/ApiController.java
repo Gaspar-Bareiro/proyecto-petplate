@@ -146,6 +146,12 @@ public class ApiController {
     public ResponseEntity<?> sacarRecomendacionReceta(@PathVariable int recipeId,@RequestBody RecipeRequestRecommendationDTO token) {
         return recipeService.removeRecommendation(recipeId, token.getToken());
     }
+
+    @PostMapping("/back_office/getAuditors")
+    public ResponseEntity<?> obtenerTodosLosAuditores() {
+        return null;
+    }
+    
     
 
 }
