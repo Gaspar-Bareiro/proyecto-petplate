@@ -18,6 +18,7 @@ import com.proyecto_petplate.petplate.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -124,7 +125,7 @@ public class ApiController {
     }
     
     //obtener array de ingredientes
-    @PostMapping("/ingredients/get")
+    @GetMapping("/ingredients")
     public ResponseEntity<?> obtenerArrayIngredientes() {
         return ResponseEntity.ok(ingredientService.obtenerNombresIngredientes());
     }
@@ -146,7 +147,7 @@ public class ApiController {
         return recipeService.removeRecommendation(recipeId, token.getToken());
     }
 
-    @PostMapping("/back_office/getAuditors")
+    @GetMapping("/back_office/auditors")
     public ResponseEntity<?> obtenerTodosLosAuditores(@RequestBody RequestOnlyTokenDTO token) {
         return userService.obtenerTodosLosAuditores(token.getToken());
     }
