@@ -28,7 +28,7 @@ public class UserService {
     private UserRepository userRepo;
 
     @Autowired
-    private RolRepository RolRepo;
+    private RolRepository rolRepo;
 
     @Autowired
     private SessionRepository sessionRepo;
@@ -102,7 +102,7 @@ public class UserService {
 
         //una vez pasadas todas las verificaciones crea un objeto usuario y lo inserta en la DB
         User usuarioFinal = new User();
-        Rol rol = RolRepo.findByRolName(EnumRolName.Usuario);
+        Rol rol = rolRepo.findByRolName(EnumRolName.Usuario);
         usuarioFinal.setUserName(name);
         usuarioFinal.setUserEmail(email);
         usuarioFinal.setUserImg(null);
@@ -195,5 +195,78 @@ public class UserService {
 
 
         return ResponseEntity.ok(response);
+    }
+
+    public ResponseEntity<?> darRolAuditor(String token, String userName) {
+        
+        //verifica si el token es valido
+        if (!jwtService.isTokenValid(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token de sesion invalido"); //401
+        }
+
+        //obtiene el usuario del token
+        User userToken = userRepo.getUserByUserName(jwtService.getUsernameFromToken(token));
+
+        //verifica que tenga los permisos nesesarios 
+        if (!userToken.getUserRol().getRolName().equals(EnumRolName.Administrador)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("El usuario del token no es un Administrador"); //401
+        }
+
+        //verifica que el usuario al darle el rol de auditor existe
+        if (!userRepo.existsByUserName(userName)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Usuario "+ userName +" no exite."); //409
+        }
+
+        //obtiene el usuario al dar el rol auditoe
+        User newAuditor = userRepo.getUserByUserName(userName);
+
+        //verifica que el usuario tenga el rol "Usuario"
+        if (!newAuditor.getUserRol().getRolName().equals(EnumRolName.Usuario)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Usuario debe tener el rol de Usuario."); //409
+        }
+
+        newAuditor.setUserRol(rolRepo.findByRolName(EnumRolName.Auditor));
+
+        userRepo.save(newAuditor);
+
+
+        //se designo el rol con exito
+        return ResponseEntity.status(HttpStatus.OK).body("OK");
+    }
+
+    public ResponseEntity<?> sacarRolAuditor(String token, String userName) {
+        
+        //verifica si el token es valido
+        if (!jwtService.isTokenValid(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token de sesion invalido"); //401
+        }
+
+        //obtiene el usuario del token
+        User userToken = userRepo.getUserByUserName(jwtService.getUsernameFromToken(token));
+
+        //verifica que tenga los permisos nesesarios 
+        if (!userToken.getUserRol().getRolName().equals(EnumRolName.Administrador)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("El usuario del token no es un Administrador"); //401
+        }
+
+        //verifica que el usuario al darle el rol de auditor existe
+        if (!userRepo.existsByUserName(userName)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Usuario "+ userName +" no exite."); //409
+        }
+
+        //obtiene el usuario al dar el rol auditor
+        User newAuditor = userRepo.getUserByUserName(userName);
+
+        //verifica que el usuario tenga el rol "AUDITOR"
+        if (!newAuditor.getUserRol().getRolName().equals(EnumRolName.Auditor)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Usuario debe tener el rol de auditor."); //409
+        }
+
+        newAuditor.setUserRol(rolRepo.findByRolName(EnumRolName.Usuario));
+
+        userRepo.save(newAuditor);
+
+        //se designo el rol con exito
+        return ResponseEntity.status(HttpStatus.OK).body("OK");
     }
 }

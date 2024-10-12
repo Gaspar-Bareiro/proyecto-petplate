@@ -12,6 +12,7 @@ import com.proyecto_petplate.petplate.DTO.UserRequestLoginDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestRegisterDTO;
 import com.proyecto_petplate.petplate.DTO.IngredientDTO;
 import com.proyecto_petplate.petplate.DTO.RequestOnlyTokenDTO;
+import com.proyecto_petplate.petplate.DTO.RequestTokenAndUserNameDTO;
 import com.proyecto_petplate.petplate.services.IngredientService;
 import com.proyecto_petplate.petplate.services.RecipeService;
 import com.proyecto_petplate.petplate.services.UserService;
@@ -152,6 +153,17 @@ public class ApiController {
         return userService.obtenerTodosLosAuditores(token.getToken());
     }
     
+    @PostMapping("/back_office/auditors/create")
+    public ResponseEntity<?> darRolAuditor(@RequestBody RequestTokenAndUserNameDTO request) {
+        return userService.darRolAuditor(request.getToken(),request.getUserName());
+    }
+
+    @PostMapping("/back_office/auditors/remove")
+    public ResponseEntity<?> sacarRolAuditor(@RequestBody RequestTokenAndUserNameDTO request) {
+        return userService.sacarRolAuditor(request.getToken(),request.getUserName());
+    }
+
+
     
 
 }
