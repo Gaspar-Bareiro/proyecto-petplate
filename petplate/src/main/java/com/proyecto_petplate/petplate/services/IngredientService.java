@@ -1,10 +1,15 @@
 package com.proyecto_petplate.petplate.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.proyecto_petplate.petplate.Entities.EnumRolName;
 import com.proyecto_petplate.petplate.Entities.Ingredient;
+import com.proyecto_petplate.petplate.Entities.User;
 import com.proyecto_petplate.petplate.Repositories.IngredientRepository;
+import com.proyecto_petplate.petplate.Repositories.UserRepository;
 
 import java.util.Arrays;
 
@@ -15,6 +20,12 @@ public class IngredientService {
 
     @Autowired
     private IngredientRepository ingredientRepo;
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private UserRepository userRepo;
 
     private java.util.List<Ingredient> ingredientesList;
     private String[] ingredientesArray;
@@ -87,6 +98,46 @@ public class IngredientService {
         return ingredientes.stream()
                 .map(Ingredient::getIngredientName) // Extrae el nombre de cada ingrediente
                 .toArray(String[]::new); // Convierte a un arreglo
+    }
+
+    public ResponseEntity<?> crearIngrediente(String token, String ingredientName) {
+        
+        //verifica si el token es valido
+        if (!jwtService.isTokenValid(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token de sesion invalido"); //401
+        }
+
+        //obtiene el usuario del token
+        User userToken = userRepo.getUserByUserName(jwtService.getUsernameFromToken(token));
+
+        //verifica que tenga los permisos nesesarios 
+        if (!userToken.getUserRol().getRolName().equals(EnumRolName.Administrador)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("El usuario del token no es un Administrador"); //401
+        }
+
+        //verifica que el nombre del ingrediente no tenga ente 3 y 30 caracteres
+        if (ingredientName.length() > 30 || ingredientName.length() < 3) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("El nombre del ingrediente debe tener entre 3 y 30 caracteres"); //422
+        }
+        //le saca los espacios al pricipio y al final del String
+        String ingrediente = ingredientName.trim();
+        //pasa el primer caracter a mayuculas y los demas a minusculas
+        ingrediente = ingrediente.substring(0, 1).toUpperCase() + ingrediente.substring(1).toLowerCase();
+
+        //verifica que el ingrediente no exista en la base de datos
+        if (java.util.Arrays.asList(obtenerNombresIngredientes()).contains(ingrediente)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("El ingrediente ya existe en la base de datos"); //409
+        }
+
+        //crea el ingrediente y lo guarda el ingrediente en la base de datos
+        ingredientRepo.save(Ingredient.builder().ingredientName(ingredientName).build());
+
+
+        //actualiza la lista y el areglo de ingredientes
+        refreshIngredientArray();
+
+        //se creo el ingrediente con exito
+        return ResponseEntity.status(HttpStatus.OK).body("OK");
     }
 
 

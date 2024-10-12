@@ -12,6 +12,7 @@ import com.proyecto_petplate.petplate.DTO.UserRequestLoginDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestRegisterDTO;
 import com.proyecto_petplate.petplate.DTO.IngredientDTO;
 import com.proyecto_petplate.petplate.DTO.RequestOnlyTokenDTO;
+import com.proyecto_petplate.petplate.DTO.RequestTokenAndIngredientNameDTO;
 import com.proyecto_petplate.petplate.DTO.RequestTokenAndUserNameDTO;
 import com.proyecto_petplate.petplate.services.IngredientService;
 import com.proyecto_petplate.petplate.services.RecipeService;
@@ -163,6 +164,11 @@ public class ApiController {
         return userService.sacarRolAuditor(request.getToken(),request.getUserName());
     }
 
+    @PostMapping("/back_office/ingredients/create")
+    public ResponseEntity<?> postMethodName(@RequestBody RequestTokenAndIngredientNameDTO request) {
+        return ingredientService.crearIngrediente(request.getToken(),request.getIngredientName());
+    }
+    
 
     
 
