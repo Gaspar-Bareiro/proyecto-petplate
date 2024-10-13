@@ -22,4 +22,8 @@ public interface RecipeRepository extends JpaRepository <Recipe, Integer>{
     java.util.Optional<java.util.List<Recipe>> findByCategoryAndSubCategory(
     @Param("categoryName") String categoryName,
     @Param("subcategoryName") String subcategoryName);
+
+    // Método para obtener todas las recetas de un usuario específico
+    @Query("SELECT r FROM recetas r WHERE r.recipeUser = :user")
+    java.util.Optional<java.util.List<Recipe>> findByUser(@Param("user") User user);
 }

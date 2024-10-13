@@ -70,6 +70,7 @@ body {
 }
 
 .item--crear-receta{
+    display: none;
     background-color: #696868A6;
     border-radius: 7px;
 }
@@ -188,6 +189,10 @@ body {
     display: flex;
 }
 
+.RCT-reportar-receta{
+    display: none;
+}
+
 .RCT-interacciones>img {
     height: 47px;
     width: 47px;
@@ -196,14 +201,18 @@ body {
 
 .RCT-titulo {
     margin: 0;
-    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 15px;
     font-size: 42px;
     text-wrap: balance;
-    max-height: 70%;
+    min-height: 70%;
+
 }
 
 .RCT-usuario {
-    margin-left: 15px;
+    margin-top: 5px;
+    margin-left: 30px;
+    display: block;
 }
 
 .RCT-usuario>a{
@@ -287,6 +296,16 @@ body {
     max-width: 100%;
     object-fit: contain;
 }
+
+.RCT-titulo-and-user{
+    flex-grow: 1;
+}
+
+.RCT-foto-receta-categoria {
+    width: 76px;
+    height: 76px;
+    border-radius: 200px;
+}
 /* layout pagina perfil PFL -------------------------------------------------------------------------------------------- */
 
 .PFL-main {
@@ -308,9 +327,14 @@ body {
     align-self: center;
 }
 
-.RCT-titulo {
+.RCT-categoria {
+    color: #9a300a;
+}
+.PFL-titulo {
+    margin: 0;
+    margin-bottom: 50px;
+    font-size: 42px;
     text-align: center;
-    margin-bottom: 30px;
 }
 /* layout pagina crear receta CR ----------------------------------------------------------------------------------------- */
 
@@ -481,7 +505,7 @@ input[type=number] {
     width: 12vw;
     height: 70vh;
     margin-top: 70px;
-    background-image: url(img/anuncio.png);
+    background-image: url(/img/anuncio.png);
     position: sticky;
     box-sizing: content-box;
     border: 3px solid #444;
@@ -489,11 +513,11 @@ input[type=number] {
 }
 
 .anuncioIzquierdo {
-    background-image: url(img/anuncioIzquierdo.png);
+    background-image: url(/img/anuncioIzquierdo.png);
 }
 
 .anuncioDerecho {
-    background-image: url(img/anuncioDerecho.png);
+    background-image: url(/img/anuncioDerecho.png);
 }
 
 /* ventanas modales ------------------------------------------------------------------------------------------------------ */

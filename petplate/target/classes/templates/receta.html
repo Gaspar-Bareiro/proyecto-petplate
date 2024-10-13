@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>page name</title>
-    <link rel="stylesheet" href="styles.css">
+    <title th:text="${titulo}">page name</title>
+    <link rel="stylesheet" href="/css/styles.css">
     <link rel="icon" href="img/chuleta icon.png" type="png">
 </head>
 
@@ -17,7 +17,7 @@
             <form method="dialog" class="modal-iniciar-sesion__close-button">
                 <button>X</button>
             </form>
-            <img src="img/logo-blanco.png" alt="logo" class="iniciar-sesion__logo">
+            <img src="/img/logo-blanco.png" alt="logo" class="iniciar-sesion__logo">
             <h2 class="iniciar-sesion__titulo">Login</h2>
             <form action="post">
                 <input type="text" class="input-form" placeholder="Usuario">
@@ -34,7 +34,7 @@
             <form method="dialog" class="modal-crear-cuenta__close-button">
                 <button>X</button>
             </form>
-            <img src="img/logo-blanco.png" alt="logo" class="crear-cuenta__logo">
+            <img src="/img/logo-blanco.png" alt="logo" class="crear-cuenta__logo">
             <h2 class="crear-cuenta__titulo">Crear Cuenta</h2>
             <form action="post" class="modal-form">
                 <input type="text" class="input-form-crear-cuenta" placeholder="Nombre de Usuario">
@@ -94,23 +94,26 @@
             <ul class="nav__list">
                 <li class="nav__list__item  item--logo">
                     <a href="main.html">
-                        <img src="img/logo.png" alt="logo">
+                        <img src="/img/logo.png" alt="logo">
                     </a>
                 </li>
                 
 
                 <li class="nav__list__item item--buscador OPEN-modal-buscar-receta">
-                    <img src="img/lupa.png" alt="buscar" class="item--buscador--img">
+                    <img src="/img/lupa.png" alt="buscar" class="item--buscador--img">
                     <span>Buscar</span>
                 </li>
                 
                 <li class="nav__list__item nav__list__item--flex">
+
                     <a class="item--crear-receta" href="crearReceta.html">
-                        <img src="img/crear-receta.png" alt="boton-crear-receta">
+                        <img src="/img/crear-receta.png" alt="boton-crear-receta">
                     </a>
                     
                     <div class="item--iniciar-sesion OPEN-modal-iniciar-sesion">Iniciar Sesion</div>
-                    <img src="img/imagen4k.avif" alt="" class="foto-perfil-header">
+
+
+                    <img src="/img/imagen4k.avif" alt="" class="foto-perfil-header">
                 </li>
             </ul>
         </nav>
@@ -123,43 +126,44 @@
         <main class="RCT-main">
 
             <div class="RCT-encabezado">
-                <h1 class="RCT-titulo">Titulo de receta</h1>
-                <div class="RCT-interacciones">
-                    <img src="img/Report.png" alt="botoon Reportar receta" class="RCT-reportar-receta">
-                    <img src="img/Fav.png" alt="botoon Recomendar receta" class="RCT-recomendar-receta">
+
+                <img th:src="@{/img/{imgCategoria}(imgCategoria=${imgCategoria})}" alt="foto-perfil" class="RCT-foto-receta-categoria">
+
+                <div class="RCT-titulo-and-user">
+                    <h1 class="RCT-titulo" th:text="${titulo}">Titulo de receta</h1>
+                    <span  class="RCT-usuario">De <a  th:text="${usuario}"   th:href="@{/profile/{id}(id=${recipeUserId})}" >Nombre de Usuario</a></span>
                 </div>
+                
+                
+                
+                <div class="RCT-interacciones">
+                    <img src="/img/Report.png" alt="botoon Reportar receta" class="RCT-reportar-receta">
+                    <img src="/img/Fav.png" alt="botoon Recomendar receta" class="RCT-recomendar-receta">
+                </div> 
             </div>
             
-            <span  class="RCT-usuario">de <a href="perfil.html">Nombre de Usuario</a></span>
-            <p class="RCT-descripcion">Descripcion de recetas, como una breve descripcion de la comida o informacion que se le quiera informar al lector.No tan larga pero tampoco tan corta, mas o menos de unos 5 renglones. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Libero, aperiam. Exercitationem deleniti aliquid delectus, distinctio aliquaml.</p>
+            
+            <p class="RCT-descripcion" th:text="${descripcion}" >Descripcion de recetas, como una breve descripcion de la comida o informacion que se le quiera informar al lector.No tan larga pero tampoco tan corta, mas o menos de unos 5 renglones. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Libero, aperiam. Exercitationem deleniti aliquid delectus, distinctio aliquaml.</p>
 
             <h2 class="RCT-subtitulo">Detalles:</h2>
-
-            <div class="RCT-tiempo-preparacion">
-                <img src="img/tiempo-preparacion.png" alt="reloj-img">
-                <span>Tiempo</span>
-                <img src="img/regla.png" alt="regla-img">
-                <span>Tamaño</span>
-            </div>
+            <span  class="RCT-usuario">Para <span class="RCT-categoria" th:text="${categoria}">Categoria name</span></span>
 
             <ul class="RCT-lista-ingredientes">
-                <li class="RCT-Ingrediente">ingrediente 1</li>
-                <li class="RCT-Ingrediente">ingrediente 2</li>
-                <li class="RCT-Ingrediente">ingrediente 3</li>
-                <li class="RCT-Ingrediente">ingrediente 4</li>
-                <li class="RCT-Ingrediente">ingrediente 5</li>
-                <li class="RCT-Ingrediente">etc</li>
+                <!-- Aquí se itera sobre los ingredientes -->
+                <li class="RCT-Ingrediente" th:each="ingrediente : ${ingredientes}" th:text="${ingrediente}">
+                    Ingrediente 1
+                </li>
             </ul>
 
-            <div class="RCT-foto">
-                <img src="img/imagen4k.avif" alt="nombre receta" >
+            <div class="RCT-foto" th:if="${recipeImg != null}">
+                <img th:src="@{/recipe-pictures/{recipeImg}(recipeImg=${recipeImg})}" th:alt="${titulo}">
             </div>
         </main>
 
         <div class="anuncioDerecho"></div>
     </div>
     <!--Scripts   ------------------------------------------------------------------>
-    <script src="script.js"></script>
-    <script src="recetaScript.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/recetaScript.js"></script>
 </body>
 </html>
