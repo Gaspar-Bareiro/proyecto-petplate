@@ -160,6 +160,9 @@ body {
     text-overflow: ellipsis;
     overflow: hidden;
 }
+.receta-detalles__ingredientes > span:not(:first-child)::before {
+    content: " - "; /* El contenido que deseas agregar */
+}
 
 .receta-rating {
     flex-grow: 1;

@@ -26,4 +26,8 @@ public interface RecipeRepository extends JpaRepository <Recipe, Integer>{
     // Método para obtener todas las recetas de un usuario específico
     @Query("SELECT r FROM recetas r WHERE r.recipeUser = :user")
     java.util.Optional<java.util.List<Recipe>> findByUser(@Param("user") User user);
+
+
+    @Query("SELECT r FROM recetas r WHERE r.recipeCategory.categoryName = :categoryName AND r.recipeCreatedDate >= :dateLimit ORDER BY r.recipeScore DESC")
+    java.util.List<Recipe> findTopRecipeByCategory(@Param("categoryName") String categoryName, @Param("dateLimit") java.util.Date dateLimit);
 }

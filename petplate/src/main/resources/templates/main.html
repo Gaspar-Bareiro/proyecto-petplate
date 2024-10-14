@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>page name</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <link rel="icon" href="img/chuleta icon.png" type="png">
 </head>
 
@@ -123,75 +123,35 @@
         <main class="main">
             <h1 class="titulo">TOP Semanal</h1>
             <!--una receta -->
-            <div class="carta-receta">
-                <img src="img/perro-avatar.png" alt="Avatar" class="receta-avatar">
-                <div class="receta-detalles">
-                    <a href="receta.html" class="receta-detalles__titulo">Título receta</a>
-                    <p class="receta-detalles__ingredientes">Ingred1 - Ingred2 - Ingred3 - Ingred4 - Ingred5 - Ingred6 - Ingred7 - Ingred8</p>
-                </div>
-                <div class="receta-rating">
-                    <span class="receta-rating__valor">999</span>
-                    <img src="img/estrella.png" class="receta-rating__estrella">
-                </div>
-            </div>
+            <!-- Itera sobre la lista de mejores recetas -->
+            <div th:each="receta : ${mejoresRecetasDatosBasicos}" class="carta-receta">
+                
+                <img th:src="@{${receta.imgCategoria}}" alt="Avatar" class="receta-avatar">
 
-            <!--una receta -->
-            <div class="carta-receta">
-                <img src="img/gato-avatar.png" alt="Avatar" class="receta-avatar">
                 <div class="receta-detalles">
-                    <a href="receta.html" class="receta-detalles__titulo">Título receta</a>
-                    <p class="receta-detalles__ingredientes">Ingred1 - Ingred2 - Ingred3 - Ingred4 - Ingred5 - Ingred6 - Ingred7 - Ingred8</p>
-                </div>
-                <div class="receta-rating">
-                    <span class="receta-rating__valor">999</span>
-                    <img src="img/estrella.png" class="receta-rating__estrella">
-                </div>
-            </div>
+                    
+                    <a th:href="@{/recipe/{recipeId}(recipeId=${receta.recipeId})}" class="receta-detalles__titulo" th:text="${receta.title}">Título receta</a>
+                    
+                    <p class="receta-detalles__ingredientes">
+                        <span th:each="ingrediente : ${receta.ingredientes}" th:text="${ingrediente}">Ingrediente</span>
+                        <!--<span th:if="${!iterStat.last}"> - </span>  Muestra el separador solo si no es el último -->
+                    </p> 
 
-            <!--una receta -->
-            <div class="carta-receta">
-                <img src="img/conejo-avatar.png" alt="Avatar" class="receta-avatar">
-                <div class="receta-detalles">
-                    <a href="receta.html" class="receta-detalles__titulo">Título receta</a>
-                    <p class="receta-detalles__ingredientes">Ingred1 - Ingred2 - Ingred3 - Ingred4 - Ingred5 - Ingred6 - Ingred7 - Ingred8</p>
+                    
                 </div>
-                <div class="receta-rating">
-                    <span class="receta-rating__valor">999</span>
-                    <img src="img/estrella.png" class="receta-rating__estrella">
-                </div>
-            </div>
 
-            <!--una receta -->
-            <div class="carta-receta">
-                <img src="img/tortuga-avatar.png" alt="Avatar" class="receta-avatar">
-                <div class="receta-detalles">
-                    <a href="receta.html" class="receta-detalles__titulo">Título receta</a>
-                    <p class="receta-detalles__ingredientes">Ingred1 - Ingred2 - Ingred3 - Ingred4 - Ingred5 - Ingred6 - Ingred7 - Ingred8</p>
-                </div>
                 <div class="receta-rating">
-                    <span class="receta-rating__valor">999</span>
+                    <span class="receta-rating__valor" th:text="${receta.Score}">999</span>
                     <img src="img/estrella.png" class="receta-rating__estrella">
                 </div>
             </div>
-
-            <!--una receta -->
-            <div class="carta-receta">
-                <img src="img/pajaro-avatar.png" alt="Avatar" class="receta-avatar">
-                <div class="receta-detalles">
-                    <a href="receta.html" class="receta-detalles__titulo">Título receta</a>
-                    <p class="receta-detalles__ingredientes">Ingred1 - Ingred2 - Ingred3 - Ingred4 - Ingred5 - Ingred6 - Ingred7 - Ingred8</p>
-                </div>
-                <div class="receta-rating">
-                    <span class="receta-rating__valor">999</span>
-                    <img src="img/estrella.png" class="receta-rating__estrella">
-                </div>
-            </div>
+            
             
         </main>
 
         <div class="anuncioDerecho"></div>
     </div>
     <!--Scripts   ------------------------------------------------------------------>
-    <script src="script.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>

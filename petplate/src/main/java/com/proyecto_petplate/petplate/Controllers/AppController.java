@@ -5,6 +5,7 @@ package com.proyecto_petplate.petplate.Controllers;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.proyecto_petplate.petplate.DTO.RecipeBasicDataDTO;
 import com.proyecto_petplate.petplate.DTO.RecipeResponseSearchDTO;
 import com.proyecto_petplate.petplate.Entities.Recipe;
 import com.proyecto_petplate.petplate.Entities.RecipeIngredientRelationship;
@@ -14,11 +15,16 @@ import com.proyecto_petplate.petplate.Repositories.RecipeRepository;
 import com.proyecto_petplate.petplate.Repositories.UserRepository;
 import com.proyecto_petplate.petplate.services.IngredientService;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import lombok.RequiredArgsConstructor;
+
 
 
 
@@ -140,7 +146,46 @@ public class AppController {
         return "error404";
     }
     
+    @GetMapping("/")
+    public String getMethodName(Model model) {
+        
+        // Obtén la fecha hace una semana
+        java.util.Date fechaHaceUnaSemana = java.util.Date.from(Instant.now().minus(7, ChronoUnit.DAYS));
 
+        // Inicialización de la lista vacía
+        java.util.List<Recipe> listaRecetas = new ArrayList<>();
+
+        // Consultas para obtener las mejores recetas por categoría
+        String[] categorias = {"Perro", "Gato", "Conejo", "Tortuga", "Ave"};
+
+        for (String categoria : categorias) {
+            java.util.List<Recipe> recetas = recipeRepo.findTopRecipeByCategory(categoria, fechaHaceUnaSemana);
+            if (!recetas.isEmpty()) {
+                listaRecetas.add(recetas.get(0)); // Añade la mejor receta de la categoría
+            }
+        }
+
+        if (!listaRecetas.isEmpty()) {
+
+            java.util.List<RecipeBasicDataDTO> mejoresRecetasDatosBasicos = listaRecetas.stream()
+                .map(receta -> 
+                    RecipeBasicDataDTO.builder()
+                        .recipeId(receta.getRecipeId())   // Mapea el ID de la receta
+                        .title(receta.getRecipeTitle())   // Mapea el título de la receta
+                        .Score(receta.getRecipeScore())   // Mapea el puntaje de la receta
+                        .imgCategoria("/img/" + receta.getRecipeCategory().getCategoryName() + "-avatar.png")
+                        // Mapea los ingredientes de la receta a un array de String
+                        .ingredientes(ingredientService.obtenerNombresDeIngredientes(recipeIngredientRelationshipRepo.findIngredientsByRecipeId(receta.getRecipeId())))
+                        .build() // Cierra el builder aquí
+                ) // Termina el mapeo aquí
+                .collect(java.util.stream.Collectors.toList()); // Recolecta la lista aquí
+            
+            model.addAttribute("mejoresRecetasDatosBasicos", mejoresRecetasDatosBasicos);
+        }
+
+        return "main";
+    }
+    
 
 
 }
