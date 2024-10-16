@@ -819,6 +819,15 @@ dialog {
 }
 .CR-resultados > div> div {
     background-color: transparent;
+    user-select: none;
+}
+
+.CR-resultados > div > div:not(:first-child) {
+    display: inline-block; /* Corregido el error tipográfico */
+}
+
+.CR-resultados > div > div:last-child {
+    margin-left: 5px;
 }
 
 .resultados div:hover, .CR-resultados > div:hover{

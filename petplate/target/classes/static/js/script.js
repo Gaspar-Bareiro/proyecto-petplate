@@ -101,6 +101,7 @@ function initCustomSelect(animalId, tipoId, opcionesMap) {
         itemsAnimal.style.display = itemsAnimal.style.display === 'block' ? 'none' : 'block';
     });
 
+
     // Gestiona la selección de una opción del combobox de animales
     itemsAnimal.addEventListener('click', (event) => {
         // Verifica si el elemento tiene un atributo data-value, lo que indica que es una opción válida
@@ -134,6 +135,15 @@ function initCustomSelect(animalId, tipoId, opcionesMap) {
             itemsTipo.style.display = 'none';
         }
     });
+
+    // --- NUEVA LÓGICA: Al cargar la página, verificar si el animal ya es válido ---
+    const animalActual = selectedAnimal.textContent; // Guarda el valor actual del animal
+    if (opcionesMap[animalActual]) {
+        // Si el valor actual de `selectedAnimal` tiene opciones válidas
+        const tipoActual = selectedTipo.textContent; // Guarda el valor actual del tipo
+        actualizarComboBoxTipo(animalActual, selectedTipo, itemsTipo, tipoContainer, opcionesMap);
+        selectedTipo.textContent = tipoActual; // Restaura el valor del tipo después de la actualización
+    }
 }
 
 // Función para actualizar las opciones del combobox "tipo" según el animal seleccionado
@@ -192,7 +202,7 @@ initCustomSelect('BR', 'BR', opcionesMap); // Inicializa el combobox para "busca
 
 // Array de ingredientes
 const ingredientes = [
-    "tomate", "papa", "cebolla", "arroz", "peperoni", "lechuga", "zanahoria", 
+    "tomate", "papa", "cebolla", "Arroz", "peperoni", "lechuga", "zanahoria", 
     "brócoli", "espinaca", "pimiento", "ajo", "jengibre", "champiñón", 
     "berenjena", "calabacín", "alcachofa", "perejil", "cilantro", "orégano", 
     "albahaca", "mostaza", "salsa de soja", "mayonesa", "ketchup", "mantequilla", 
@@ -204,7 +214,7 @@ const ingredientes = [
     "nuez moscada", "canela", "vainilla", "clavo", "anís", 
     "coco", "almendra", "nuez", "pistacho", "cacahuate", 
     "avellana", "pasas", "higo", "dátiles", "mora", 
-    "frambuesa", "fresa", "plátano", "manzana", "pera", 
+    "frambuesa", "fresa", "plátano", "manzana", "Pera", 
     "uva", "kiwi", "piña", "mango", "cereza", 
     "sandía", "melón", "limón", "naranja", "mandarina", 
     "aguacate", "aceituna", "pesto", "salsa de tomate", "salsa de chile", 

@@ -74,7 +74,7 @@ function createCustomSelect(selectedSelector, itemsSelector) {
         }
     });
 }
-//CODIGO MAGICO BY CHAT GPT  --------------------------------------------------------------------------------------
+//CODIGO ingredientes  --------------------------------------------------------------------------------------
 
 // Referencias a los elementos del DOM
 const ingredienteInputCR = document.querySelector('.CR-ingrediente-input'); // Referencia al input para el ingrediente
@@ -184,9 +184,11 @@ const errorLabelCR = document.querySelector('.CR-error-capa-8'); // Referencia a
 
 // Función para verificar si el ingrediente ya ha sido agregado
 const ingredienteYaAgregadoCR = (ingrediente) => {
-    const divsExistentesCR = resultadosCR.querySelectorAll('div'); // Obtiene todos los divs en resultados
-    // Comprueba si algún div ya contiene el ingrediente
-    return Array.from(divsExistentesCR).some(div => div.textContent.includes(ingrediente)); 
+    // Obtiene todos los divs de ingredientes (que tienen la clase específica para ingredientes)
+    const divsIngredientesCR = resultadosCR.querySelectorAll('.CR-resultado-ingrediente');
+    
+    // Comprueba si algún div ya contiene exactamente el mismo ingrediente
+    return Array.from(divsIngredientesCR).some(div => div.textContent.trim() === ingrediente.trim());
 };
 
 // Función para agregar el ingrediente, cantidad y unidad a los resultados
@@ -196,7 +198,7 @@ const funcionAgregarIngredienteCR = () => {
     const unidadValorCR = unidadSeleccionadaCR.textContent.trim(); // Obtiene la unidad seleccionada
 
     // Verifica que los campos no estén vacíos
-    if (ingredienteValorCR && cantidadValorCR && unidadValorCR !== 'Medida') {
+    if (ingredienteValorCR && cantidadValorCR && unidadValorCR !== 'Medida' && Number(cantidadValorCR) > 0) {
         // Verifica si el ingrediente no ha sido agregado
         if (!ingredienteYaAgregadoCR(ingredienteValorCR)) {
             // Crear un nuevo div contenedor para el ingrediente
@@ -210,21 +212,22 @@ const funcionAgregarIngredienteCR = () => {
             // Crear div para la cantidad
             const cantidadDivCR = document.createElement('div');
             cantidadDivCR.classList.add('CR-resultado-cantidad'); // Añade una clase para la cantidad
-            cantidadDivCR.textContent = `${cantidadValorCR} ${unidadValorCR}`; // Establece el texto de la cantidad
+            cantidadDivCR.textContent = cantidadValorCR; // Establece el texto de la cantidad
+
+            // Crear div para la unidad de medida
+            const unidadDivCR = document.createElement('div');
+            unidadDivCR.classList.add('CR-resultado-unidad'); // Añade una clase para la unidad de medida
+            unidadDivCR.textContent = unidadValorCR; // Establece el texto de la unidad de medida
 
             // Añadir los divs al contenedor
             nuevoDivCR.appendChild(ingredienteDivCR); // Añade el div del ingrediente al contenedor
             nuevoDivCR.appendChild(cantidadDivCR); // Añade el div de la cantidad al contenedor
+            nuevoDivCR.appendChild(unidadDivCR); // Añade el div de la unidad al contenedor
             resultadosCR.appendChild(nuevoDivCR); // Añade el contenedor a los resultados
-
-            // Agregar evento de clic para eliminar el div
-            nuevoDivCR.addEventListener('click', () => {
-                resultadosCR.removeChild(nuevoDivCR); // Elimina el div de resultados al hacer clic
-            });
 
             // Limpiar los campos después de agregar
             ingredienteInputCR.value = ''; // Limpia el input de ingrediente
-            ingredienteInputCR.style.color = '#000' // cambie el color a negro
+            ingredienteInputCR.style.color = '#000'; // Cambia el color a negro
             cantidadInputCR.value = ''; // Limpia el input de cantidad
             unidadSeleccionadaCR.textContent = 'Medida'; // Restablece la unidad seleccionada
             errorLabelCR.style.display = 'none'; // Hacer invisible el label de error
@@ -239,6 +242,29 @@ const funcionAgregarIngredienteCR = () => {
         errorLabelCR.style.display = 'block'; // Hacer visible el label de error
     }
 };
+// Elimina los resultados al hacer clic
+document.addEventListener('DOMContentLoaded', () => {
+    // Selecciona el contenedor principal que tiene la clase 'CR-resultados'
+    const resultadosContainer = document.querySelector('.CR-resultados');
+
+    // Verifica si el contenedor existe antes de aplicar eventos
+    if (resultadosContainer) {
+        // Agregar un evento al contenedor principal para que actúe en sus hijos
+        resultadosContainer.addEventListener('click', (event) => {
+            // Encuentra el div más cercano que contenga el ingrediente
+            const clickedDiv = event.target.closest('.CR-resultado-ingrediente, .CR-resultado-cantidad, .CR-resultado-unidad');
+
+            // Verifica que clickedDiv sea un hijo directo del contenedor
+            if (clickedDiv) {
+                // Elimina el div padre que contiene el ingrediente, cantidad y unidad
+                const parentDiv = clickedDiv.parentNode; // Obtiene el div padre
+                if (parentDiv && parentDiv.parentNode === resultadosContainer) {
+                    resultadosContainer.removeChild(parentDiv); // Elimina el div padre
+                }
+            }
+        });
+    }
+});
 
 // Evento al hacer clic en el botón para agregar ingrediente
 agregarIngredienteCR.addEventListener('click', funcionAgregarIngredienteCR);

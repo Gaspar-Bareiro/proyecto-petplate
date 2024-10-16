@@ -5,6 +5,7 @@ package com.proyecto_petplate.petplate.Controllers;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.proyecto_petplate.petplate.DTO.IngredientDTO;
 import com.proyecto_petplate.petplate.DTO.RecipeBasicDataDTO;
 import com.proyecto_petplate.petplate.DTO.RecipeResponseSearchDTO;
 import com.proyecto_petplate.petplate.Entities.Recipe;
@@ -18,12 +19,14 @@ import com.proyecto_petplate.petplate.services.IngredientService;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import lombok.RequiredArgsConstructor;
+
 
 
 
@@ -147,7 +150,7 @@ public class AppController {
     }
     
     @GetMapping("/")
-    public String getMethodName(Model model) {
+    public String paginaPrinsipal(Model model) {
         
         // Obtén la fecha hace una semana
         java.util.Date fechaHaceUnaSemana = java.util.Date.from(Instant.now().minus(7, ChronoUnit.DAYS));
@@ -186,6 +189,70 @@ public class AppController {
         return "main";
     }
     
+    @GetMapping("/recipe/create")
+    public String paginaCrearReceta() {
+        return "crearReceta";
+    }
 
+    @GetMapping("/recipe/modify/{recipeId}")
+    public String modificarReceta(@PathVariable int recipeId,Model model) {
+
+
+        //obtien la receta si existe
+        java.util.Optional<Recipe> recetaOpcinal = recipeRepo.findById(recipeId);
+        //verifica que exista la receta
+        if (recetaOpcinal.isPresent()) {
+            Recipe receta = recetaOpcinal.get();
+            //agrego al modelo las caracteristicas basicas de la receta
+            model.addAttribute("titulo",receta.getRecipeTitle());
+            model.addAttribute("descripcion", receta.getRecipeDescription());
+            model.addAttribute("categoria", receta.getRecipeCategory().getCategoryName());
+
+
+            if (receta.getRecipeCategory().getSubcategoryName() != null) {
+                model.addAttribute("subcategoria", receta.getRecipeCategory().getSubcategoryName());
+            }
+
+            
+            //verifico si la receta cuenta con una imagen
+            if (receta.getRecipeImg() != null) {
+                //si es asi agrego la imagen al modelo
+                model.addAttribute("recipeImg","/recipe-pictures/"+ receta.getRecipeImg());
+            }
+            
+            
+            //obtengo todos los ingredientes de la receta como Optional 
+            java.util.Optional<java.util.List<RecipeIngredientRelationship>> relationshipOptional = recipeIngredientRelationshipRepo.findRecipeIngredientRelationshipsByRecipeId(recipeId);
+
+            // Verificar si existe la lista
+            if (relationshipOptional.isPresent()) {
+                //paso los ingrediente a java.util.List<RecipeIngredientRelationship>
+                java.util.List<RecipeIngredientRelationship> relationship = relationshipOptional.get();
+
+
+                // Convertir la lista de RecipeIngredientRelationship a List<IngredientDTO>
+                java.util.List<IngredientDTO> ingredientesDTO = relationship.stream()
+                .map(this::mapToIngredientDTO) // Llama al método que mapea cada relación a IngredientDTO
+                .collect(Collectors.toList());
+
+
+
+                model.addAttribute("ingredientes", ingredientesDTO);
+            }
+            
+        }
+        return "modificarReceta";
+
+    }
+
+    // Método para convertir RecipeIngredientRelationship a IngredientDTO
+    private IngredientDTO mapToIngredientDTO(RecipeIngredientRelationship relationship) {
+        return IngredientDTO.builder()
+                .name(relationship.getIngredient().getIngredientName())
+                .quantity(relationship.getQuantity())
+                .unitOfMeasurement(relationship.getUnitOfMeasurement())
+                .build();
+    }
+    
 
 }

@@ -146,14 +146,14 @@
                 </div>
             </div>
             <form action="">
-                <input type="text" placeholder="Titulo" class="CR-titulo-receta">
-                <textarea class="CR-descripcion-receta" placeholder="Descripcion"></textarea>
+                <input type="text" placeholder="Titulo" class="CR-titulo-receta" th:value="${titulo}">
+                <textarea class="CR-descripcion-receta" placeholder="Descripcion" th:text="${descripcion}"></textarea>
 
                 <!-- CATEGORIA TIPO COMBO BOX-->
                 <div class="categoria-tipo-box">
 
                     <div class="animal-custom-select" id="RC-animal-custom-select">
-                        <div class="animal-select-selected" id="RC-animal-select-selected">Animal</div>
+                        <div class="animal-select-selected" id="RC-animal-select-selected" th:text="${categoria}">Animal</div>
                         <div class="animal-select-items" id="RC-animal-select-items">
                             <div data-value="perro">Perro</div>
                             <div data-value="gato">Gato</div>
@@ -164,7 +164,7 @@
                     </div>
 
                     <div class="tipo-custom-select" id="RC-tipo-custom-select">
-                        <div class="tipo-select-selected" id="RC-tipo-select-selected">Tipo</div>
+                        <div class="tipo-select-selected" id="RC-tipo-select-selected" th:text="${subcategoria != null ? subcategoria : 'Tipo'}">Tipo</div>
                         <div class="tipo-select-items" id="RC-tipo-select-items">
                         </div>
                     </div>
@@ -173,7 +173,9 @@
                         <img src="/img/foto-icon.png">Foto
                     </label>
                     <input type="file" accept="image/*" id="imagenInput" class="custom-file-input">
-                    <img id="CRimagenPreview" alt="Vista previa">
+                    <img id="CRimagenPreview" alt="Vista previa"
+                        th:src="${recipeImg != null ? recipeImg : ''}"
+                        th:style="${recipeImg != null ? 'display: block;' : 'display: none;'}">
         
                 </div>
             
@@ -208,9 +210,15 @@
                         <img src="/img/agregar-ingrediente.png" alt="agregar ingrediente">
                     </div>
                 </div>
-                <div class="CR-resultados"></div> <!-- Aquí se añadirán los divs creados -->
+                <div class="CR-resultados">
+                    <div th:each="ingrediente : ${ingredientes}">
+                        <div class="CR-resultado-ingrediente" th:text="${ingrediente.name}"></div>
+                        <div class="CR-resultado-cantidad" th:text="${ingrediente.quantity}"></div>
+                        <div class="CR-resultado-unidad" th:text="${ingrediente.unitOfMeasurement}"></div>
+                    </div>
+                </div> <!-- Aquí se añadirán los divs creados -->
                 <div class="CR-boton-crear-receta--aling">
-                    <div class="CR-boton-crear-receta">Crear Receta</div>
+                    <div class="CR-boton-crear-receta">Modificar Receta</div>
                 </div>
             </form>
         </main>
