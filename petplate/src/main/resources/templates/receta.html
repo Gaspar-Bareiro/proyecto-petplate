@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${titulo}">page name</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="icon" href="img/chuleta icon.png" type="png">
+    <link rel="icon" href="/img/icon128.png" type="png">
 </head>
 
 <body>
@@ -20,7 +20,7 @@
             <img src="/img/logo-blanco.png" alt="logo" class="iniciar-sesion__logo">
             <h2 class="iniciar-sesion__titulo">Login</h2>
             <form action="post">
-                <input type="text" class="input-form" placeholder="Usuario">
+                <input type="text" id="nombre-usuario-iniciar-sesion" class="input-form" placeholder="Usuario">
                 <input type="password" class="input-form" placeholder="Contraseña">
                 <input type="submit" value="Iniciar Sesion" class="input-button">
             </form>
@@ -36,11 +36,12 @@
             </form>
             <img src="/img/logo-blanco.png" alt="logo" class="crear-cuenta__logo">
             <h2 class="crear-cuenta__titulo">Crear Cuenta</h2>
-            <form action="post" class="modal-form">
-                <input type="text" class="input-form-crear-cuenta" placeholder="Nombre de Usuario">
-                <input type="email" class="input-form-crear-cuenta" placeholder="Correo electronico">
-                <input type="password" class="input-form-crear-cuenta" placeholder="Contraseña">
-                <input type="password" class="input-form-crear-cuenta" placeholder="Confirmar Contraseña">
+            <form class="modal-form" id="crear-cuenta-form">
+                <input type="text" id="nombre-usuario-crear-cuenta" class="input-form-crear-cuenta" placeholder="Nombre de Usuario">
+                <input type="text" id="correo-electronico-crear-cuenta" class="input-form-crear-cuenta" placeholder="Correo electronico">
+                <input type="password" id="contrasena-crear-cuenta" class="input-form-crear-cuenta" placeholder="Contraseña">
+                <input type="password" id="confirmar-contrasena-crear-cuenta" class="input-form-crear-cuenta" placeholder="Confirmar Contraseña">
+                <label for="" id="error-label-crear-cuenta">El nombre de usuario ingresado contiene menos de 4 caracteres o mas de 30 caracteres.</label> <!-- Aquí se insertarán los mensajes de error -->
                 <input type="submit" value="Crear Cuenta" class="input-button">
             </form>
             <p class="crear-cuenta-alternativa">¿ya tienes una cuenta? <span class="OPEN-modal-iniciar-sesion CLOSE-modal-crear-cuenta">Iniciar sesion</span></p>
@@ -94,7 +95,7 @@
             <ul class="nav__list">
                 <li class="nav__list__item  item--logo">
                     <a href="main.html">
-                        <img src="/img/logo.png" alt="logo">
+                        <img src="/img/logoCuchara.png" alt="logo" class="logo-header">
                     </a>
                 </li>
                 
@@ -105,14 +106,11 @@
                 </li>
                 
                 <li class="nav__list__item nav__list__item--flex">
-
                     <a class="item--crear-receta" href="crearReceta.html">
                         <img src="/img/crear-receta.png" alt="boton-crear-receta">
                     </a>
                     
                     <div class="item--iniciar-sesion OPEN-modal-iniciar-sesion">Iniciar Sesion</div>
-
-
                     <img src="/img/imagen4k.avif" alt="" class="foto-perfil-header">
                 </li>
             </ul>
@@ -165,5 +163,6 @@
     <!--Scripts   ------------------------------------------------------------------>
     <script src="/js/script.js"></script>
     <script src="/js/recetaScript.js"></script>
+    <script src="/js/sesion.js"></script>
 </body>
 </html>

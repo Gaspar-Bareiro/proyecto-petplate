@@ -13,7 +13,7 @@ body {
 }
 
 .nav {
-    background-color: #444;
+    background-color: #181818;
     font-size: 1.5rem;
     color: #fff;
     
@@ -31,6 +31,11 @@ body {
     list-style-type: none;
     padding-left: 0;
 }
+.logo-header{
+    height: 36px;
+    width: 44px;
+}
+
 
 .nav__list__item--flex{
     display: flex;
@@ -50,7 +55,8 @@ body {
 .item--buscador {
     border-radius: 7px;
     padding: 10px 20px;
-    background: #696868A6;
+    background: #69686833;
+    ;
     display: flex;
     align-items: center;
     user-select: none;
@@ -71,7 +77,7 @@ body {
 
 .item--crear-receta{
     display: none;
-    background-color: #696868A6;
+    background-color: #69686833;
     border-radius: 7px;
 }
 
@@ -81,7 +87,7 @@ body {
 
 .item--iniciar-sesion {
     user-select: none;
-    background-color: #696868A6;
+    background-color: #69686833;
     border-radius: 7px;
     padding: 10px 20px;
     transition-property: color, background-color;
@@ -576,7 +582,7 @@ dialog {
 }
 
 .iniciar-sesion__logo , .crear-cuenta__logo{
-    width: 80px;
+    width: 144px;
     height: 80px;
     margin: 20px;
 }
@@ -599,6 +605,7 @@ dialog {
 
 .modal-form {
     width: 220px;
+    position: relative;
 }
 
 .input-form , .input-form-crear-cuenta {
@@ -626,7 +633,7 @@ dialog {
     display: block;
     margin: auto;
     margin-bottom: 20px;
-    margin-top: 30px;
+    margin-top: 40px;
     padding: 15px 20px;
     color: #fff;
     font-weight: bold;
@@ -652,6 +659,16 @@ dialog {
 
 .iniciar-sesion-alternativa>span:hover, .crear-cuenta-alternativa>span:hover{
     background-color: #aaaa ;
+}
+
+#error-label-crear-cuenta {
+    display: none;
+    position: absolute;
+    bottom: 70px;
+    text-align: center;
+    color: #f55;
+    width: 380px;
+    left: -80px;
 }
 
 /* VENTANA MODAL BUSCAR -------------------------------------------------------------------------------------------- */

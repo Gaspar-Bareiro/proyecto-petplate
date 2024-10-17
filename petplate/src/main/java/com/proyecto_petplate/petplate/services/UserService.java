@@ -61,7 +61,7 @@ public class UserService {
         //una vez verificados los casos menos exigentes se verifican los casos que requieren consultas a la base de datos
         //verifica que el usuario no exista
         if (userRepo.existsByUserName(name)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Nombre de usuario en ya existente"); //409
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El nombre de usuario ya se encuentra en uso"); //409
         }
 
         //verificaciones de Email ----------------------------------------------------------------------------------------------
@@ -86,17 +86,17 @@ public class UserService {
 
         //verifica si el email ya esta en uso
         if (userRepo.existsByUserEmail(email)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Email ya se encuentra en uso"); //409
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El Email ya se encuentra en uso"); //409
         }
 
         //agrege verificaciones para que la password tenga minimo 8 caracteres y no contenga espacios
         //verifica que la password tenga entre 8 y 20 caracteres
         if (password.length() < 8 || password.length() > 20) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("La contraseña debe tener de 8 a 20 caracteres"); //409
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("La contraseña debe tener de 8 a 20 caracteres"); //422
         }
         //verifica que la pasword no contenga espacios
         if (password.contains(" ")) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("La contraseña no puede contener espacios"); //409
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("La contraseña no puede contener espacios"); //422
         }
 
 
