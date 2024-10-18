@@ -1,4 +1,4 @@
-package com.proyecto_petplate.petplate.services;
+package com.proyecto_petplate.petplate.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

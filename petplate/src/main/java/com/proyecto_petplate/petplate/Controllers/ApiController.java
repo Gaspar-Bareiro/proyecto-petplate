@@ -10,13 +10,14 @@ import com.proyecto_petplate.petplate.DTO.RecipeRequestModifyDTO;
 import com.proyecto_petplate.petplate.DTO.RecipeRequestSearchDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestLoginDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestRegisterDTO;
+import com.proyecto_petplate.petplate.Services.IngredientService;
+import com.proyecto_petplate.petplate.Services.RecipeService;
+import com.proyecto_petplate.petplate.Services.UserService;
 import com.proyecto_petplate.petplate.DTO.IngredientDTO;
 import com.proyecto_petplate.petplate.DTO.RequestOnlyTokenDTO;
 import com.proyecto_petplate.petplate.DTO.RequestTokenAndIngredientNameDTO;
 import com.proyecto_petplate.petplate.DTO.RequestTokenAndUserNameDTO;
-import com.proyecto_petplate.petplate.services.IngredientService;
-import com.proyecto_petplate.petplate.services.RecipeService;
-import com.proyecto_petplate.petplate.services.UserService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

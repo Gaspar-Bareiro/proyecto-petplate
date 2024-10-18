@@ -1,4 +1,4 @@
-package com.proyecto_petplate.petplate.services;
+package com.proyecto_petplate.petplate.Services;
 
 import java.util.Date; // Importar la clase Date para manejar fechas
 

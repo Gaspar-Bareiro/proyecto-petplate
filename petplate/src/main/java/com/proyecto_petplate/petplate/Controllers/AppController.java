@@ -14,7 +14,7 @@ import com.proyecto_petplate.petplate.Entities.User;
 import com.proyecto_petplate.petplate.Repositories.RecipeIngredientRelationshipRepository;
 import com.proyecto_petplate.petplate.Repositories.RecipeRepository;
 import com.proyecto_petplate.petplate.Repositories.UserRepository;
-import com.proyecto_petplate.petplate.services.IngredientService;
+import com.proyecto_petplate.petplate.Services.IngredientService;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

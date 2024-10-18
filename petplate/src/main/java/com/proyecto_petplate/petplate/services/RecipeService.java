@@ -1,4 +1,4 @@
-package com.proyecto_petplate.petplate.services;
+package com.proyecto_petplate.petplate.Services;
 
 import java.util.Date;
 import java.util.stream.Collectors;
