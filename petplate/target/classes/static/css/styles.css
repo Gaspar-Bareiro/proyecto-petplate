@@ -661,7 +661,7 @@ dialog {
     background-color: #aaaa ;
 }
 
-#error-label-crear-cuenta {
+#error-label-crear-cuenta , #error-label-iniciar-sesion{
     display: none;
     position: absolute;
     bottom: 70px;
@@ -669,6 +669,11 @@ dialog {
     color: #f55;
     width: 380px;
     left: -80px;
+}
+
+
+#iniciar-sesion-form {
+    position: relative;
 }
 
 /* VENTANA MODAL BUSCAR -------------------------------------------------------------------------------------------- */

@@ -15,6 +15,8 @@ const modalLogin = document.querySelector('.modal-iniciar-sesion');
 openModalButtonsLogin.forEach(button => {
     button.addEventListener('click', function() {
         modalLogin.setAttribute('open', ''); // Muestra el diálogo
+        formLogin.reset(); // Limpia el formulario Login
+        formRegister.reset(); //limpia el formulario de register 
     });
 });
 
@@ -22,6 +24,8 @@ openModalButtonsLogin.forEach(button => {
 closeModalButtonsLogin.forEach(button => {
     button.addEventListener('click', function() {
         modalLogin.removeAttribute('open'); // Elimina el atributo 'open' para cerrar el diálogo
+        formLogin.reset(); // Limpia el formulario Login
+        formRegister.reset(); //limpia el formulario de register
     });
 });
 

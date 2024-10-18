@@ -134,13 +134,13 @@ public class UserService {
 
         //verifica que exista un usuario con ese nombre utilizando la base de datos
         if (!userRepo.existsByUserName(name)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Usuario "+ name +" no exite."); //409
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El Usuario "+ name +" no exite."); //409
         }
 
         //verifica si la password es correcta utilizando la base de datos
         User userDB = userRepo.getUserByUserName(name);
         if (!validarContraseña(password, userDB.getUserPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta."); //401
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("API:Contraseña incorrecta."); //401
         }
 
         //paso las comprobaciones 
@@ -159,7 +159,12 @@ public class UserService {
         //guarda la sesion en la db
         sessionRepo.save(crearSesion);
         //creo la respuesta
-        UserResponseLoginDTO response = new UserResponseLoginDTO(token);
+        UserResponseLoginDTO response = UserResponseLoginDTO.builder()
+            .token(token)
+            .userId(userDB.getUserId())
+            .userImg(userDB.getUserImg())
+            .build()
+        ;
         //envio la respuesta
         return ResponseEntity.ok(response);
 
