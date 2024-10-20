@@ -238,33 +238,24 @@ const funcionAgregarIngredienteCR = () => {
         }
     } else {
         // Mostrar mensaje de error si los campos están vacíos
-        errorLabelCR.textContent = 'Por favor, completa todos los campos correctamente.'; 
+        //si no se selecciono un ingrediente
+        if (!ingredienteValorCR) {
+            errorLabelCR.textContent = 'Se debe seleccionar un ingrediente valido.'; 
+        }else 
+        //si la cantidad del ingrediente no se introdujo o es 0
+        if (!cantidadValorCR || Number(cantidadValorCR) < 1) {
+            errorLabelCR.textContent = 'La cantidad del ingrediente debe ser mayor a 0.'; 
+        }else
+        //se la medida no se selecciono
+        if(unidadValorCR === 'Medida' ){
+            errorLabelCR.textContent = 'No se selecciono ninguna unidad de medida para el ingrediente.';
+        //por si acaso todo falla
+        }else {
+            errorLabelCR.textContent = 'Por favor, completa todos los campos correctamente.'; 
+        }
         errorLabelCR.style.display = 'block'; // Hacer visible el label de error
     }
 };
-// Elimina los resultados al hacer clic
-document.addEventListener('DOMContentLoaded', () => {
-    // Selecciona el contenedor principal que tiene la clase 'CR-resultados'
-    const resultadosContainer = document.querySelector('.CR-resultados');
-
-    // Verifica si el contenedor existe antes de aplicar eventos
-    if (resultadosContainer) {
-        // Agregar un evento al contenedor principal para que actúe en sus hijos
-        resultadosContainer.addEventListener('click', (event) => {
-            // Encuentra el div más cercano que contenga el ingrediente
-            const clickedDiv = event.target.closest('.CR-resultado-ingrediente, .CR-resultado-cantidad, .CR-resultado-unidad');
-
-            // Verifica que clickedDiv sea un hijo directo del contenedor
-            if (clickedDiv) {
-                // Elimina el div padre que contiene el ingrediente, cantidad y unidad
-                const parentDiv = clickedDiv.parentNode; // Obtiene el div padre
-                if (parentDiv && parentDiv.parentNode === resultadosContainer) {
-                    resultadosContainer.removeChild(parentDiv); // Elimina el div padre
-                }
-            }
-        });
-    }
-});
 
 // Evento al hacer clic en el botón para agregar ingrediente
 agregarIngredienteCR.addEventListener('click', funcionAgregarIngredienteCR);
@@ -284,4 +275,31 @@ imagenInput.addEventListener('change', (event) => {
         };
         lector.readAsDataURL(archivo); // Lee el archivo como una URL
     }
+});
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Selecciona el contenedor principal que tiene la clase 'CR-resultados'
+    const resultadosContainer = document.querySelector('.CR-resultados');
+
+    // Elimina los resultados al hacer clic
+    // Verifica si el contenedor existe antes de aplicar eventos
+    if (resultadosContainer) {
+        // Agregar un evento al contenedor principal para que actúe en sus hijos
+        resultadosContainer.addEventListener('click', (event) => {
+            // Encuentra el div más cercano que contenga el ingrediente
+            const clickedDiv = event.target.closest('.CR-resultado-ingrediente, .CR-resultado-cantidad, .CR-resultado-unidad');
+
+            // Verifica que clickedDiv sea un hijo directo del contenedor
+            if (clickedDiv) {
+                // Elimina el div padre que contiene el ingrediente, cantidad y unidad
+                const parentDiv = clickedDiv.parentNode; // Obtiene el div padre
+                if (parentDiv && parentDiv.parentNode === resultadosContainer) {
+                    resultadosContainer.removeChild(parentDiv); // Elimina el div padre
+                }
+            }
+        });
+    }
+    
 });

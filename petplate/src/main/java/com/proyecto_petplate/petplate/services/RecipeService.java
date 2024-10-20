@@ -95,7 +95,7 @@ public class RecipeService {
         }
         //verificaciones de animal tipo, verifica que si la combinacion de categoria / subcategoria existe en la db
         if (!categoryRepo.existsByCategoryNameAndSubcategoryName(receta.getCategoryName(),receta.getSubcategoryName())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("la categoria no existe"); //422
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("API: la categoria no existe"); //409
         }
 
         //verificar ingredientes-------------------------------------------------------------------------
@@ -111,7 +111,7 @@ public class RecipeService {
             if (!java.util.Arrays.asList(ingredientesDBArray).contains(ingredientesReceta.getName())) {
                 // En caso de que un elemento no esté en la base de datos, suelta un error
                 return ResponseEntity.status(HttpStatus.CONFLICT)
-                        .body("El ingrediente " + ingredientesReceta.getName() + " no existe"); // 409
+                        .body("API:El ingrediente " + ingredientesReceta.getName() + " no existe"); // 409
             }
 
             // Verificar que la cantidad del ingrediente no sea 0 o menor
@@ -128,9 +128,10 @@ public class RecipeService {
         }
 
         User userReceta = userRepo.getUserByUserName(jwtService.getUsernameFromToken(receta.getToken()));
+        //verifica que el usuario no tenga una receta con ese nombre
         if (recipeRepo.existsByTitleAndUser(receta.getTitle(), userReceta)) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                        .body("Es usuario ya tiene esta receta creada"); // 409
+                        .body("API:El usuario ya publico una receta con el mismo titulo."); // 409
         }
         
         //validaciones de la imagen ------------------------------------------------------------------------
@@ -190,7 +191,7 @@ public class RecipeService {
 
 
 
-        return ResponseEntity.status(HttpStatus.OK).body("OK"); //422;
+        return ResponseEntity.status(HttpStatus.OK).body("OK"); //200;
     }
 
     //metodo para modificar una receta

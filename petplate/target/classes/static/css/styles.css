@@ -413,6 +413,8 @@ input[type=number] {
     color: #f22;
     margin: 10px 0px;
     display: none;
+    position: absolute;
+    top: 358px;
 }
 
 .custom-file-input {
@@ -670,9 +672,18 @@ dialog {
     width: 380px;
     left: -80px;
 }
+#error-label-crear-receta {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
+    color: #f55;
+    width: 70%;
+    left: -70px;
+}
 
 
-#iniciar-sesion-form {
+#iniciar-sesion-form, #crear-receta-form {
     position: relative;
 }
 

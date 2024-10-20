@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>page name</title>
+    <title>Crear Receta</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="icon" href="img/chuleta icon.png" type="png">
+    <link rel="icon" href="/img/icon128.png" type="png">
 </head>
 
 <body>
@@ -136,9 +136,9 @@
                     <img src="/img/pautas-icon.png" alt="icono-pautas-comunidad">
                 </div>
             </div>
-            <form action="">
-                <input type="text" placeholder="Titulo" class="CR-titulo-receta">
-                <textarea class="CR-descripcion-receta" placeholder="Descripcion"></textarea>
+            <form id="crear-receta-form">
+                <input type="text" placeholder="Titulo" class="CR-titulo-receta" id="titulo-receta-crear-receta">
+                <textarea class="CR-descripcion-receta" placeholder="Descripcion" id="descripcion-receta-crear-receta"></textarea>
 
                 <!-- CATEGORIA TIPO COMBO BOX-->
                 <div class="categoria-tipo-box">
@@ -200,8 +200,9 @@
                     </div>
                 </div>
                 <div class="CR-resultados"></div> <!-- Aquí se añadirán los divs creados -->
+                <label id="error-label-crear-receta">Este mensaje no se tiene que ver nunca</label>
                 <div class="CR-boton-crear-receta--aling">
-                    <div class="CR-boton-crear-receta">Crear Receta</div>
+                    <div id="boton-crear-receta" class="CR-boton-crear-receta">Crear Receta</div>
                 </div>
             </form>
         </main>
@@ -210,7 +211,8 @@
 
     <!--Scripts   ------------------------------------------------------------------>
     <script src="/js/script.js"></script> <!--no manipular el orden de los scripts  (se rompe todo)-->
-    <script src="/js/crearRecetaScript.js"></script>  <!--no manipular el orden de los scripts  (se rompe todo)-->
+    <script src="/js/inputsPersonalizados.js"></script>  <!--no manipular el orden de los scripts  (se rompe todo)-->
     <script src="/js/sesion.js"></script>
+    <script src="/js/crearReceta.js"></script>
 </body>
 </html>

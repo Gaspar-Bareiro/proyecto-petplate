@@ -20,7 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
             botonIniciarSesionHeader.style.display = 'none';
             
             // Mostrar el botón de crear receta
-            botonCrearRecetaHeader.style.display = 'block';
+            let ruta = window.location.pathname;
+            if (!ruta.startsWith("/recipe/create") && !ruta.startsWith("/recipe/modify")) {
+                botonCrearRecetaHeader.style.display = 'block';
+            }
+            
             
             // Verificar si userImg es nulo y cambiar la ruta de la imagen de perfil si es necesario
             if (userImg === null || userImg.trim() === '' || userImg.trim() === 'null') {
@@ -128,6 +132,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('userId', userId); //el id del usuario (para poder redireccionarlo a su perfil)
 
                 localStorage.setItem("userImg", userImg)//la imagen del usuario para mostrarla en el header
+
+                //vacia el areglo de ingredientes para refrescarlo
+                localStorage.removeItem('ingredientes');
 
                 //recarga la pagina
                 const nuevaRuta = '/'; // Cambia esto por la ruta deseada

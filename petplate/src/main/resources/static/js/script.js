@@ -1,3 +1,42 @@
+//cargar el areglo de ingredientes si no lo tiene todavia
+// Obtener los ingredientes del localStorage
+// Obtener los ingredientes del localStorage
+let ingredientesLocales = JSON.parse(localStorage.getItem('ingredientes'));
+let ingredientes = ['ERROR']; // Inicialización de 'ingredientes' como una variable mutable
+
+// Verificar si no existe en localStorage o si el arreglo está vacío
+if (!ingredientesLocales || ingredientesLocales.length === 0) {
+    // Realizar la solicitud GET al endpoint /apiv1/ingredients
+    fetch('/apiv1/ingredients', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json(); // Convertir la respuesta a JSON
+        } else {
+            throw new Error('Error en la respuesta del servidor');
+        }
+    })
+    .then(data => {
+        // Guardar los ingredientes en el localStorage
+        localStorage.setItem('ingredientes', JSON.stringify(data));
+        
+        // Asignar el arreglo de ingredientes a la variable
+        ingredientes = data;
+        
+    })
+    .catch(error => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error('Error al obtener los ingredientes:', error);
+    });
+} else {
+    // Si ya hay ingredientes almacenados
+    ingredientes = ingredientesLocales; // Asignar el valor del localStorage
+}
+
 
 //SCRIP PARA ABRIR MODALES LOGIN Y REGISTER (hasta la linea 52 aprox)
 // clases para abrir y cerrar la ventana modal de login--------------------------
@@ -204,28 +243,8 @@ initCustomSelect('BR', 'BR', opcionesMap); // Inicializa el combobox para "busca
 
 //combo box para ingredientes -------------------------------------------------------------------------------------
 
-// Array de ingredientes
-const ingredientes = [
-    "tomate", "papa", "cebolla", "Arroz", "peperoni", "lechuga", "zanahoria", 
-    "brócoli", "espinaca", "pimiento", "ajo", "jengibre", "champiñón", 
-    "berenjena", "calabacín", "alcachofa", "perejil", "cilantro", "orégano", 
-    "albahaca", "mostaza", "salsa de soja", "mayonesa", "ketchup", "mantequilla", 
-    "aceite de oliva", "vinagre", "salsa BBQ", "queso", "leche", 
-    "yogur", "crema", "huevo", "sal", "pimienta", "azúcar", "miel", 
-    "harina", "sal de ajo", "curry", "pasta", "arroz integral", 
-    "salmón", "pollo", "carne molida", "tofu", "frijoles", 
-    "lentejas", "guisante", "maíz", "paprika", "cacao", 
-    "nuez moscada", "canela", "vainilla", "clavo", "anís", 
-    "coco", "almendra", "nuez", "pistacho", "cacahuate", 
-    "avellana", "pasas", "higo", "dátiles", "mora", 
-    "frambuesa", "fresa", "plátano", "manzana", "Pera", 
-    "uva", "kiwi", "piña", "mango", "cereza", 
-    "sandía", "melón", "limón", "naranja", "mandarina", 
-    "aguacate", "aceituna", "pesto", "salsa de tomate", "salsa de chile", 
-    "sopa", "caldo", "granola", "batata", "quinoa", 
-    "sésamo", "almidón", "pasta de curry", "salsa de pescado", "chipotle"
-];
 
+//termina array ingredientes
 // Selecciona los componentes del DOM
 const ingredienteInput = document.querySelector('.ingrediente-input'); // Input donde se escriben los ingredientes
 const itemsIngrediente = document.querySelector('.ingrediente-select-items'); // Lista de opciones
