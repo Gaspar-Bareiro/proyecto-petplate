@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         // Verificación de que titulo no este en blanco
         if (!titulo) {
-            errorLabelCrearReceta.textContent = 'El titulo de la receta no debe estar vacio.';
+            errorLabelCrearReceta.textContent = 'El título de la receta no debe estar vacío.';
             isValid = false;
         }else
 
