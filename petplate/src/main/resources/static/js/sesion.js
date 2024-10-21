@@ -51,6 +51,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     verificarSesion()
 
+    async function obtenerLikesUsuario() {
+        // Obtener el token del localStorage
+        const token = localStorage.getItem('token'); 
+
+        // Si no hay token, abortar la solicitud
+        if (!token) {
+            console.error('No se encontró el token de usuario.');
+            return;
+        }
+        // Realizar la solicitud POST al endpoint /apiv1/userLikes
+        try {
+            const response = await fetch('/apiv1/userLikes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "token": token }) // Enviar el token en el cuerpo
+            });
+
+            // Manejar respuestas de la API
+            if (response.ok) {
+                const data = await response.json(); // Obtener los datos de los likes
+                // Guardar los Likes en el localStorage
+                localStorage.setItem('userLikes', JSON.stringify(data));
+            } else {
+                console.error('Ocurrió un error inesperado. Código de respuesta:', response.status);
+            }
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+            // Manejo de errores de comunicación con el servidor
+        }
+    }
+    
 
     const handleSubmitLogin = async (event) => {
         //variablers para iniciarSesion
@@ -76,27 +109,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }  else
         // verifica si el nombre de usuario tiene entre 4 y 30 caracteres
         if (nombreUsuario.length < 4 || nombreUsuario.length > 30) {
-            errorLabelLogin.textContent = 'El nombre de usuario debe contener entre 4 y 30 caracteres.';
             isValid = false;
         } else
         // verifica si el nombre de usuario tiene espacios
         if (nombreUsuario.includes(" ")) {
-            errorLabelLogin.textContent = 'El nombre de usuario no debe contener espacios.';
             isValid = false;
         } else
         //verifica que la contrasena contenga entre 8 y 20 caracteres
         if (contrasena.length < 8 || contrasena.length > 20) {
-            errorLabelLogin.textContent = 'La contraseña debe contener entre 8 y 20 caracteres.';
             isValid = false;
         } else
         //verifica que la contrasena no contenga espacios
         if (contrasena.includes(" ")) {
-            errorLabelLogin.textContent = 'La contraseña no debe contener espacios.';
             isValid = false;
         }
 
         // Si alguna verificación falla, muestra el mensaje de error y evita el envío del formulario
         if (!isValid) {
+            errorLabelLogin.textContent = 'El usuario o la contraseña son incorrectos.';
             errorLabelLogin.style.display = 'block'; // Muestra el label con el error
             return;
         }
@@ -136,6 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 //vacia el areglo de ingredientes para refrescarlo
                 localStorage.removeItem('ingredientes');
 
+                await obtenerLikesUsuario()
+
                 //recarga la pagina
                 const nuevaRuta = '/'; // Cambia esto por la ruta deseada
 
@@ -149,17 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
             } else if (response.status === 409 || response.status === 401) {
-                // Conflicto: nombre de usuario no registrado o password incorrecta
-                const errorText = await response.text(); // Obtenemos la respuesta como texto plano
-
-                if (errorText.startsWith("API:")) {
-                    // Si el mensaje comienza con "API:", eliminamos esos caracteres iniciales
-                    errorLabelLogin.textContent = errorText.substring(4);
-                } else {
-                    // Si no, mostramos el mensaje por defecto
-                    errorLabelLogin.textContent = 'El nombre de usuario o la contraseña no son validos.';
-                }
-
+                errorLabelLogin.textContent = 'El usuario o la contraseña son incorrectos.';
                 errorLabelLogin.style.display = 'block'; // Muestra el label con el error
             } else {
 
@@ -238,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Verificación del correo electrónico (usando una expresión regular básica)
         if (!correoRegex.test(correo)) {
-            errorLabelRegister.textContent = 'El correo electrónico ingresado tiene un formato inválido.';
+            errorLabelRegister.textContent = 'El correo electrónico contiene un formato inválido.';
             isValid = false;
         } else
 
@@ -258,7 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Verificación de que las contraseñas coincida
         if (contrasena !== confirmarContrasena) {
-            errorLabelRegister.textContent = 'La confirmacion de la contraseña ingresada es distinta de la primera.';
+            errorLabelRegister.textContent = 'Las contraseñas no coinciden.';
             isValid = false;
         }
 

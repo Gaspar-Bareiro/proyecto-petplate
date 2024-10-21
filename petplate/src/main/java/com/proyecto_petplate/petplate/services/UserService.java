@@ -13,9 +13,11 @@ import com.proyecto_petplate.petplate.DTO.UserRequestLoginDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestRegisterDTO;
 import com.proyecto_petplate.petplate.DTO.UserResponseLoginDTO;
 import com.proyecto_petplate.petplate.Entities.EnumRolName;
+import com.proyecto_petplate.petplate.Entities.Recommendation;
 import com.proyecto_petplate.petplate.Entities.Rol;
 import com.proyecto_petplate.petplate.Entities.Session;
 import com.proyecto_petplate.petplate.Entities.User;
+import com.proyecto_petplate.petplate.Repositories.RecommendationRepository;
 import com.proyecto_petplate.petplate.Repositories.RolRepository;
 import com.proyecto_petplate.petplate.Repositories.SessionRepository;
 import com.proyecto_petplate.petplate.Repositories.UserRepository;
@@ -35,6 +37,9 @@ public class UserService {
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private RecommendationRepository recommendationRepo;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // Instancia de BCryptPasswordEncoder
 
@@ -61,7 +66,7 @@ public class UserService {
         //una vez verificados los casos menos exigentes se verifican los casos que requieren consultas a la base de datos
         //verifica que el usuario no exista
         if (userRepo.existsByUserName(name)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El nombre de usuario ya se encuentra en uso"); //409
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El nombre de usuario ya se encuentra en uso."); //409
         }
 
         //verificaciones de Email ----------------------------------------------------------------------------------------------
@@ -86,7 +91,7 @@ public class UserService {
 
         //verifica si el email ya esta en uso
         if (userRepo.existsByUserEmail(email)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El Email ya se encuentra en uso"); //409
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El correo electronico ya se encuentra en uso."); //409
         }
 
         //agrege verificaciones para que la password tenga minimo 8 caracteres y no contenga espacios
@@ -273,5 +278,33 @@ public class UserService {
 
         //se designo el rol con exito
         return ResponseEntity.status(HttpStatus.OK).body("OK");
+    }
+
+    public ResponseEntity<?> obtenerLikesPorToken(String token) {
+
+        //verifica si el token es valido
+        if (!jwtService.isTokenValid(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token de sesion invalido"); //401
+        }
+
+        //obtiene el usuario del token
+        User userToken = userRepo.getUserByUserName(jwtService.getUsernameFromToken(token));
+
+        java.util.Optional<java.util.List<Recommendation>> recomendacionesOpcionales = recommendationRepo.findByRecommendationUser(userToken);
+
+        if (recomendacionesOpcionales.isPresent()) {
+            java.util.List<Recommendation> recomendaciones = recomendacionesOpcionales.get();
+            // Convertir la lista de recomendaciones a un arreglo de enteros (IDs de las recomendaciones)
+            int[] recommendationIds = recomendaciones.stream()
+                    .mapToInt(recommendation -> recommendation.getRecommendationRecipe().getRecipeId())
+                    .toArray();
+            // Devolver el arreglo de IDs
+            return ResponseEntity.ok(recommendationIds);
+
+        } else {// si el usuario no tiene likes
+            return ResponseEntity.ok(new int[0]);
+        }
+
+        
     }
 }
