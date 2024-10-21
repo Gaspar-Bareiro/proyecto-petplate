@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }else
             // verifica si la imagen tiene una extencionm correcta 
             if (!validExtensions.includes(fileExtension)) {
-                errorLabel.textContent = 'La imagen debe tener una extensión válida (.jpg, .jpeg o .png).';
+                errorLabelCrearReceta.textContent = 'La imagen debe tener una extensión válida (.jpg, .jpeg o .png).';
                 isValid = false
             }
             
