@@ -83,7 +83,7 @@ public class AppController {
             
             // Recorrer la lista de ingredientes y crear los strings
             for (RecipeIngredientRelationship ingrediente : ingredientes) { //para cada ingrediente creo un string conformado por 
-                String ingredienteString = String.format("%s %.2f%s", // "{nombre ingrediente} {cantidad}{unidadMedida}"
+                String ingredienteString = String.format("%s %.2f %s", // "{nombre ingrediente} {cantidad}{unidadMedida}"
                     ingrediente.getIngredient().getIngredientName(), 
                     ingrediente.getQuantity(), 
                     ingrediente.getUnitOfMeasurement());
