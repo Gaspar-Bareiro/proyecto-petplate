@@ -201,36 +201,42 @@ const funcionAgregarIngredienteCR = () => {
     if (ingredienteValorCR && cantidadValorCR && unidadValorCR !== 'Medida' && Number(cantidadValorCR) > 0) {
         // Verifica si el ingrediente no ha sido agregado
         if (!ingredienteYaAgregadoCR(ingredienteValorCR)) {
-            // Crear un nuevo div contenedor para el ingrediente
-            const nuevoDivCR = document.createElement('div');
+            if (ingredientes.includes(ingredienteValorCR)){
+                // Crear un nuevo div contenedor para el ingrediente
+                const nuevoDivCR = document.createElement('div');
 
-            // Crear div para el ingrediente
-            const ingredienteDivCR = document.createElement('div');
-            ingredienteDivCR.classList.add('CR-resultado-ingrediente'); // Añade una clase para el ingrediente
-            ingredienteDivCR.textContent = ingredienteValorCR; // Establece el texto del ingrediente
+                // Crear div para el ingrediente
+                const ingredienteDivCR = document.createElement('div');
+                ingredienteDivCR.classList.add('CR-resultado-ingrediente'); // Añade una clase para el ingrediente
+                ingredienteDivCR.textContent = ingredienteValorCR; // Establece el texto del ingrediente
 
-            // Crear div para la cantidad
-            const cantidadDivCR = document.createElement('div');
-            cantidadDivCR.classList.add('CR-resultado-cantidad'); // Añade una clase para la cantidad
-            cantidadDivCR.textContent = cantidadValorCR; // Establece el texto de la cantidad
+                // Crear div para la cantidad
+                const cantidadDivCR = document.createElement('div');
+                cantidadDivCR.classList.add('CR-resultado-cantidad'); // Añade una clase para la cantidad
+                cantidadDivCR.textContent = cantidadValorCR; // Establece el texto de la cantidad
 
-            // Crear div para la unidad de medida
-            const unidadDivCR = document.createElement('div');
-            unidadDivCR.classList.add('CR-resultado-unidad'); // Añade una clase para la unidad de medida
-            unidadDivCR.textContent = unidadValorCR; // Establece el texto de la unidad de medida
+                // Crear div para la unidad de medida
+                const unidadDivCR = document.createElement('div');
+                unidadDivCR.classList.add('CR-resultado-unidad'); // Añade una clase para la unidad de medida
+                unidadDivCR.textContent = unidadValorCR; // Establece el texto de la unidad de medida
 
-            // Añadir los divs al contenedor
-            nuevoDivCR.appendChild(ingredienteDivCR); // Añade el div del ingrediente al contenedor
-            nuevoDivCR.appendChild(cantidadDivCR); // Añade el div de la cantidad al contenedor
-            nuevoDivCR.appendChild(unidadDivCR); // Añade el div de la unidad al contenedor
-            resultadosCR.appendChild(nuevoDivCR); // Añade el contenedor a los resultados
+                // Añadir los divs al contenedor
+                nuevoDivCR.appendChild(ingredienteDivCR); // Añade el div del ingrediente al contenedor
+                nuevoDivCR.appendChild(cantidadDivCR); // Añade el div de la cantidad al contenedor
+                nuevoDivCR.appendChild(unidadDivCR); // Añade el div de la unidad al contenedor
+                resultadosCR.appendChild(nuevoDivCR); // Añade el contenedor a los resultados
 
-            // Limpiar los campos después de agregar
-            ingredienteInputCR.value = ''; // Limpia el input de ingrediente
-            ingredienteInputCR.style.color = '#000'; // Cambia el color a negro
-            cantidadInputCR.value = ''; // Limpia el input de cantidad
-            unidadSeleccionadaCR.textContent = 'Medida'; // Restablece la unidad seleccionada
-            errorLabelCR.style.display = 'none'; // Hacer invisible el label de error
+                // Limpiar los campos después de agregar
+                ingredienteInputCR.value = ''; // Limpia el input de ingrediente
+                ingredienteInputCR.style.color = '#000'; // Cambia el color a negro
+                cantidadInputCR.value = ''; // Limpia el input de cantidad
+                unidadSeleccionadaCR.textContent = 'Medida'; // Restablece la unidad seleccionada
+                errorLabelCR.style.display = 'none'; // Hacer invisible el label de error
+            }else{
+                errorLabelCR.textContent = 'Se debe seleccionar un ingrediente válido.'; 
+                errorLabelCR.style.display = 'block'; // Hacer visible el label de error
+            }
+            
         } else {
             // Mostrar mensaje de error si el ingrediente ya fue agregado
             errorLabelCR.textContent = 'El ingrediente ya ha sido agregado.'; 
