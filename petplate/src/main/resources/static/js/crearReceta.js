@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }else
 
         if (categoria === 'Animal') {
-            errorLabelCrearReceta.textContent = 'Se debe seleccionar un Animal valido';
+            errorLabelCrearReceta.textContent = 'Se debe seleccionar un Animal válido.';
             isValid = false;
         } else
     
