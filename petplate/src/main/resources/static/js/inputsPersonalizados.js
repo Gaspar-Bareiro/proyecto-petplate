@@ -248,7 +248,7 @@ const funcionAgregarIngredienteCR = () => {
         }else
         //se la medida no se selecciono
         if(unidadValorCR === 'Medida' ){
-            errorLabelCR.textContent = 'No se selecciono ninguna unidad de medida para el ingrediente.';
+            errorLabelCR.textContent = 'Debes seleccionar una medida para el ingrediente.';
         //por si acaso todo falla
         }else {
             errorLabelCR.textContent = 'Por favor, completa todos los campos correctamente.'; 
