@@ -135,7 +135,7 @@
 
             <div class="lista-recetas" th:if="${#lists.size(recetas) > 0}">
                 <!-- Itera sobre la lista de recetas -->
-                <div class="carta-receta" th:each="receta : ${recetas}">
+                <div class="carta-receta" th:each="receta : ${recetas}" id="perfil-contenedor-receta">
                     <div class="receta-detalles">
                         <!-- Título de la receta -->
                         <a th:href="@{/recipe/{id}(id=${receta.recipeId})}" th:text="${receta.title}" class="receta-detalles__titulo">Título receta</a>
@@ -144,10 +144,15 @@
                             Ingredientes
                         </p>
                     </div>
-                    <div class="receta-rating">
-                        <!-- Puntuación de la receta -->
-                        <span class="receta-rating__valor" th:text="${receta.Score}">999</span>
-                        <img src="/img/estrella.png" class="receta-rating__estrella">
+                    <div id="perfil-contenedor-receta-ranking-modificar">
+                        <div class="receta-rating">
+                            <!-- Puntuación de la receta -->
+                            <span class="receta-rating__valor" th:text="${receta.Score}">999</span>
+                            <img src="/img/estrella.png" class="receta-rating__estrella">
+                        </div>
+                        <a th:href="@{/recipe/modify/{id}(id=${receta.recipeId})}" class="contenedor-imagen-perfil-contendor-receta">
+                            <img src="/img/editar.png" alt="icono-modificar-receta">
+                        </a>
                     </div>
                 </div>
             </div>
@@ -163,5 +168,6 @@
     <!--Scripts   ------------------------------------------------------------------>
     <script src="/js/script.js"></script>
     <script src="/js/sesion.js"></script>
+    <script src="/js/perfil.js"></script>
 </body>
 </html>

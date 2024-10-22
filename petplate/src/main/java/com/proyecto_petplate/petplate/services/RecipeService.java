@@ -213,11 +213,12 @@ public class RecipeService {
 
         //valida si la receta le pertenece al usuario del taken
         if (userRepo.getUserByUserName(jwtService.getUsernameFromToken(receta.getToken())) != recetaExistente.getRecipeUser()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No te pertenece esta receta"); //401
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("API:No te pertenece esta receta"); //401
         }
 
         // Validar y modificar el título
-        if (receta.getTitle() != null && !receta.getTitle().trim().isEmpty()) {
+        if (!receta.getTitle().equals(recetaExistente.getRecipeTitle())) {
+            if (receta.getTitle() != null && !receta.getTitle().trim().isEmpty()) {
             //si la nombre de la receta no tiene entre 5 y 200 caracteres suelta error
             if (receta.getTitle().length() > 200 || receta.getTitle().length() < 5) {
                 return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("el titulo debe tener entre 5 y 200 caracteres"); //422
@@ -225,11 +226,12 @@ public class RecipeService {
             //si la el usuario tiene otra receta con el mismo nombre
             if (recipeRepo.existsByTitleAndUser(receta.getTitle(), recetaExistente.getRecipeUser())) {
                 return ResponseEntity.status(HttpStatus.CONFLICT)
-                            .body("Es usuario ya tiene esta receta creada"); // 409
+                            .body("API:El usuario ya publico una receta con el mismo titulo."); // 409
             }
             recetaExistente.setRecipeTitle(receta.getTitle());
-
+            }
         }
+        
 
         // Validar y modificar la descripción
         if (receta.getDescription() != null && !receta.getDescription().trim().isEmpty()) {
@@ -297,7 +299,7 @@ public class RecipeService {
                 if (!java.util.Arrays.asList(ingredientesDBArray).contains(ingredientesReceta.getName())) {
                     // En caso de que un elemento no esté en la base de datos, suelta un error
                     return ResponseEntity.status(HttpStatus.CONFLICT)
-                            .body("El ingrediente " + ingredientesReceta.getName() + " no existe"); // 409
+                            .body("API:El ingrediente " + ingredientesReceta.getName() + " no existe"); // 409
                 }
 
                 // Verificar que la cantidad del ingrediente no sea 0 o menor

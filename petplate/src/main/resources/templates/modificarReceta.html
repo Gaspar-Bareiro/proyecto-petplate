@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>page name</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="icon" href="img/chuleta icon.png" type="png">
+    <link rel="icon" href="/img/icon128.png" type="png">
 </head>
 
 <body>
@@ -90,6 +90,23 @@
         </div>
     </dialog>
 
+    <!-- Ventana modal pautas de comunidad -->
+    <dialog class="modal-pautas-comunidad">
+        <div class="pautas-comunidad">
+            <form method="dialog" class="modal-pautas-comunidad__close-button">
+                <button>X</button>
+            </form>
+            <h2>Pautas de Comunidad</h2>
+            <p>
+                No se permitira publicar texto e imagenes 
+                fuera de los margenes de las recetas.
+                De caso contrario se eliminara el contenido
+                subido, de repetirse se borra la cuenta.
+            </p>
+            
+        </div>
+    </dialog>
+
     <!-- header -------------------------------------------------------------------->
     <header class="cabecera">
         <nav class="nav">
@@ -136,9 +153,9 @@
                     <img src="/img/pautas-icon.png" alt="icono-pautas-comunidad">
                 </div>
             </div>
-            <form action="">
-                <input type="text" placeholder="Titulo" class="CR-titulo-receta" th:value="${titulo}">
-                <textarea class="CR-descripcion-receta" placeholder="Descripcion" th:text="${descripcion}"></textarea>
+            <form id="modificar-receta-form">
+                <input type="text" placeholder="Titulo" class="CR-titulo-receta" th:value="${titulo}" id="titulo-receta-modificar-receta">
+                <textarea class="CR-descripcion-receta" placeholder="Descripcion" th:text="${descripcion}" id="descripcion-receta-modificar-receta"></textarea>
 
                 <!-- CATEGORIA TIPO COMBO BOX-->
                 <div class="categoria-tipo-box">
@@ -208,8 +225,9 @@
                         <div class="CR-resultado-unidad" th:text="${ingrediente.unitOfMeasurement}"></div>
                     </div>
                 </div> <!-- Aquí se añadirán los divs creados -->
+                <label id="error-label-modificar-receta">Este mensaje no se tiene que ver nunca</label>
                 <div class="CR-boton-crear-receta--aling">
-                    <div class="CR-boton-crear-receta">Modificar Receta</div>
+                    <div class="CR-boton-crear-receta" id="boton-modificar-receta">Modificar Receta</div>
                 </div>
             </form>
         </main>
@@ -220,5 +238,6 @@
     <script src="/js/script.js"></script> <!--no manipular el orden de los scripts  (se rompe todo)-->
     <script src="/js/inputsPersonalizados.js"></script>  <!--no manipular el orden de los scripts  (se rompe todo)-->
     <script src="/js/sesion.js"></script>
+    <script src="/js/ModificarReceta.js"></script>
 </body>
 </html>
