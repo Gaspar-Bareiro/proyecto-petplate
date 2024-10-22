@@ -101,6 +101,7 @@ body {
 }
 
 .foto-perfil-header {
+    cursor: pointer;
     width: 48px;
     height: 48px;
     border-radius: 50px;
@@ -108,7 +109,9 @@ body {
     box-sizing: border-box;
     display: none;
 }
-
+.OPEN-modal-buscar-receta{
+    cursor: pointer;
+}
 /* layout pagina principal ------------------------------------------------------------------------------------------------- */
 .layout {
     display: flex;
