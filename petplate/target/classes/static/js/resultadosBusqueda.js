@@ -39,12 +39,58 @@ async function obtenerResultadosBusqueda(){
         });
         
         if (response.status === 200) {
-            console.log("200 master")
-        }else(
-            console.log("ocurrio un error pero se hizo la consulta")
-        )
+            const resultadoBusqueda = await response.json(); // Aquí se obtiene el JSON
+
+            // Comprobar si hay resultados
+            if (resultadoBusqueda.length === 0) {
+                tituloResultado.textContent = "No se encontraron resultados para su búsqueda.";
+                return;
+            }
+
+            const contenedorResultados = document.getElementById('main-resultados-busqueda');
+            // Limpiar resultados anteriores en <main>
+            contenedorResultados.innerHTML = ''; // Limpia el contenido anterior
+
+            // Agregar título de la sección
+            const tituloSection = document.createElement('h1');
+            tituloSection.classList.add('titulo');
+            tituloSection.textContent = "Resultados";
+            contenedorResultados.appendChild(tituloSection);
+
+            // Iterar sobre las recetas y crear la estructura HTML
+            resultadoBusqueda.forEach(receta => {
+                const cartaReceta = document.createElement('div');
+                cartaReceta.classList.add('carta-receta');
+
+                cartaReceta.innerHTML = `
+                    <img src="${'/img/'+receta.category + '-avatar.png'}" alt="Avatar" class="receta-avatar">
+                    <div class="receta-detalles">
+                        <a href="/recipe/${receta.recipeId}" class="receta-detalles__titulo">${receta.title}</a>
+                        <p class="receta-detalles__ingredientes">
+                            ${receta.ingredientes.map(ingrediente => `<span>${ingrediente}</span>`).join(', ')}
+                        </p>
+                    </div>
+                    <div class="receta-rating">
+                        <span class="receta-rating__valor">${receta.score}</span>
+                        <img src="/img/estrella.png" class="receta-rating__estrella">
+                    </div>
+                `;
+
+                // Agregar la carta de la receta al contenedor <main>
+                contenedorResultados.appendChild(cartaReceta);
+            });
+
+
+
+        }else{
+            tituloResultado.textContent = "No se encontraron resultados para su búsqueda.";
+            return;
+            
+        }
     } catch (error) {
         console.error('Error al buscar receta:', error);
+        tituloResultado.textContent = "No se encontraron resultados para su búsqueda.";
+        return;
     }
 
     //aqui se hace la consulta a la base de datos 
