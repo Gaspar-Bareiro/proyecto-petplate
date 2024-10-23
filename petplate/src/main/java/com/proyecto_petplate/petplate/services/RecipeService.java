@@ -479,6 +479,7 @@ public class RecipeService {
                         .recipeId(receta.getRecipeId())   // Mapea el ID de la receta
                         .title(receta.getRecipeTitle())   // Mapea el título de la receta
                         .Score(receta.getRecipeScore())   // Mapea el puntaje de la receta
+                        .category(receta.getRecipeCategory().getCategoryName())
                          // Mapea los ingredientes de la receta a un array de String
                         .ingredientes(ingredientService.obtenerNombresDeIngredientes(recipeIngredientRelationshipRepo.findIngredientsByRecipeId(receta.getRecipeId())))
                         .build() // Cierra el builder aquí
