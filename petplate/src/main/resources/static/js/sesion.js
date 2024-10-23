@@ -2,6 +2,25 @@ const formLogin = document.getElementById('iniciar-sesion-form'); // Selecciona 
 const formRegister = document.getElementById('crear-cuenta-form'); // Selecciona el formulario de register
 
 document.addEventListener('DOMContentLoaded', () => {
+    const botonCerrarSesionHeader = document.getElementById('boton-cerrar-sesion-header'); // selecciona el boton para ir al perfil del usuario
+
+
+    botonCerrarSesionHeader.addEventListener('click', function() {
+        localStorage.removeItem("token")
+        localStorage.removeItem("userId")
+        localStorage.removeItem("userImg")
+        //recarga la pagina
+        const nuevaRuta = '/'; // Cambia esto por la ruta deseada
+
+        // Verifica si ya está en la página
+        if (window.location.pathname === nuevaRuta) {
+            // Recarga la página si ya está en la ruta
+            window.location.reload();
+        } else {
+            // Redirige si no está en la página
+            window.location.href = nuevaRuta;
+        }
+    });
     
     function verificarSesion() {
         //obtengo las variables del localStorage
@@ -35,6 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Mostrar la imagen de perfil
             botonIrPerfilHeader.style.display = 'block';
+
+            botonCerrarSesionHeader.style.display = 'block'
             
             // Asignar redireccionamiento al hacer clic en la imagen de perfil
             botonIrPerfilHeader.addEventListener('click', function() {
@@ -201,6 +222,8 @@ document.addEventListener('DOMContentLoaded', () => {
     formLogin.addEventListener('submit', handleSubmitLogin)
 
 
+
+
     //funcion para mandar el formulario de registrarse
     const handleSubmitRegister = async (event) => {
         //variables para crear cuenta
@@ -350,4 +373,6 @@ document.addEventListener('DOMContentLoaded', () => {
     formRegister.addEventListener('submit', handleSubmitRegister);
 
 });
+
+
 

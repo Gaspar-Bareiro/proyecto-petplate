@@ -112,6 +112,10 @@ body {
 .OPEN-modal-buscar-receta{
     cursor: pointer;
 }
+
+#boton-cerrar-sesion-header {
+    display: none;
+}
 /* layout pagina principal ------------------------------------------------------------------------------------------------- */
 .layout {
     display: flex;
