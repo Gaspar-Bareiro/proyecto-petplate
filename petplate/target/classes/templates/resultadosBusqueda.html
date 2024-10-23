@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Plate</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="icon" href="img/icon128.png" type="png">
+    <link rel="icon" href="/img/icon128.png" type="png">
 </head>
 
 <body>
@@ -130,30 +130,7 @@
         <div class="anuncioIzquierdo"></div>
 
         <main class="main">
-            <h1 class="titulo">TOP Semanal</h1>
-            <!--una receta -->
-            <!-- Itera sobre la lista de mejores recetas -->
-            <div th:each="receta : ${mejoresRecetasDatosBasicos}" class="carta-receta">
-                
-                <img th:src="@{${receta.imgCategoria}}" alt="Avatar" class="receta-avatar">
-
-                <div class="receta-detalles">
-                    
-                    <a th:href="@{/recipe/{recipeId}(recipeId=${receta.recipeId})}" class="receta-detalles__titulo" th:text="${receta.title}">Título receta</a>
-                    
-                    <p class="receta-detalles__ingredientes">
-                        <span th:each="ingrediente : ${receta.ingredientes}" th:text="${ingrediente}">Ingrediente</span>
-                    </p> 
-
-                    
-                </div>
-
-                <div class="receta-rating">
-                    <span class="receta-rating__valor" th:text="${receta.Score}">999</span>
-                    <img src="img/estrella.png" class="receta-rating__estrella">
-                </div>
-            </div>
-            
+            <h1 class="titulo" id="resultado-busqueda-titulo">Resultados de Búsqueda</h1>
             
         </main>
 
@@ -162,5 +139,7 @@
     <!--Scripts   ------------------------------------------------------------------>
     <script src="/js/script.js"></script>
     <script src="/js/sesion.js"></script>
+    <script src="/js/resultadosBusqueda.js"></script>
+    
 </body>
 </html>

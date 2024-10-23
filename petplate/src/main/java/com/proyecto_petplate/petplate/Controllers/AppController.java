@@ -254,5 +254,10 @@ public class AppController {
                 .build();
     }
     
+    @GetMapping("/busqueda/resultados")
+    public String resultadosBusqueda() {
+        return "resultadosBusqueda";
+    }
+    
 
 }

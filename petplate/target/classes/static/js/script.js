@@ -392,3 +392,53 @@ closeButton.addEventListener('click', (event) => {
     ingredienteInput.value = ''; // Borra el contenido del combo box
 });
 
+
+
+
+// Seleccionar el botón por su ID
+const botonBuscarReceta = document.getElementById('boton-buscar-receta');
+
+// Agregar el evento de clic al botón
+botonBuscarReceta.addEventListener('click', function(event) {
+    // Prevenir el comportamiento por defecto del formulario si es necesario
+    event.preventDefault();
+
+    // Obtener el valor de la categoría (Animal)
+    const categoriaInputBuscarReceta = document.getElementById('BR-animal-select-selected').textContent.trim();
+
+    // Obtener el valor de la subcategoría (Tipo)
+    const subcategoriaInputBuscarReceta = document.getElementById('BR-tipo-select-selected').textContent.trim();
+
+    // Obtener todos los ingredientes seleccionados (hijos del div con ID 'ingredientes-buscar-receta')
+    const ingredienteSeleccionadosDivs = document.getElementById('ingredientes-buscar-receta').getElementsByTagName('div');
+
+    let errorLabelBuscarReceta = document.getElementById('error-label-buscar-receta'); // Label para los mensajes de error Login
+
+    // Crear un array para almacenar los nombres de los ingredientes
+    let ingredientesArray = [];
+    
+    // Recorrer los divs de los ingredientes y obtener su texto
+    for (let i = 0; i < ingredienteSeleccionadosDivs.length; i++) {
+        ingredientesArray.push(ingredienteSeleccionadosDivs[i].textContent.trim());
+    }
+
+    if (categoriaInputBuscarReceta === 'Animal' && ingredientesArray.length === 0) {
+        errorLabelBuscarReceta.textContent = 'No se seleccionó ningún parámetro de búsqueda';
+        errorLabelBuscarReceta.style.display = 'block'; // Muestra el label con el error
+        return;
+    }
+
+    // guardarlos en localStorage
+    localStorage.setItem('categoriaBusqueda', categoriaInputBuscarReceta);
+    localStorage.setItem('subcategoriaBusqueda', subcategoriaInputBuscarReceta);
+    localStorage.setItem('ingredientesBusqueda', JSON.stringify(ingredientesArray));
+
+     // Verificar si ya estamos en la página de resultados
+    if (window.location.pathname === '/busqueda/resultados') {
+        // Si ya estamos en la página de resultados, recargar la página
+        location.reload();
+    } else {
+        // Si no estamos en la página de resultados, redireccionar a ella
+        window.location.href = '/busqueda/resultados';
+    }
+});

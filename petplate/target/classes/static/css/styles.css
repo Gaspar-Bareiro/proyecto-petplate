@@ -709,9 +709,18 @@ dialog {
     width: 70%;
     left: -70px;
 }
+#error-label-buscar-receta {
+    display: none;
+    position: absolute;
+    text-align: center;
+    color: #f55;
+    width: 45%;
+    right: 20px;
+    bottom: 60px;
+}
 
 
-#iniciar-sesion-form, #crear-receta-form , #modificar-receta-form{
+#iniciar-sesion-form, #crear-receta-form , #modificar-receta-form , .buscar-por-ingrediente{
     position: relative;
 }
 
