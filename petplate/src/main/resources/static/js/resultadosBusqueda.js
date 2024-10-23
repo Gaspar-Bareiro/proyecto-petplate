@@ -67,7 +67,7 @@ async function obtenerResultadosBusqueda(){
                     <div class="receta-detalles">
                         <a href="/recipe/${receta.recipeId}" class="receta-detalles__titulo">${receta.title}</a>
                         <p class="receta-detalles__ingredientes">
-                            ${receta.ingredientes.map(ingrediente => `<span>${ingrediente}</span>`).join(', ')}
+                            ${receta.ingredientes.map(ingrediente => `<span>${ingrediente}</span>`).join('')}
                         </p>
                     </div>
                     <div class="receta-rating">
