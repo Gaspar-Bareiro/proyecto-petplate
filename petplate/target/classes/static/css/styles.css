@@ -86,6 +86,7 @@ body {
 }
 
 .item--iniciar-sesion {
+    cursor: pointer;
     user-select: none;
     background-color: #69686833;
     border-radius: 7px;
@@ -433,13 +434,14 @@ body {
 }
 
 #error-label-cambiar-imagen {
+    text-wrap: balance;
     display: none;
     position: absolute;
     text-align: left;
     color: #f55;
     width: 380px;
     left: 10px;
-    bottom: -30px;
+    bottom: -40px;
 }
 
 
@@ -667,6 +669,7 @@ dialog {
     
 }
 .modal-iniciar-sesion__close-button>button,.modal-crear-cuenta__close-button>button, .modal-buscar-receta__close-button>button ,.modal-pautas-comunidad__close-button > button{
+    cursor: pointer;
     border: 1px solid #555554;
     border-radius: 10px;
     padding: 5px 10px;
@@ -729,6 +732,7 @@ dialog {
 }
 
 .input-button {
+    cursor: pointer;
     background: #555554;
     display: block;
     margin: auto;
@@ -759,6 +763,7 @@ dialog {
 
 .iniciar-sesion-alternativa>span:hover, .crear-cuenta-alternativa>span:hover{
     background-color: #aaaa ;
+    cursor: pointer;
 }
 
 #error-label-crear-cuenta , #error-label-iniciar-sesion{
