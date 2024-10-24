@@ -177,6 +177,21 @@ public class ApiController {
         return userService.obtenerLikesPorToken(token.getToken());
     }
     
+
+    @PostMapping(value = "/userImgChange", consumes = "multipart/form-data")
+        public ResponseEntity<?> cambiarImagenPerfil(
+            @RequestPart(value = "token", required = false) String token,
+            @RequestPart(value = "img", required = false) MultipartFile img) {
+        
+        // Crea un DTO con los datos recibidos
+        RecipeRequestCreateDTO data = RecipeRequestCreateDTO.builder()
+                .token(token)
+                .img(img)
+                .build();
+
+        // Llama al servicio para crear la receta
+        return userService.cambiarImagenPerfil(data);
+    }
     
 
 }

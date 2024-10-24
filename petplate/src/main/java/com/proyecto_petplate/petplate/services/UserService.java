@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.proyecto_petplate.petplate.DTO.RecipeRequestCreateDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestLoginDTO;
 import com.proyecto_petplate.petplate.DTO.UserRequestRegisterDTO;
 import com.proyecto_petplate.petplate.DTO.UserResponseLoginDTO;
@@ -40,6 +42,9 @@ public class UserService {
 
     @Autowired
     private RecommendationRepository recommendationRepo;
+
+    @Autowired
+    private UploadFilesService uploadFilesService;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // Instancia de BCryptPasswordEncoder
 
@@ -306,5 +311,58 @@ public class UserService {
         }
 
         
+    }
+
+    public ResponseEntity<?> cambiarImagenPerfil(RecipeRequestCreateDTO data) {
+
+        //verifica si el token es valido
+        if (!jwtService.isTokenValid(data.getToken())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token de sesion invalido"); //401
+        }
+
+        //si no se mando imagen muestra error error
+        if (data.getImg().isEmpty()){
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("No se envio ninguna imagen"); //401
+        }
+
+        //valida la imagen --------------------------------------------------------------------------------------------------------
+        MultipartFile img =  data.getImg();
+        String imgOriginalName = img.getOriginalFilename();
+
+        long imgSize = img.getSize();
+        long maxImgSize = 5 * 1024 * 1024;
+
+        //valida que la imagen no tenga mas de 5MB
+        if (imgSize > maxImgSize) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("el tamanio maximo del archivo debe ser de 5MB"); //422
+        }
+        //valida que tenga una extencion valida
+        if (imgOriginalName != null) {
+            if (!imgOriginalName.endsWith(".jpg") &&
+            !imgOriginalName.endsWith(".jpeg") &&
+            !imgOriginalName.endsWith(".png")) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("el archivo tiene que tener la extencion .jpg .jpeg o .png"); //422
+            }
+        }else{
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("no se pudo obtener el nombre del archivo"); //422
+        }
+
+        //si pasaron todas las validaciones
+        //guarda la imagen de perfil en el servidor
+        String nuevaImg = uploadFilesService.subirImgPerfil(img);
+        if (nuevaImg.equals("")) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Error al subir el archivo"); //422
+        }
+        //obtiene y elimina la anterior imagen de perfil del servidor(solo en caso de que tenga una)
+        User userToken = userRepo.getUserByUserName(jwtService.getUsernameFromToken(data.getToken()));
+        String oldImgName = userToken.getUserImg();
+        if (oldImgName != null && !oldImgName.equals("")) {
+            uploadFilesService.deleteImgPerfil(oldImgName);
+        }
+        //guarda la nueva imagen de perfil en el usuario (el nombre)
+        userToken.setUserImg(nuevaImg);
+        userRepo.save(userToken);
+        //devuelve un 200 y en el body el nombre de la imagen
+        return ResponseEntity.ok(nuevaImg);
     }
 }
