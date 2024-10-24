@@ -116,8 +116,12 @@ public class AppController {
             User usuario = usuarioOptional.get();
             //agrega al modelo el nombre de usuario
             model.addAttribute("userName",usuario.getUserName());
-            
+
+            String img = usuario.getUserImg();            
             //si tiene una imagen de perfil la agrega al modelo
+            if (img != null) {
+                model.addAttribute("userImgName", "/user-pictures/"+img);
+            }
 
             //obtiene todas las recetas de ese usuario
             java.util.Optional<java.util.List<Recipe>> recetasOpcionales = recipeRepo.findByUser(usuario);

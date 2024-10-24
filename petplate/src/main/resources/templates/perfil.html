@@ -137,10 +137,10 @@
 
                 <div class="image-container" id="clickableImage">
                     <!-- Imagen de fondo que siempre se ve -->
-                    <img src="/img/profile-default-inverted.jpg" alt="Imagen de fondo">
+                    <img th:src="${userImgName != null ? userImgName : '/img/profile-default-inverted.jpg'}" alt="Imagen de perfil" id="img-perfil-usuario">
                     
                     <!-- Imagen que aparece al hacer hover -->
-                    <img src="/img/cambiar-imagen.png" alt="Imagen al pasar el mouse" class="image-top">
+                    <img src="/img/cambiar-imagen.png" alt="Imagen al pasar el mouse" class="image-top" id="boton-cambiar-img-perfil">
                 </div>
                 <!-- 
                 <img src="/img/profile-img.png" alt="foto-perfil" class="foto-perfil-usuario">-->

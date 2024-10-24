@@ -320,9 +320,9 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token de sesion invalido"); //401
         }
 
-        //si no se mando imagen muestra error error
+        //si no se mando imagen muestra error
         if (data.getImg().isEmpty()){
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("No se envio ninguna imagen"); //401
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("No se envio ninguna imagen"); //422
         }
 
         //valida la imagen --------------------------------------------------------------------------------------------------------
