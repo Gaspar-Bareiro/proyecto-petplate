@@ -495,6 +495,7 @@ input[type=number] {
     gap: 10px;
 }
 .CR-agregar-ingrediente {
+    cursor: pointer;
     width: 36px;
     height: 36px;
     opacity: 1;
@@ -591,6 +592,7 @@ input[type=number] {
 }
 
 .CR-boton-crear-receta {
+    cursor: pointer;
     display: inline-block;
     user-select: none;
     color: #fff;
@@ -609,6 +611,10 @@ input[type=number] {
 .CR-boton-crear-receta--aling {
     text-align: end;
     margin-right: 50px;
+}
+
+.CR-resultado-padre {
+    cursor: pointer;
 }
 
 /* anuncions ------------------------------------------------------------------------------------------------------------- */

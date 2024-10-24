@@ -223,7 +223,7 @@
                     </div>
                 </div>
                 <div class="CR-resultados">
-                    <div th:each="ingrediente : ${ingredientes}">
+                    <div th:each="ingrediente : ${ingredientes}" class="CR-resultado-padre">
                         <div class="CR-resultado-ingrediente" th:text="${ingrediente.name}"></div>
                         <div class="CR-resultado-cantidad" th:text="${ingrediente.quantity}"></div>
                         <div class="CR-resultado-unidad" th:text="${ingrediente.unitOfMeasurement}"></div>

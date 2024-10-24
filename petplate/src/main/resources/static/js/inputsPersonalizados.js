@@ -204,7 +204,7 @@ const funcionAgregarIngredienteCR = () => {
             if (ingredientes.includes(ingredienteValorCR)){
                 // Crear un nuevo div contenedor para el ingrediente
                 const nuevoDivCR = document.createElement('div');
-                nuevoDivCR.classList.add('.CR-resultado-padre')
+                nuevoDivCR.classList.add('CR-resultado-padre')
                 
                 // Añadir un evento que elimine el div al hacer clic
                 nuevoDivCR.addEventListener('click', function() {

@@ -180,4 +180,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Asocia el evento de clic al botón "Crear Receta"
     botonCrearReceta.addEventListener('click', handleSubmitCreateRecipe);
 
+    // Selecciona todos los elementos con la clase 'CR-resultados'
+    const resultados = document.querySelectorAll('.CR-resultado-padre');
+
+    // Itera sobre cada elemento seleccionado
+    resultados.forEach((resultado) => {
+        // Agrega un evento de clic a cada elemento
+        resultado.addEventListener('click', () => {
+            // Elimina el elemento del DOM
+            resultado.remove();
+        });
+    });
+
 });

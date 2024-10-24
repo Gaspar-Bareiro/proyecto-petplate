@@ -314,6 +314,16 @@ itemsIngrediente.addEventListener('click', (event) => {
     }
 });
 
+// Agregar evento para hacer clic en el documento
+document.addEventListener('click', (event) => {
+    // Verifica si el clic fue fuera del input y de la lista de opciones
+    if (!ingredienteInput.contains(event.target) && !itemsIngrediente.contains(event.target)) {
+        // Vaciar el input y cerrar el desplegable
+        ingredienteInput.value = '';
+        itemsIngrediente.style.display = 'none'; // Ocultar la lista de opciones
+    }
+});
+
 // Función para eliminar un div
 const eliminarDiv = (div) => {
     div.remove(); // Eliminar el div del DOM

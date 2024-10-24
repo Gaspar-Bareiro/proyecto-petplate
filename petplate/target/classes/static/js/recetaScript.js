@@ -150,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Recargar la página actual
                 location.reload();
             }else{
+                
                 console.error('Ocurrió un error inesperado. Código de respuesta:', response.status);
             }
         } catch (error) {
@@ -159,13 +160,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    let puedeDarLike = true; // Controla si el usuario puede dar clic
+    let intervaloControl = null; // Almacena el intervalo
+
     botonDarLikeReceta.addEventListener('click', () => {
-        if (userLiked) {//si el usuario ya le dio like
-            //le saca el like a la receta
-            sacarLikeReceta()
-        }else{//si el usuario tadavia no le dio like
-            //agrega like a la receta
-            darLikeReceta()
+        if (puedeDarLike) {
+            puedeDarLike = false; // Deshabilita nuevos clics
+
+            // Ejecuta la lógica de like
+            if (userLiked) {
+                sacarLikeReceta(); // Le saca el like a la receta
+            } else {
+                darLikeReceta(); // Agrega like a la receta
+            }
+
+            // Configura un intervalo que controle cuándo habilitar los clics
+            intervaloControl = setInterval(() => {
+                puedeDarLike = true; // Habilita nuevamente el clic
+                clearInterval(intervaloControl); // Detiene el intervalo para que no siga ejecutándose
+            }, 250); // Espera 150ms entre habilitar el clic
         }
     });
 
