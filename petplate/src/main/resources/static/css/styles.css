@@ -10,6 +10,7 @@ body {
     position: sticky;
     top: 0;
     width: 100%;/*si le das 100vw genera un scroll horizontal cuando la pagina necesita un scroll vertical ya que este escroll opcupa un ancho de la pantalla haciendo que no ente completamente el header*/
+    z-index: 10;
 }
 
 .nav {
