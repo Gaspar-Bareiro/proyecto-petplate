@@ -221,6 +221,7 @@ body {
 .RCT-interacciones>img {
     height: 47px;
     width: 47px;
+    cursor: pointer;
 }
 
 
