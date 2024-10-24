@@ -50,12 +50,17 @@ const closeModalButtonsLogin = document.querySelectorAll('.CLOSE-modal-iniciar-s
 // Selecciona la ventana modal que se va a abrir o cerrar
 const modalLogin = document.querySelector('.modal-iniciar-sesion');
 
+
+
+
 // Añade el evento de clic a cada botón de apertura
 openModalButtonsLogin.forEach(button => {
     button.addEventListener('click', function() {
         modalLogin.setAttribute('open', ''); // Muestra el diálogo
         formLogin.reset(); // Limpia el formulario Login
         formRegister.reset(); //limpia el formulario de register 
+        const errorLabelLogin = document.getElementById('error-label-iniciar-sesion')
+        errorLabelLogin.style.display = 'none';
     });
 });
 
@@ -65,6 +70,7 @@ closeModalButtonsLogin.forEach(button => {
         modalLogin.removeAttribute('open'); // Elimina el atributo 'open' para cerrar el diálogo
         formLogin.reset(); // Limpia el formulario Login
         formRegister.reset(); //limpia el formulario de register
+        
     });
 });
 
@@ -83,6 +89,8 @@ const modalRegister = document.querySelector('.modal-crear-cuenta');
 openModalButtonsRegister.forEach(button => {
     button.addEventListener('click', function() {
         modalRegister.setAttribute('open', ''); // Muestra el diálogo
+        const errorLabelRegister = document.getElementById('error-label-crear-cuenta')
+        errorLabelRegister.style.display = 'none';
     });
 });
 
@@ -105,6 +113,8 @@ const modalBuscarReceta = document.querySelector('.modal-buscar-receta'); // Cor
 openModalButtonBuscar.forEach(button => {
     button.addEventListener('click', function() {
         modalBuscarReceta.setAttribute('open', ''); // Ajustado para establecer el atributo 'open' en el primer elemento seleccionado
+        const errorLabelBuscarReceta = document.getElementById('error-label-buscar-receta')
+        errorLabelBuscarReceta.style.display = 'none';
     });
 });
 
