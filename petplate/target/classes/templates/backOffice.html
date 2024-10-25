@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>page name</title>
+    <title>Pet Plate</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="icon" href="/img/icon128.png" type="png">
+    <link rel="icon" href="img/icon128.png" type="png">
 </head>
 
 <body>
-
+    
     <!-- VENTANAS MODALES ---------------------------------------------------------->
     <!-- VENTANA MODAL INICIAR SESION ---------------------------------------------->
     <dialog class="modal-iniciar-sesion">
@@ -48,6 +48,7 @@
             <p class="crear-cuenta-alternativa">¿Ya tienes una cuenta? <span class="OPEN-modal-iniciar-sesion CLOSE-modal-crear-cuenta">Iniciar sesion</span></p>
         </div>
     </dialog>
+    
     <!-- VENTANA MODAL buscar Receta BR----------------------------------------------->
     <dialog class="modal-buscar-receta">
         <div class="buscar-receta">
@@ -134,60 +135,19 @@
 
     <!-- layout--------------------------------------------------------------------->
     <div class="layout">
-        <main class="PFL-main">
-            <div class="PRF-encabezado">
-                <!-- Input type file oculto -->
-                <input type="file" id="fileInput" accept="image/*">
 
-                <div class="image-container" id="clickableImage">
-                    <!-- Imagen de fondo que siempre se ve -->
-                    <img th:src="${userImgName != null ? userImgName : '/img/profile-default-inverted.jpg'}" alt="Imagen de perfil" id="img-perfil-usuario">
-                    
-                    <!-- Imagen que aparece al hacer hover -->
-                    <img src="/img/cambiar-imagen.png" alt="Imagen al pasar el mouse" class="image-top" id="boton-cambiar-img-perfil">
-                </div>
-                <!-- 
-                <img src="/img/profile-img.png" alt="foto-perfil" class="foto-perfil-usuario">-->
-                <label id="error-label-cambiar-imagen">Esto no se deberia ver nunca</label>
-                <h1 class="PRF-nombre-usuario" th:text="${userName}">Nombre de Usuario</h1>
-            </div>
-            <h2 class="PFL-titulo">Recetas</h2>
-
-            <div class="lista-recetas" th:if="${#lists.size(recetas) > 0}">
-                <!-- Itera sobre la lista de recetas -->
-                <div class="carta-receta" th:each="receta : ${recetas}" id="perfil-contenedor-receta">
-                    <div class="receta-detalles">
-                        <!-- Título de la receta -->
-                        <a th:href="@{/recipe/{id}(id=${receta.recipeId})}" th:text="${receta.title}" class="receta-detalles__titulo">Título receta</a>
-                        <!-- Ingredientes de la receta -->
-                        <p class="receta-detalles__ingredientes" th:text="${#strings.arrayJoin(receta.ingredientes, ' - ')}">
-                            Ingredientes
-                        </p>
-                    </div>
-                    <div id="perfil-contenedor-receta-ranking-modificar">
-                        <div class="receta-rating">
-                            <!-- Puntuación de la receta -->
-                            <span class="receta-rating__valor" th:text="${receta.Score}">999</span>
-                            <img src="/img/estrella.png" class="receta-rating__estrella">
-                        </div>
-                        <a th:href="@{/recipe/modify/{id}(id=${receta.recipeId})}" class="contenedor-imagen-perfil-contendor-receta">
-                            <img src="/img/editar.png" alt="icono-modificar-receta">
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <main class="main">
+            <h1 class="titulo">Gestion Auditores</h1>
             
-            <!-- Mostrar mensaje si no hay recetas -->
-            <h2 th:if="${#lists.size(recetas) == 0}" class="PFL-titulo">No se ha publicado ninguna receta.</h2>
-            
-            
-
         </main>
-    </div>
+        <main class="main">
+            <h1 class="titulo">Gestion Ingredientes</h1>
+            
+        </main>
 
+    </div>
     <!--Scripts   ------------------------------------------------------------------>
     <script src="/js/script.js"></script>
     <script src="/js/sesion.js"></script>
-    <script src="/js/perfil.js"></script>
 </body>
 </html>

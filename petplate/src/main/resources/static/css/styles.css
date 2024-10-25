@@ -32,10 +32,6 @@ body {
     list-style-type: none;
     padding-left: 0;
 }
-.logo-header{
-    height: 36px;
-    width: 44px;
-}
 
 
 .nav__list__item--flex{
@@ -120,6 +116,34 @@ body {
 #boton-cerrar-sesion-header {
     display: none;
 }
+.logo-header{
+    height: 48px;
+    width: 57px;
+}
+
+.sacar_decoracion_link{
+    display: inline-block;
+    text-decoration: none;
+    color: inherit; /* Usa el color del texto padre */
+    height: 36px;
+}
+
+.back-office-link{
+    margin-left: 20px;
+    display: none;
+}
+
+.back-office-link > img , .back-office-link{
+    border-radius: 10px;
+    height: 48px;
+    width: 50px;
+}
+
+.item--logo {
+    max-height: 48px;
+    overflow: hidden;
+}
+
 /* layout pagina principal ------------------------------------------------------------------------------------------------- */
 .layout {
     display: flex;

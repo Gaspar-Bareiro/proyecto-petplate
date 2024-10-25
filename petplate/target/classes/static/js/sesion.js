@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem("token")
         localStorage.removeItem("userId")
         localStorage.removeItem("userImg")
+        document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"; // Borra la cookie
         //recarga la pagina
         const nuevaRuta = '/'; // Cambia esto por la ruta deseada
 
@@ -27,11 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let token = localStorage.getItem('token'); // Obtener el token desde localStorage
         let userImg = localStorage.getItem('userImg'); // Obtener la imagen del usuario
         let userId = localStorage.getItem('userId'); // Obtener la imagen del usuario
+        let userRol = localStorage.getItem('userRol'); // Obtener el token desde localStorage
 
         // Obtengo los elementos del header mediante ID para cambiar sus propiedades
         let botonIniciarSesionHeader = document.getElementById('boton-iniciar-sesion-header'); // selecciona el boton para iniciar sesion
         let botonCrearRecetaHeader = document.getElementById('boton-crear-receta-header'); // selecciona el boton para crear receta
         let botonIrPerfilHeader = document.getElementById('boton-ir-a-perfil-header'); // selecciona el boton para ir al perfil del usuario
+        let botonBackOficceHeader = document.getElementById('back-office-button'); // selecciona el boton para iniciar sesion
         // Verificar si el token existe; si es así, cambiar la vista a la del usuario logeado
         if (token !== null && token.trim() !== '') {
             
@@ -61,6 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
             botonIrPerfilHeader.addEventListener('click', function() {
                 window.location.href = '/profile/' +  userId; // Cambia a la ruta del perfil
             });
+
+            if (userRol === 'Administrador' && !ruta.startsWith("/backOffice")) {
+                botonBackOficceHeader.style.display = 'inline-block';
+            }
+
 
         } else {
             // Si no hay token, mostrar el botón de iniciar sesión
@@ -185,6 +193,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 localStorage.setItem("userImg", userImg)//la imagen del usuario para mostrarla en el header
                 localStorage.setItem("userRol", userRol)
+
+                if (userRol === 'Administrador') {
+                    document.cookie = "token="+token+"; path=/; max-age=" + 60 * 60 * 24; // Expira en 24 horas
+                }
 
                 //vacia el areglo de ingredientes para refrescarlo
                 localStorage.removeItem('ingredientes');
