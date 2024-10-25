@@ -205,6 +205,7 @@ public class UserService {
 
         java.util.List<User> usuarios = usuariosOptional.get();
 
+
         String[] response = usuarios.stream()// Inicia array de usuarios
             .map(User::getUserName)   // Extrae el userName de cada usuario
             .toArray(String[]::new);  // Convierte el stream en un arreglo de Strings
@@ -270,17 +271,17 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("El Usuario "+ userName +" no exite."); //409
         }
 
-        //obtiene el usuario al dar el rol auditor
-        User newAuditor = userRepo.getUserByUserName(userName);
+        //obtiene el auditor al dar el rol usuario
+        User newUser = userRepo.getUserByUserName(userName);
 
         //verifica que el usuario tenga el rol "AUDITOR"
-        if (!newAuditor.getUserRol().getRolName().equals(EnumRolName.Auditor)) {
+        if (!newUser.getUserRol().getRolName().equals(EnumRolName.Auditor)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("El Usuario debe tener el rol de auditor."); //409
         }
 
-        newAuditor.setUserRol(rolRepo.findByRolName(EnumRolName.Usuario));
+        newUser.setUserRol(rolRepo.findByRolName(EnumRolName.Usuario));
 
-        userRepo.save(newAuditor);
+        userRepo.save(newUser);
 
         //se designo el rol con exito
         return ResponseEntity.status(HttpStatus.OK).body("OK");

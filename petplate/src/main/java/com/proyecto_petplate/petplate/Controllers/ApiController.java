@@ -151,7 +151,7 @@ public class ApiController {
         return recipeService.removeRecommendation(recipeId, token.getToken());
     }
 
-    @GetMapping("/back_office/auditors")
+    @PostMapping("/back_office/auditors")
     public ResponseEntity<?> obtenerTodosLosAuditores(@RequestBody RequestOnlyTokenDTO token) {
         return userService.obtenerTodosLosAuditores(token.getToken());
     }

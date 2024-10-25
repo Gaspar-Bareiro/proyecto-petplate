@@ -1144,3 +1144,18 @@ dialog {
     right: 0px;
     bottom: 56px;
 }
+
+.tabla-auditores {
+    margin: auto;
+    width: 400px;
+    border: 1px solid #000;
+}
+.tabla-auditores > tr > th {
+    border-top: 1px solid #000;
+    text-align: center;
+    font-weight: 500;
+}
+
+.tabla-auditores tbody > tr > td {
+    text-align: center;
+}
