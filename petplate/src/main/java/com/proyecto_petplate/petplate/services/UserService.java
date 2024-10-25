@@ -173,6 +173,7 @@ public class UserService {
             .token(token)
             .userId(userDB.getUserId())
             .userImg(userDB.getUserImg())
+            .userRol(userDB.getUserRol().getRolName().getValor())
             .build()
         ;
         //envio la respuesta

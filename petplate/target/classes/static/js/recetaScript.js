@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     //codigo a mantenr el de arriva se elimina
     let userLiked = false;
     const botonDarLikeReceta = document.querySelector('.RCT-recomendar-receta'); // boton para dar like a receta
+    const botonEliminarReceta = document.getElementById('boton-eliminar-receta');
+    const openModalEliminarReceta = document.querySelector('.OPEN-modal-eliminar-receta');
+    const closeModalEliminarReceta = document.querySelector('.CLOSE-modal-eliminar-receta');
+
     function obtenerIdReceta(){
         // Obtener la URL actual
         const url = window.location.href;
@@ -71,8 +75,29 @@ document.addEventListener('DOMContentLoaded', () => {
             botonDarLikeReceta.style.display = 'none'; // Ocultar el botón
         }
     }
+    function mostrarBotonBorrarReceta(){
+        let token = localStorage.getItem('token'); // Obtener el token desde localStorage
+        let userRol = localStorage.getItem('userRol')
+        if (token !== null && token.trim() !== '' && userRol === 'Auditor'){
+            const botonEliminarReceta = document.querySelector('.RCT-reportar-receta');
+            botonEliminarReceta.style.display = 'block'
+        }
+    }
+    openModalEliminarReceta.addEventListener('click',  () => {
+        const modalEliminarReceta = document.querySelector('.modal-confirmar-eliminar-receta');
+        modalEliminarReceta.setAttribute('open', ''); // Muestra el diálogo
+    });
+
+    
+    closeModalEliminarReceta.addEventListener('click',  () => {
+        const modalEliminarReceta = document.querySelector('.modal-confirmar-eliminar-receta');
+        modalEliminarReceta.removeAttribute('open');
+    });
+    
+    
     actualizarUserLiked()
     actualizarBotonLike()
+    mostrarBotonBorrarReceta()
 
     async function darLikeReceta(){
         // Obtener el token del localStorage
@@ -159,6 +184,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    async function eliminarReceta() {
+        // Obtener el token del localStorage
+        const token = localStorage.getItem('token'); 
+        // Si no hay token, abortar la solicitud
+        if (!token) {
+            console.error('No se encontró el token de usuario.');
+            return;
+        }
+
+        try {
+
+            const response = await fetch('/apiv1/recipe/delete/' + obtenerIdReceta(), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "token": token }) // Enviar el token en el cuerpo
+
+                
+            });
+
+            // Manejar respuestas de la API
+            if (response.ok) {
+                window.location.href = '/'
+            }else{
+                console.log('Error al eliminar la receta')
+            }
+            
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+            // Manejo de errores de comunicación con el servidor
+        }
+    }
 
     let puedeDarLike = true; // Controla si el usuario puede dar clic
     let intervaloControl = null; // Almacena el intervalo
@@ -180,6 +238,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(intervaloControl); // Detiene el intervalo para que no siga ejecutándose
             }, 250); // Espera 150ms entre habilitar el clic
         }
+    });
+
+    botonEliminarReceta.addEventListener('click', () => {
+        eliminarReceta()
     });
 
     

@@ -14,5 +14,6 @@ public class UserResponseLoginDTO {
     private String token;
     private int userId;
     private String userImg;
+    private String userRol;
     
 }

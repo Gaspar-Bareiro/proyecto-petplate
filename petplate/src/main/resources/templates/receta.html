@@ -91,6 +91,22 @@
         </div>
     </dialog>
 
+    <!-- CONFIRMAR ELIMINAR RECETA ---------------------------------------------->
+    <dialog class="modal-confirmar-eliminar-receta">
+        <div class="confirmar-eliminar-receta">
+            <form method="dialog" class="modal-eliminar-receta__close-button">
+                <button>X</button>
+            </form>
+
+            <h2 class="confirmar-eliminar-receta__texto">¿Seguro que quiere eliminar esta receta?</h2>
+            <div class="confirmar-eliminar-receta__botones">
+                <button id="boton-cancelar-eliminar-receta" class="CLOSE-modal-eliminar-receta" >Cancelar</button>
+                <button id="boton-eliminar-receta" >Eliminar</button>
+            </div>
+        </div>
+    </dialog>
+
+
     <!-- header -------------------------------------------------------------------->
     <header class="cabecera">
         <nav class="nav">
@@ -148,8 +164,8 @@
                 
                 
                 <div class="RCT-interacciones">
-                    <img src="/img/Report.png" alt="botoon Reportar receta" class="RCT-reportar-receta">
-                    <img src="/img/Fav.png" alt="botoon Recomendar receta" class="RCT-recomendar-receta">
+                    <img src="/img/Report.png" alt="" class="RCT-reportar-receta OPEN-modal-eliminar-receta">
+                    <img src="/img/Fav.png" alt="" class="RCT-recomendar-receta">
                 </div> 
             </div>
             

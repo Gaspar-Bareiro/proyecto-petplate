@@ -335,6 +335,12 @@ body {
     height: 76px;
     border-radius: 200px;
 }
+
+.RCT-reportar-receta:hover{
+    content: url("/img/Report2.png");
+}
+
+
 /* layout pagina perfil PFL -------------------------------------------------------------------------------------------- */
 
 .PFL-main {
@@ -657,7 +663,7 @@ dialog {
     
 }
 
-.iniciar-sesion,.crear-cuenta ,.buscar-receta ,.pautas-comunidad{
+.iniciar-sesion,.crear-cuenta ,.buscar-receta ,.pautas-comunidad,.confirmar-eliminar-receta{
     height: 600px;
     width: 400px;
     background-color: #fff;
@@ -671,12 +677,12 @@ dialog {
     border-radius: 3px;
 }
 
-.modal-iniciar-sesion__close-button, .modal-crear-cuenta__close-button,.modal-buscar-receta__close-button  ,.modal-pautas-comunidad__close-button{
+.modal-iniciar-sesion__close-button, .modal-crear-cuenta__close-button,.modal-buscar-receta__close-button  ,.modal-pautas-comunidad__close-button,.modal-eliminar-receta__close-button{
     align-self: end;
     margin: 15px;
     
 }
-.modal-iniciar-sesion__close-button>button,.modal-crear-cuenta__close-button>button, .modal-buscar-receta__close-button>button ,.modal-pautas-comunidad__close-button > button{
+.modal-iniciar-sesion__close-button>button,.modal-crear-cuenta__close-button>button, .modal-buscar-receta__close-button>button ,.modal-pautas-comunidad__close-button > button,.modal-eliminar-receta__close-button > button{
     cursor: pointer;
     border: 1px solid #555554;
     border-radius: 10px;
@@ -687,7 +693,7 @@ dialog {
     transition-property: color, background-color;
 }
 
-.modal-iniciar-sesion__close-button>button:hover,.modal-crear-cuenta__close-button>button:hover, .modal-buscar-receta__close-button>button:hover ,.modal-pautas-comunidad__close-button>button:hover {
+.modal-iniciar-sesion__close-button>button:hover,.modal-crear-cuenta__close-button>button:hover, .modal-buscar-receta__close-button>button:hover ,.modal-pautas-comunidad__close-button>button:hover ,.modal-eliminar-receta__close-button>button:hover{
     color: #555554;
     background-color: #fff;
 }
@@ -735,7 +741,7 @@ dialog {
 }
 
 .input-form:focus-visible, .input-form-crear-cuenta:focus-visible, .ingrediente-input:focus-visible, .CR-ingrediente-input:focus-visible ,.CR-cantidad:focus-visible ,
-.CR-titulo-receta:focus-visible, .CR-descripcion-receta:focus-visible {
+.CR-titulo-receta:focus-visible, .CR-descripcion-receta:focus-visible{
     outline: none;
 }
 
@@ -1045,3 +1051,42 @@ dialog {
     padding: 0 10px;
 }
 
+/* VENTANA MODAL CONFIRMAR ELIMINAR RECETA -------------------------------------------------------------------------------------------- */
+
+.confirmar-eliminar-receta{
+    height: 200px;
+    width: 600px;
+    margin-top: 25vh;
+    position: relative;
+    border-left: 7px solid #d3d3d3;
+    border: 7px solid #d3d3d3;
+}
+
+.confirmar-eliminar-receta__botones {
+    position: absolute;
+    bottom: 20px;
+    right: 35px;
+}
+
+.confirmar-eliminar-receta__botones > button {
+    cursor: pointer;
+    padding: 7px 20px;
+    border-radius: 15px;
+    border: none;
+    margin-left: 10px;
+    font-size: 1em;
+
+}
+
+#boton-eliminar-receta:hover{
+    background-color: #f33;
+}
+
+#boton-cancelar-eliminar-receta:hover {
+    background-color: #3e3;
+}
+
+.confirmar-eliminar-receta__texto {
+    user-select: none;
+    font-weight: 400;
+}

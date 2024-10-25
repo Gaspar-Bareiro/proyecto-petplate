@@ -177,12 +177,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 let token = responseData.token; // Accede al campo 'token'
                 let userId = responseData.userId; // Accede al campo 'userId'
                 let userImg = responseData.userImg; // Accede al campo 'userImg'
+                let userRol = responseData.userRol;
                 
                 // Guardar datos en el localStorage
                 localStorage.setItem('token', token); //el token
                 localStorage.setItem('userId', userId); //el id del usuario (para poder redireccionarlo a su perfil)
 
                 localStorage.setItem("userImg", userImg)//la imagen del usuario para mostrarla en el header
+                localStorage.setItem("userRol", userRol)
 
                 //vacia el areglo de ingredientes para refrescarlo
                 localStorage.removeItem('ingredientes');
