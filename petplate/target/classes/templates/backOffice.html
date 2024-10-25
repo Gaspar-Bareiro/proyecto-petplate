@@ -137,7 +137,14 @@
     <div class="layout">
 
         <main class="main">
-            <h1 class="titulo">Gestion Auditores</h1>
+            <h1 class="back-office-titulo">Gestion Auditores</h1>
+            <h2 class="back-office-titulo">Dar Rol Auditor</h2>
+            <Form class="back-office-form-rol" id="back-office-form-agregar-auditor">
+                <input type="text" id="back-office-nombre" class="input-form input-form-back-office" placeholder="Usuario">
+                <input type="text" id="back-office-confirmar-nombre" class="input-form input-form-back-office" placeholder="Confirmar Usuario">
+                <label id="error-label-agregar-auditor">Esto no se deberia ver nunca</label>
+                <input type="submit" class="input-button" value="Agregar Auditor">
+            </Form>
             
         </main>
         <main class="main">
@@ -149,5 +156,6 @@
     <!--Scripts   ------------------------------------------------------------------>
     <script src="/js/script.js"></script>
     <script src="/js/sesion.js"></script>
+    <script src="/js/backOffice.js"></script>
 </body>
 </html>

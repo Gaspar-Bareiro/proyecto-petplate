@@ -833,6 +833,7 @@ dialog {
 }
 
 
+
 #iniciar-sesion-form, #crear-receta-form , #modificar-receta-form , .buscar-por-ingrediente{
     position: relative;
 }
@@ -1113,4 +1114,33 @@ dialog {
 .confirmar-eliminar-receta__texto {
     user-select: none;
     font-weight: 400;
+}
+
+/* BACK OFFICE ---------------------------------------------------------------------------------------------------------*/
+
+.input-form-back-office {
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 200px;
+}
+
+.back-office-titulo {
+    text-align: center;
+}
+.back-office-form-rol {
+    margin: auto;
+    width: 400px;
+    position: relative;
+}
+
+#error-label-agregar-auditor{
+    display: none;
+    position: absolute;
+    text-align: center;
+    text-wrap: nowrap;
+    color: #f55;
+    width: 100%;
+    right: 0px;
+    bottom: 56px;
 }

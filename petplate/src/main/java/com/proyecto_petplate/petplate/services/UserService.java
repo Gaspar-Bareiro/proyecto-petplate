@@ -230,7 +230,7 @@ public class UserService {
 
         //verifica que el usuario al darle el rol de auditor existe
         if (!userRepo.existsByUserName(userName)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Usuario "+ userName +" no exite."); //409
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El Usuario "+ userName +" no exite."); //409
         }
 
         //obtiene el usuario al dar el rol auditoe
@@ -238,7 +238,7 @@ public class UserService {
 
         //verifica que el usuario tenga el rol "Usuario"
         if (!newAuditor.getUserRol().getRolName().equals(EnumRolName.Usuario)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Usuario debe tener el rol de Usuario."); //409
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El Usuario debe tener el rol de Usuario."); //409
         }
 
         newAuditor.setUserRol(rolRepo.findByRolName(EnumRolName.Auditor));
