@@ -5,7 +5,10 @@ let ingredientesLocales = JSON.parse(localStorage.getItem('ingredientes'));
 let ingredientes = ['ERROR']; // Inicialización de 'ingredientes' como una variable mutable
 
 // Verificar si no existe en localStorage o si el arreglo está vacío
-if (!ingredientesLocales || ingredientesLocales.length === 0) {
+
+
+function llenarArrayIngredientes(){
+    if (!ingredientesLocales || ingredientesLocales.length === 0) {
     // Realizar la solicitud GET al endpoint /apiv1/ingredients
     fetch('/apiv1/ingredients', {
         method: 'GET',
@@ -36,6 +39,9 @@ if (!ingredientesLocales || ingredientesLocales.length === 0) {
     // Si ya hay ingredientes almacenados
     ingredientes = ingredientesLocales; // Asignar el valor del localStorage
 }
+}
+
+llenarArrayIngredientes()
 
 
 //SCRIP PARA ABRIR MODALES LOGIN Y REGISTER (hasta la linea 52 aprox)

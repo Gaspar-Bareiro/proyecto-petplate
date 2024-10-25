@@ -1134,7 +1134,7 @@ dialog {
     position: relative;
 }
 
-#error-label-agregar-auditor{
+#error-label-agregar-auditor, #error-label-agregar-ingrediente{
     display: none;
     position: absolute;
     text-align: center;
@@ -1159,3 +1159,4 @@ dialog {
 .tabla-auditores tbody > tr > td {
     text-align: center;
 }
+
