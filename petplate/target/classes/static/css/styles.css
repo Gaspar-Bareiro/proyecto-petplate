@@ -649,7 +649,7 @@ input[type=number] {
 }
 
 /* anuncions ------------------------------------------------------------------------------------------------------------- */
-
+/*
 .anuncioIzquierdo , .anuncioDerecho {
     width: 12vw;
     height: 70vh;
@@ -667,6 +667,35 @@ input[type=number] {
 
 .anuncioDerecho {
     background-image: url(/img/anuncioDerecho.png);
+}
+*/
+.anuncioIzquierdo, .anuncioDerecho {
+    width: 160px; /* Ancho del anuncio */
+    height: 600px; /* Alto del anuncio */
+    margin-top: 70px;
+    background-color: #f1f1f1; /* Color de fondo común en anuncios */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #444;
+    font-size: 1.5em; /* Tamaño de fuente similar al de anuncios */
+    font-family: Arial, sans-serif;
+    position: sticky;
+    box-sizing: border-box;
+    border: 3px solid #444; /* Bordes para simular el anuncio */
+    top: 10vw;
+}
+
+/* Personalizar el fondo para distinguir los anuncios */
+.anuncioIzquierdo {
+    background-color: #e0e0e0; /* Color para el anuncio izquierdo */
+    border-color: #555; /* Color de borde para el anuncio izquierdo */
+}
+
+.anuncioDerecho {
+    background-color: #d9d9d9; /* Color para el anuncio derecho */
+    border-color: #666; /* Color de borde para el anuncio derecho */
 }
 
 /* ventanas modales ------------------------------------------------------------------------------------------------------ */
