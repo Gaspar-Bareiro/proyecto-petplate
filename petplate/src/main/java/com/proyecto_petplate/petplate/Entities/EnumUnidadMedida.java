@@ -1,14 +1,14 @@
 package com.proyecto_petplate.petplate.Entities;
 
 public enum EnumUnidadMedida {
-    kg,
-    g,
-    l,
+    Unidad,
+    Kg,
+    gr,
+    L,
     ml,
-    taza,
-    cucharada,
-    unidad,
-    pizca;
+    Pizca,
+    Cucharada,
+    Taza;
 
     public String getValor() {
         return this.name(); // Devuelve el nombre del enum en minúsculas
