@@ -348,6 +348,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Usuario registrado correctamente
                 formRegister.reset(); // Limpia el formulario
                 formLogin.reset(); //limpia el formulario de register
+                //limpia el label de error de login
+                const errorLabelLogin = document.getElementById('error-label-iniciar-sesion')
+                errorLabelLogin.style.display = 'none';
 
                 //cierra la ventana modal crear cuenta
                 modalRegister.removeAttribute('open'); // Elimina el atributo 'open' para cerrar el diálogo register

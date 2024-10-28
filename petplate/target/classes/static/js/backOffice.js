@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (nombre.length < 4 || nombre.length > 30 || nombre.includes(" ")) {
             errorLabelAgregarAuditor.textContent = 'El usuario no existe.';
             isValid = false
-        }
+        }else
 
         //verifica que los nombres coinsidan
         if(nombre !== confirmarNombre){
@@ -177,13 +177,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (nombre.length < 3 || nombre.length > 30) {
             errorLabelAgregarIngrediente.textContent = 'El nombre del ingrediente debe tener entre 3 y 30 caracteres.';
             isValid = false
-        }
+        } else
 
         //verifica que los nombres coinsidan
         if(nombre !== confirmarNombre){
             errorLabelAgregarIngrediente.textContent = 'Los Ingredientes no coinciden.';
             isValid = false
-        }
+        } 
 
         //muestra el mensaje de error
         if (!isValid) {

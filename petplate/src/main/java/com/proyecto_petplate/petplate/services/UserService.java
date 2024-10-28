@@ -239,7 +239,11 @@ public class UserService {
 
         //verifica que el usuario tenga el rol "Usuario"
         if (!newAuditor.getUserRol().getRolName().equals(EnumRolName.Usuario)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El Usuario debe tener el rol de Usuario."); //409
+            if (newAuditor.getUserRol().getRolName().equals(EnumRolName.Auditor)) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El usuario ya tiene el rol auditor."); //409
+            }else{
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El usuario ya tiene un rol superior."); //409
+            }
         }
 
         newAuditor.setUserRol(rolRepo.findByRolName(EnumRolName.Auditor));
