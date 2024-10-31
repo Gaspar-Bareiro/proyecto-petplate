@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.proyecto_petplate.petplate.Entities.EnumUnidadMedida;
 import com.proyecto_petplate.petplate.services.ModelAndViewService;
 
 import org.springframework.beans.factory.annotation.Autowired;
