@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.proyecto_petplate.petplate.DTO.IngredientDTO;
 import com.proyecto_petplate.petplate.DTO.RecipeBasicDataDTO;
 import com.proyecto_petplate.petplate.Entities.EnumRolName;
+import com.proyecto_petplate.petplate.Entities.EnumUnidadMedida;
 import com.proyecto_petplate.petplate.Entities.Recipe;
 import com.proyecto_petplate.petplate.Entities.RecipeIngredientRelationship;
 import com.proyecto_petplate.petplate.Entities.User;
@@ -244,6 +245,10 @@ public class ModelAndViewService {
                 model.addAttribute("ingredientes", ingredientesDTO);
             }
             
+            // Agregar el conjunto de unidades de medida al modelo
+            model.addAttribute("unidadesMedida", EnumUnidadMedida.getUnidadesMedida());
+            
+
         }
         return "modificarReceta";
     }
@@ -255,6 +260,14 @@ public class ModelAndViewService {
                 .quantity(relationship.getQuantity())
                 .unitOfMeasurement(relationship.getUnitOfMeasurement())
                 .build();
+    }
+
+
+    public String getCrearReceta(Model model){
+        // Agregar el conjunto de unidades de medida al modelo
+        model.addAttribute("unidadesMedida", EnumUnidadMedida.getUnidadesMedida());
+
+        return "crearReceta";
     }
 }
 
