@@ -83,13 +83,13 @@ async function obtenerResultadosBusqueda(){
 
 
         }else{
-            tituloResultado.textContent = "No se encontraron resultados para su búsqueda.";
+            tituloResultado.textContent = "No hay resultados disponibles.";
             return;
             
         }
     } catch (error) {
         console.error('Error al buscar receta:', error);
-        tituloResultado.textContent = "No se encontraron resultados para su búsqueda.";
+        tituloResultado.textContent = "No hay resultados disponibles.";
         return;
     }
 

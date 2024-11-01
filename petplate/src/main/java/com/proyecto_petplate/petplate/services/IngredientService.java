@@ -126,7 +126,7 @@ public class IngredientService {
 
         //verifica que el ingrediente no exista en la base de datos
         if (java.util.Arrays.asList(obtenerNombresIngredientes()).contains(ingrediente)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El ingrediente ya existe en la base de datos"); //409
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El ingrediente ya existe."); //409
         }
 
         //crea el ingrediente y lo guarda el ingrediente en la base de datos
