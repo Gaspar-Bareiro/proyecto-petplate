@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //variables para las validaciones
         let isValid = true;
         let nombreUsuario = nombreUsuarioInputLogin.value.trim();
-        let contrasena = contrasenaInputLogin.value.trim();
+        let contrasena = contrasenaInputLogin.value;
 
         // Verificación si hay algún campo vacío
         if (!nombreUsuario || !contrasena) {
@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let isValid = true;
         let correo = correoInputRegister.value.trim();
         let nombreUsuario = nombreUsuarioInputRegister.value.trim();
-        let contrasena = contrasenaInputRegister.value.trim();
+        let contrasena = contrasenaInputRegister.value;
         let confirmarContrasena = confirmarContrasenaInputRegister.value.trim();
         let correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //verifica si el correo tiene mas de 254 caractes
         if (correo.length > 254) {
-            errorLabelRegister.textContent = 'El correo electrónico es demaciado largo.';
+            errorLabelRegister.textContent = 'El correo electrónico es demasiado largo.';
             isValid = false;
         } else
 
