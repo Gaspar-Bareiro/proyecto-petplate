@@ -231,7 +231,7 @@ public class UserService {
 
         //verifica que el usuario al darle el rol de auditor existe
         if (!userRepo.existsByUserName(userName)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El Usuario "+ userName +" no exite."); //409
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("API:El Usuario "+ userName +" no existe."); //409
         }
 
         //obtiene el usuario al dar el rol auditoe
@@ -272,7 +272,7 @@ public class UserService {
 
         //verifica que el usuario al darle el rol de auditor existe
         if (!userRepo.existsByUserName(userName)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Usuario "+ userName +" no exite."); //409
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("El Usuario "+ userName +" no existe."); //409
         }
 
         //obtiene el auditor al dar el rol usuario
