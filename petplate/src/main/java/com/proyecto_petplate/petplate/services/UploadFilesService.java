@@ -28,12 +28,12 @@ public class UploadFilesService {
 
             String newImgName = imgName + imgExtencion;
 
-            File folder = new File("src/main/resources/static/recipe-pictures");
+            File folder = new File("recipe-pictures");
             if (!folder.exists()) {
                 folder.mkdir();
             }
 
-            Path path = Paths.get("src/main/resources/static/recipe-pictures/" + newImgName); 
+            Path path = Paths.get("recipe-pictures/" + newImgName); 
 
             Files.write(path, bytes);// crea el archibo
 
@@ -51,7 +51,7 @@ public class UploadFilesService {
         // Definir la ruta del archivo que se desea eliminar
         if (oldName != null && !oldName.trim().isEmpty()) {
             
-            Path path = Paths.get("src/main/resources/static/recipe-pictures/" + oldName);
+            Path path = Paths.get("recipe-pictures/" + oldName);
             try {
                 // Verificar si el archivo existe
                 if (Files.exists(path)) {
@@ -82,12 +82,12 @@ public class UploadFilesService {
 
             String newImgName = imgName + imgExtencion;
 
-            File folder = new File("src/main/resources/static/user-pictures");
+            File folder = new File("user-pictures");
             if (!folder.exists()) {
                 folder.mkdir();
             }
 
-            Path path = Paths.get("src/main/resources/static/user-pictures/" + newImgName); 
+            Path path = Paths.get("user-pictures/" + newImgName); 
 
             Files.write(path, bytes);// crea el archibo
 
@@ -106,7 +106,7 @@ public class UploadFilesService {
         // Definir la ruta del archivo que se desea eliminar
         if (oldName != null && !oldName.trim().isEmpty()) {
             
-            Path path = Paths.get("src/main/resources/static/user-pictures/" + oldName);
+            Path path = Paths.get("user-pictures/" + oldName);
             try {
                 // Verificar si el archivo existe
                 if (Files.exists(path)) {
