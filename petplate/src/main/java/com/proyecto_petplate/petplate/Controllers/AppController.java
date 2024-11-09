@@ -54,13 +54,13 @@ public class AppController {
     }
     
     @GetMapping("/busqueda/resultados")
-    public String resultadosBusqueda() {
-        return "resultadosBusqueda";
+    public String resultadosBusqueda(Model model) {
+        return modelAndViewService.getResultadosBusqueda(model);
     }
     
     @GetMapping("/backOffice")
-    public ModelAndView backOffice(@CookieValue(value = "token", defaultValue = "") String token) {
-        return modelAndViewService.getModelBackOfice(token);
+    public ModelAndView backOffice(@CookieValue(value = "token", defaultValue = "") String token,Model model) {
+        return modelAndViewService.getModelBackOfice(token,model);
     }
     
 }

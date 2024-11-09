@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const idReceta = segments[segments.length - 1];
         // Enviar la receta a la API
         try {
-            const response = await fetch('/apiv1/recipe/modify/' + idReceta, {
+            const response = await fetch(baseUrl +'/apiv1/recipe/modify/' + idReceta, {
                 method: 'PUT',
                 body: recetaData
             });

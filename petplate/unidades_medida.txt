@@ -1,9 +1,8 @@
 Unidades de medida:
-Unidad
-Kg
-gr
-L
-ml
-Pizca
-Cucharada
-Taza
+Unidad/es
+Kg (Kilogramo)
+gr (Gramo)
+L (Litro)
+ml (Mililitro)
+Cucharada/s
+Taza/s

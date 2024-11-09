@@ -135,36 +135,82 @@
 
     <!-- layout--------------------------------------------------------------------->
     <div class="layout">
+        <main class="back-office-main">
+            <!--Seccion de auditores-->
+            <section class="main">
+                <h2 class="back-office-titulo-grande">Gestion Auditores</h2>
+                <h2 class="back-office-titulo">Dar Rol Auditor</h2>
+                <Form class="back-office-form-rol" id="back-office-form-agregar-auditor">
+                    <input type="text" id="back-office-nombre" class="input-form input-form-back-office" placeholder="Usuario">
+                    <input type="text" id="back-office-confirmar-nombre" class="input-form input-form-back-office" placeholder="Confirmar Usuario">
+                    <label id="error-label-agregar-auditor">Esto no se deberia ver nunca</label>
+                    <input type="submit" class="input-button" value="Agregar Auditor">
+                </Form>
+                <h2 class="back-office-titulo">Auditores Actuales:</h2>
+                <table class="tabla-auditores">
+                </table>
+                
+            </section>
+            <!--Seccion de ingredientes-->
+            <section class="main">
+                <h2 class="back-office-titulo-grande">Gestion Ingredientes</h2>
+                <h2 class="back-office-titulo">Agregar ingrediente</h2>
+                <Form class="back-office-form-rol" id="back-office-form-agregar-ingrediente">
+                    <input type="text" id="back-office-nombre-ingrediente" class="input-form input-form-back-office" placeholder="Nombre Ingrediente">
+                    <input type="text" id="back-office-confirmar-nombre-ingrediente" class="input-form input-form-back-office" placeholder="Confirmar Nombre">
+                    <label id="error-label-agregar-ingrediente">Esto no se deberia ver nunca</label>
+                    <input type="submit" class="input-button" value="Agregar Ingrediente">
+                </Form>
+                <h2 class="back-office-titulo">Ingredientes Actuales:</h2>
+                <div class="back-office-consultar-ingredientes">
+                    <input type="text" class="CR-ingrediente-input" placeholder="Escribe un ingrediente..." id="back-office-input-busqueda-ingrediente"/>
+                    <textarea class="CR-descripcion-receta" disabled id="back-office-resutados-busqueda-ingredientes"></textarea>
+                </div>
+            </section>
+            <!--Seccion de Anuncios-->
+            <section class="back-office-section-aads">
+                <div class="anuncioIzquierdo back-office-anuncio"></div>
+                <div class="main back-office-main-long">
+                    <div class="back-office-div-centrar-contenido">
+                        <h2 class="back-office-titulo-grande">Gestion Anuncios</h2>
+                        <h2 class="back-office-titulo">Agregar anuncios:</h2>
+                        <div class="back-office-ads-options-conteiner">
+                            <label for="" id="error-label-agregar-anuncio">Esto no se deberia ver nunca</label>
+                            <input type="file" id="addFileInputLeft" class="invisible" accept="image/*">
+                            <button class="back-office-ads-button" id="back-office-ads-button-left-change">Izquierdo</button>
+                            <input type="file" id="addFileInputBoth"class="invisible" accept="image/*">
+                            <button class="back-office-ads-button" id="back-office-ads-button-both-change">Ambos</button>
+                            <input type="file" id="addFileInputRight"  class="invisible" accept="image/*">
+                            <button class="back-office-ads-button" id="back-office-ads-button-rigth-change">Derecho</button>
+                        </div>
+                        <h2 class="back-office-titulo">Remover anuncios:</h2>
+                        <div class="back-office-ads-options-conteiner">
+                            <label for="" id="error-label-eliminar-anuncio">Esto no se deberia ver nunca</label>
+                            <button class="back-office-ads-button" id="back-office-ads-button-left-remove">Izquierdo</button>
+                            <button class="back-office-ads-button" id="back-office-ads-button-both-remove">Ambos</button>
+                            <button class="back-office-ads-button" id="back-office-ads-button-rigth-remove">Derecho</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="anuncioDerecho back-office-anuncio"></div>
+            </section>
 
-        <main class="main">
-            <h1 class="back-office-titulo">Gestion Auditores</h1>
-            <h2 class="back-office-titulo">Dar Rol Auditor</h2>
-            <Form class="back-office-form-rol" id="back-office-form-agregar-auditor">
-                <input type="text" id="back-office-nombre" class="input-form input-form-back-office" placeholder="Usuario">
-                <input type="text" id="back-office-confirmar-nombre" class="input-form input-form-back-office" placeholder="Confirmar Usuario">
-                <label id="error-label-agregar-auditor">Esto no se deberia ver nunca</label>
-                <input type="submit" class="input-button" value="Agregar Auditor">
-            </Form>
-            <h2 class="back-office-titulo">Auditores Actuales:</h2>
-            <table class="tabla-auditores">
-            </table>
-            
-        </main>
-        <main class="main">
-            <h1 class="titulo">Gestion Ingredientes</h1>
-            <h2 class="back-office-titulo">Agregar ingrediente</h2>
-            <Form class="back-office-form-rol" id="back-office-form-agregar-ingrediente">
-                <input type="text" id="back-office-nombre-ingrediente" class="input-form input-form-back-office" placeholder="Nombre Ingrediente">
-                <input type="text" id="back-office-confirmar-nombre-ingrediente" class="input-form input-form-back-office" placeholder="Confirmar Nombre">
-                <label id="error-label-agregar-ingrediente">Esto no se deberia ver nunca</label>
-                <input type="submit" class="input-button" value="Agregar Ingrediente">
-            </Form>
         </main>
 
     </div>
     <!--Scripts   ------------------------------------------------------------------>
+
+    <!-- Script de configuracion externo-->
+    <script th:inline="javascript">
+        var baseUrl = /*[[${baseUrl}]]*/ '';  // Se inyecta la variable baseUrl de Java
+        console.log("Base URL: " + baseUrl);
+    </script>
+    <!-- archivos scripts-->
     <script src="/js/script.js"></script>
     <script src="/js/sesion.js"></script>
     <script src="/js/backOffice.js"></script>
+    <script src="/js/anuncios.js"></script>
+    
+
 </body>
 </html>

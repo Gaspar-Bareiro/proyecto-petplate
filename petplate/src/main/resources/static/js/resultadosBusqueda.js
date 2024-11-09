@@ -30,7 +30,7 @@ async function obtenerResultadosBusqueda(){
 
     try {
         //respuesta
-        const response = await fetch('/apiv1/recipe/search', {
+        const response = await fetch(baseUrl +'/apiv1/recipe/search', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

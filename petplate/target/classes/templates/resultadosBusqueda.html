@@ -134,19 +134,25 @@
 
     <!-- layout--------------------------------------------------------------------->
     <div class="layout">
-        <div class="anuncioIzquierdo">160x600</div>
+        <div class="anuncioIzquierdo"></div>
 
         <main class="main" id="main-resultados-busqueda">
             <h1 class="titulo" id="resultado-busqueda-titulo">Resultados de Búsqueda</h1>
             
         </main>
 
-        <div class="anuncioDerecho">160x600</div>
+        <div class="anuncioDerecho"></div>
     </div>
     <!--Scripts   ------------------------------------------------------------------>
+    <!-- Script de configuracion externo-->
+    <script th:inline="javascript">
+        var baseUrl = /*[[${baseUrl}]]*/ '';  // Se inyecta la variable baseUrl de Java
+        console.log("Base URL: " + baseUrl);
+    </script>
+    
     <script src="/js/script.js"></script>
     <script src="/js/sesion.js"></script>
     <script src="/js/resultadosBusqueda.js"></script>
-    
+    <script src="/js/anuncios.js"></script>
 </body>
 </html>

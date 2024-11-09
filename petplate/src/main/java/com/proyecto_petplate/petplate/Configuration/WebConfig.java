@@ -16,5 +16,8 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/user-pictures/**")  // Acceso a /recipe-pictures/*
                .addResourceLocations("file:./user-pictures/");  // Ruta relativa al directorio donde se ejecuta el JAR
+
+        registry.addResourceHandler("/ads-pictures/**")  // Acceso a /recipe-pictures/*
+        .addResourceLocations("file:./ads-pictures/");  // Ruta relativa al directorio donde se ejecuta el JAR
     }
 }

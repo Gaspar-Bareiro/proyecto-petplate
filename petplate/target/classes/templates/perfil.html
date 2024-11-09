@@ -186,8 +186,15 @@
     </div>
 
     <!--Scripts   ------------------------------------------------------------------>
+    <!-- Script de configuracion externo-->
+    <script th:inline="javascript">
+        var baseUrl = /*[[${baseUrl}]]*/ '';  // Se inyecta la variable baseUrl de Java
+        console.log("Base URL: " + baseUrl);
+    </script>
+    <!-- archivos scripts-->
     <script src="/js/script.js"></script>
     <script src="/js/sesion.js"></script>
     <script src="/js/perfil.js"></script>
+    
 </body>
 </html>

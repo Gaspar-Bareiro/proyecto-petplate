@@ -152,7 +152,7 @@
     <!-- layout--------------------------------------------------------------------->
     <div class="layout">
 
-        <div class="anuncioIzquierdo">160x600</div>
+        <div class="anuncioIzquierdo"></div>
 
         <main class="RCT-main">
 
@@ -191,11 +191,17 @@
             </div>
         </main>
 
-        <div class="anuncioDerecho">160x600</div>
+        <div class="anuncioDerecho"></div>
     </div>
     <!--Scripts   ------------------------------------------------------------------>
+    <!-- Script de configuracion externo-->
+    <script th:inline="javascript">
+        var baseUrl = /*[[${baseUrl}]]*/ '';  // Se inyecta la variable baseUrl de Java
+        console.log("Base URL: " + baseUrl);
+    </script>
     <script src="/js/script.js"></script>
     <script src="/js/recetaScript.js"></script>
     <script src="/js/sesion.js"></script>
+    <script src="/js/anuncios.js"></script>
 </body>
 </html>

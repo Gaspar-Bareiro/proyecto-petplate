@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Enviar la receta a la API
         try {
-            const response = await fetch('/apiv1/recipe/create', {
+            const response = await fetch(baseUrl +'/apiv1/recipe/create', {
                 method: 'POST',
                 body: recetaData
             });

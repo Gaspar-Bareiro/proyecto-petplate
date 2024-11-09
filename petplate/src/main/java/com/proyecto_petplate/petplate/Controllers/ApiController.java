@@ -13,6 +13,9 @@ import com.proyecto_petplate.petplate.DTO.UserRequestRegisterDTO;
 import com.proyecto_petplate.petplate.services.IngredientService;
 import com.proyecto_petplate.petplate.services.RecipeService;
 import com.proyecto_petplate.petplate.services.UserService;
+import com.proyecto_petplate.petplate.services.AdsService;
+import com.proyecto_petplate.petplate.DTO.AdsRequestChangeImgDTO;
+import com.proyecto_petplate.petplate.DTO.AdsRequestDeleteImgDTO;
 import com.proyecto_petplate.petplate.DTO.IngredientDTO;
 import com.proyecto_petplate.petplate.DTO.RequestOnlyTokenDTO;
 import com.proyecto_petplate.petplate.DTO.RequestTokenAndIngredientNameDTO;
@@ -44,6 +47,9 @@ public class ApiController {
 
     @Autowired
     private IngredientService ingredientService;
+
+    @Autowired
+    private AdsService adsService;
     
     //servicio Register
     @PostMapping("/auth/register")
@@ -179,7 +185,7 @@ public class ApiController {
     
 
     @PostMapping(value = "/userImgChange", consumes = "multipart/form-data")
-        public ResponseEntity<?> cambiarImagenPerfil(
+    public ResponseEntity<?> cambiarImagenPerfil(
             @RequestPart(value = "token", required = false) String token,
             @RequestPart(value = "img", required = false) MultipartFile img) {
         
@@ -192,6 +198,27 @@ public class ApiController {
         // Llama al servicio para crear la receta
         return userService.cambiarImagenPerfil(data);
     }
+
+    @PostMapping(value = "/changeAds", consumes = "multipart/form-data")
+    public ResponseEntity<?> cambiarImagenAnuncios(
+            @RequestPart(value = "token", required = false) String token,
+            @RequestPart(value = "location", required = false) String location,
+            @RequestPart(value = "img", required = false) MultipartFile img) {
+        
+        // Crea un DTO con los datos recibidos
+        AdsRequestChangeImgDTO data = AdsRequestChangeImgDTO.builder()
+                .token(token)
+                .img(img)
+                .location(location)
+                .build();
+
+        // Llama al servicio para crear la receta
+        return adsService.cambiarImagenAnuncios(data);
+    }
     
 
+    @PostMapping("/removeAds")
+    public ResponseEntity<?> eliminarAnuncios(@RequestBody AdsRequestDeleteImgDTO data){
+        return adsService.EliminarAnuncios(data);
+    }
 }

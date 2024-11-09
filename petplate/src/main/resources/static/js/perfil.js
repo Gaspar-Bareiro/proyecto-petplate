@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         requestData.append('img', file); // Archivo de imagen
 
         try {
-            const response = await fetch('/apiv1/userImgChange', {
+            const response = await fetch(baseUrl +'/apiv1/userImgChange', {
                 method: 'POST',
                 body: requestData
             });

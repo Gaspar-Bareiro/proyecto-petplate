@@ -1,0 +1,2 @@
+#archivo de configuracion
+URL= http://localhost:4000

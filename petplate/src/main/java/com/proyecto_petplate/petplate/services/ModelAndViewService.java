@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.proyecto_petplate.petplate.Configuration.configuracionExterna;
 import com.proyecto_petplate.petplate.DTO.IngredientDTO;
 import com.proyecto_petplate.petplate.DTO.RecipeBasicDataDTO;
 import com.proyecto_petplate.petplate.Entities.EnumRolName;
@@ -43,7 +44,7 @@ public class ModelAndViewService {
     private RecipeIngredientRelationshipRepository recipeIngredientRelationshipRepo;
     
     //verifica que el usuario tiene permisos antes de devolver la vista del backOffice
-    public ModelAndView getModelBackOfice(String token) {
+    public ModelAndView getModelBackOfice(String token,Model model) {
 
         if (token.equals("") || token.isEmpty()) {
             // Redireccionar a la raíz si la cookie está vacía
@@ -61,7 +62,7 @@ public class ModelAndViewService {
         }
 
         
-
+        model.addAttribute("baseUrl", configuracionExterna.baseUrl);
         return new ModelAndView("backOffice");
     }
     
@@ -101,6 +102,7 @@ public class ModelAndViewService {
             model.addAttribute("mejoresRecetasDatosBasicos", mejoresRecetasDatosBasicos);
         }
 
+        model.addAttribute("baseUrl", configuracionExterna.baseUrl);
         return "main";
     }
 
@@ -150,6 +152,8 @@ public class ModelAndViewService {
             //luego agrego una lista con todos los ingredientes al modelo
             model.addAttribute("ingredientes", ingredientesStrings);
 
+            model.addAttribute("baseUrl", configuracionExterna.baseUrl);
+
             return "receta";
         } else{
             return "error404";
@@ -195,6 +199,8 @@ public class ModelAndViewService {
                 //agrega los datos basicos de todas las recetas al modelo
                 model.addAttribute("recetas", datosBasicosRecetas);
             }
+
+            model.addAttribute("baseUrl", configuracionExterna.baseUrl);
 
             return "perfil";
 
@@ -250,6 +256,9 @@ public class ModelAndViewService {
             
 
         }
+
+        model.addAttribute("baseUrl", configuracionExterna.baseUrl);
+
         return "modificarReceta";
     }
 
@@ -262,12 +271,17 @@ public class ModelAndViewService {
                 .build();
     }
 
-
     public String getCrearReceta(Model model){
         // Agregar el conjunto de unidades de medida al modelo
         model.addAttribute("unidadesMedida", EnumUnidadMedida.getUnidadesMedida());
-
+        model.addAttribute("baseUrl", configuracionExterna.baseUrl);
         return "crearReceta";
     }
+
+    public String getResultadosBusqueda(Model model){
+        model.addAttribute("baseUrl", configuracionExterna.baseUrl);
+        return "resultadosBusqueda";
+    }
+
 }
 

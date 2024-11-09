@@ -89,9 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('No se encontró el token de usuario.');
             return;
         }
-        // Realizar la solicitud POST al endpoint /apiv1/userLikes
+        // Realizar la solicitud POST al endpoint userLikes
         try {
-            const response = await fetch('/apiv1/userLikes', {
+            const response = await fetch(baseUrl +'/apiv1/userLikes', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             //respuesta
-            const response = await fetch('/apiv1/auth/login', {
+            const response = await fetch(baseUrl +'/apiv1/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch('/apiv1/auth/register', {
+            const response = await fetch(baseUrl +'/apiv1/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

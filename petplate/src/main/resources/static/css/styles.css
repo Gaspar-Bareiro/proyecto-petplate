@@ -454,7 +454,7 @@ body {
     user-select: none;
 }
 
-#fileInput {
+#fileInput, .invisible {
     display: none;
 }
 .image-top{
@@ -662,13 +662,13 @@ input[type=number] {
 }
 
 .anuncioIzquierdo {
-    background-image: url(/img/anuncioIzquierdo.png);
+    background-image: url(/ads-pictures/anuncioIzquierdo.png);
 }
 
 .anuncioDerecho {
-    background-image: url(/img/anuncioDerecho.png);
-}
-*/
+    background-image: url(/ads-pictures/anuncioDerecho.png);
+}*/
+
 .anuncioIzquierdo, .anuncioDerecho {
     width: 160px; /* Ancho del anuncio */
     height: 600px; /* Alto del anuncio */
@@ -833,7 +833,7 @@ dialog {
     cursor: pointer;
 }
 
-#error-label-crear-cuenta , #error-label-iniciar-sesion{
+#error-label-crear-cuenta , #error-label-iniciar-sesion, #error-label-agregar-anuncio, #error-label-eliminar-anuncio{
     display: none;
     position: absolute;
     bottom: 70px;
@@ -910,7 +910,7 @@ dialog {
     margin-left: 35px;
 }
 .BR-unidad-custom-select {
-    width: 120px;
+    width: 150px;
 }
 
 .ingrediente-custom-select {
@@ -977,7 +977,7 @@ dialog {
     width: 200px; /* Asegúrate de que coincida con el ancho del input */
 }
 .BR-unidad-select-items {
-    width: 125px;
+    width: 155px;
     height: 185px;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -1147,6 +1147,12 @@ dialog {
 
 /* BACK OFFICE ---------------------------------------------------------------------------------------------------------*/
 
+.back-office-main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
 .input-form-back-office {
     margin: auto;
     margin-top: 20px;
@@ -1189,3 +1195,64 @@ dialog {
     text-align: center;
 }
 
+.back-office-consultar-ingredientes{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.back-office-consultar-ingredientes > input {
+    margin: 20px;
+}
+
+.back-office-titulo-grande{
+    text-align: center;
+    font-family: 'Inria Sans', sans-serif;
+    margin-bottom: 50px;
+    font-size: 2em;
+}
+.back-office-section-aads{
+    margin: 10vh 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+.back-office-main-long {
+    width: 60%;
+    min-height: calc(80vh - 76px);
+}
+
+.back-office-anuncio {
+    position: static;
+}
+.back-office-ads-options-conteiner{
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    width: 50%;
+
+}
+.back-office-ads-button {
+    padding: 10px 20px;
+    font-weight: 16px;
+    border-radius: 10px;
+    background: #555554;
+    font-weight: bold;
+    color: #fff;
+}
+.back-office-ads-button:hover {
+    color: #fff;
+    background-color: #0EBBE1;
+}
+
+.back-office-div-centrar-contenido{
+    margin-top: 13vh;
+}
+
+#error-label-agregar-anuncio , #error-label-eliminar-anuncio{
+    width: 100%;
+    left: 0px;
+    top: -35px;
+}

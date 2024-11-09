@@ -107,9 +107,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('No se encontró el token de usuario.');
             return;
         }
-        // Realizar la solicitud POST al endpoint /apiv1/userLikes
+        // Realizar la solicitud POST al endpoint userLikes
         try {
-            const response = await fetch('/apiv1/recipe/addRecommendation/' + obtenerIdReceta(), {
+            const response = await fetch(baseUrl +'/apiv1/recipe/addRecommendation/' + obtenerIdReceta(), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -149,9 +149,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('No se encontró el token de usuario.');
             return;
         }
-        // Realizar la solicitud POST al endpoint /apiv1/userLikes
+        // Realizar la solicitud POST al endpoint userLikes
         try {
-            const response = await fetch('/apiv1/recipe/removeRecommendation/' + obtenerIdReceta(), {
+            const response = await fetch(baseUrl +'/apiv1/recipe/removeRecommendation/' + obtenerIdReceta(), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
 
-            const response = await fetch('/apiv1/recipe/delete/' + obtenerIdReceta(), {
+            const response = await fetch(baseUrl +'/apiv1/recipe/delete/' + obtenerIdReceta(), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

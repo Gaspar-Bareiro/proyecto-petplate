@@ -7,38 +7,40 @@ let ingredientes = ['ERROR']; // Inicialización de 'ingredientes' como una vari
 // Verificar si no existe en localStorage o si el arreglo está vacío
 
 
-function llenarArrayIngredientes(){
+async function llenarArrayIngredientes(){
+    let ingredientesLocales = JSON.parse(localStorage.getItem('ingredientes'));
     if (!ingredientesLocales || ingredientesLocales.length === 0) {
-    // Realizar la solicitud GET al endpoint /apiv1/ingredients
-    fetch('/apiv1/ingredients', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json(); // Convertir la respuesta a JSON
-        } else {
-            throw new Error('Error en la respuesta del servidor');
-        }
-    })
-    .then(data => {
-        // Guardar los ingredientes en el localStorage
-        localStorage.setItem('ingredientes', JSON.stringify(data));
-        
-        // Asignar el arreglo de ingredientes a la variable
-        ingredientes = data;
-        
-    })
-    .catch(error => {
-        // Manejar cualquier error que ocurra durante la solicitud
-        console.error('Error al obtener los ingredientes:', error);
-    });
-} else {
-    // Si ya hay ingredientes almacenados
-    ingredientes = ingredientesLocales; // Asignar el valor del localStorage
-}
+        // Realizar la solicitud GET al endpoint ingredients
+        await fetch(baseUrl +'/apiv1/ingredients', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json(); // Convertir la respuesta a JSON
+            } else {
+                throw new Error('Error en la respuesta del servidor');
+            }
+        })
+        .then(data => {
+            // Guardar los ingredientes en el localStorage
+            localStorage.setItem('ingredientes', JSON.stringify(data));
+            
+            // Asignar el arreglo de ingredientes a la variable
+            
+            ingredientes = data;
+            
+        })
+        .catch(error => {
+            // Manejar cualquier error que ocurra durante la solicitud
+            console.error('Error al obtener los ingredientes:', error);
+        });
+    } else {
+        // Si ya hay ingredientes almacenados
+        ingredientes = ingredientesLocales; // Asignar el valor del localStorage
+    }
 }
 
 llenarArrayIngredientes()
