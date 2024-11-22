@@ -122,13 +122,16 @@ CREATE TABLE usuarios_recomendaciones (
   PRIMARY KEY (id_usuario_like)
 );
 
-
 -- insertar los 3 roles 
 INSERT INTO roles (nombre_rol) 
 VALUES 
 ('Administrador'),
 ('Auditor'),
 ('Usuario');
+
+INSERT INTO usuarios (usuario, email, contrasena, fk_rol)
+VALUES
+('administrador', 'administrador@admin.com', '$2a$10$lCz9tiWp7LGQc8A.z1PgI..eXiHe8zpWl3QN70PVOs.29hdyVi1T2', 1);
 
 -- insertar las categorias y subcategoria (animal y tipo)
 INSERT INTO categorias (nombre_categoria, subcategoria)
@@ -285,7 +288,6 @@ INSERT INTO ingredientes (nombre_ingrediente) VALUES
 ('Arroz blanco (cocido)'),
 ('Tapioca'),
 ('Trucha'),
-('Carne de cabra'),
 ('Frutos secos sin sal'),
 ('Pimientos dulces'),
 ('Berros'),
